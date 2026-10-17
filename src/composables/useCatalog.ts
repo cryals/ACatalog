@@ -14,7 +14,7 @@ async function loadCatalog() {
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
       payload.value = await response.json() as CatalogPayload
     })
-    .catch((reason: unknown) => { error.value = reason instanceof Error ? reason.message : 'Неизвестная ошибка' })
+    .catch((reason: unknown) => { error.value = reason instanceof Error ? reason.message : 'Unknown error' })
     .finally(() => { loading.value = false })
   return request
 }

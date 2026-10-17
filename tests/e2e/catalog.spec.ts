@@ -25,6 +25,12 @@ test('searches the real catalog and opens details', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible()
 })
 
+test('shows English-only content before a language is selected', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('article').first()).toBeVisible()
+  await expect(page.locator('body')).not.toContainText(/[А-Яа-яЁёІіЇїЄє]/)
+})
+
 test('filters Compose entries and persists the filter in the URL', async ({ page }) => {
   await page.goto('/')
   await openSidebarOnMobile(page)
@@ -49,7 +55,7 @@ test('supports keyboard search shortcut and uses the forced dark theme', async (
   await page.keyboard.press('Control+K')
   await expect(page.getByRole('textbox', { name: 'Search the catalog' })).toBeFocused()
   await expect(page.locator('html')).toHaveClass(/dark/)
-  await expect(page.getByRole('button', { name: /тему/i })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /theme/i })).toHaveCount(0)
 })
 
 test('opens and closes the responsive sidebar', async ({ page, isMobile }) => {

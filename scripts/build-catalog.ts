@@ -61,7 +61,7 @@ function parseAwesomeSelfhosted() {
   const repoName = 'awesome-selfhosted'
   const sourcePath = 'README.md'
   const lines = readText(path.join(rawRoot, repoName, sourcePath)).split(/\r?\n/)
-  let category = 'Другое'
+  let category = 'Other'
   for (const line of lines) {
     const heading = line.match(/^###\s+(.+)$/)
     if (heading) { category = heading[1].replace(/\s*\([^)]*\)\s*$/, '').trim(); continue }
@@ -75,7 +75,7 @@ function parseAwesomeSelfhosted() {
     const allUrls = extractUrls(line)
     const repositoryUrl = normalizeRepositoryUrl(sourceMatch?.[1] ?? guessRepository(allUrls))
     const descriptionPart = line.replace(/^- \[[^\]]+\]\([^)]+\)\s*(?:`⚠`)?\s*-\s*/, '')
-    const summary = descriptionPart.split(/\s+\(\[(?:Source Code|Demo|Clients|Documentation|App Store|Google Play)[^\n]*$/i)[0]?.replace(/\s+`[^`]+`\s*$/, '').trim() || `${name} — self-hosted приложение.`
+    const summary = descriptionPart.split(/\s+\(\[(?:Source Code|Demo|Clients|Documentation|App Store|Google Play)[^\n]*$/i)[0]?.replace(/\s+`[^`]+`\s*$/, '').trim() || `${name} — a self-hosted application.`
     const metadata = [...line.matchAll(/`([^`]+)`/g)].flatMap((match) => match[1].split('/')).map((item) => item.trim())
     const license = metadata.find((item) => /^(?:AGPL|GPL|MIT|Apache|BSD|MPL|EUPL|ISC|LGPL|CC|Unlicense|Zlib)/i.test(item)) ?? null
     const slug = slugify(name)
@@ -119,8 +119,8 @@ function parseComposeExamples() {
     const name = entry.name.split('-').map((part) => part.length <= 3 ? part.toUpperCase() : part[0]?.toUpperCase() + part.slice(1)).join(' ')
     addOrMerge({
       id: stableId(repositoryUrl ?? `compose-examples:${slug}`), slug, name,
-      summary: `Готовый Docker Compose для самостоятельного запуска ${name}.`,
-      description: `Проверяемый пример конфигурации Docker Compose из коллекции ${repoName}.`,
+      summary: `A ready-to-run Docker Compose configuration for ${name}.`,
+      description: `A verified Docker Compose example from the ${repoName} collection.`,
       categories: ['Docker Compose'], tags: ['Docker', 'Compose'], aliases: [entry.name],
       websiteUrl: urls.find((url) => url !== repositoryUrl) ?? repositoryUrl, repositoryUrl, installGuideUrl: repositoryUrl ? `${repositoryUrl}#readme` : null, license: null,
       runtimes: ['Docker'], architectures: [], githubStars: null, githubForks: null, lastPushedAt: null,
@@ -146,7 +146,7 @@ function parseMarkdownTables(repoName: string) {
     const slug = slugify(name)
     addOrMerge({
       id: stableId(repositoryUrl ?? `${repoName}:${slug}`), slug, name,
-      summary: summary || `${name} — Docker-совместимый self-hosted проект.`, description: summary,
+      summary: summary || `${name} — a Docker-compatible self-hosted project.`, description: summary,
       categories: [category], tags: ['Docker'], aliases: [], websiteUrl: repositoryUrl, repositoryUrl, installGuideUrl: repositoryUrl ? `${repositoryUrl}#readme` : null,
       license: null, runtimes: ['Docker'], architectures: [], githubStars: null, githubForks: null, lastPushedAt: null,
       iconPath: `/data/icons/${slug}.webp`, compose: null,
@@ -172,7 +172,7 @@ function parseAwesomeDocker() {
     if (!item) continue
     const name = item[1].trim()
     const repositoryUrl = normalizeRepositoryUrl(item[2])
-    const summary = item[3]?.trim().replace(/[.]$/, '') || `${name} — инструмент экосистемы Docker.`
+    const summary = item[3]?.trim().replace(/[.]$/, '') || `${name} — a Docker ecosystem tool.`
     const slug = slugify(name)
     addOrMerge({
       id: stableId(repositoryUrl ?? `${repoName}:${slug}`), slug, name,
@@ -216,7 +216,7 @@ function attachAwesomeCompose() {
       const slug = slugify(entry.name)
       const name = entry.name.split('-').map((part) => part.length <= 3 ? part.toUpperCase() : `${part[0]?.toUpperCase()}${part.slice(1)}`).join(' ')
       const summaryLine = readme.split(/\r?\n/).map((line) => line.replace(/^#+\s*/, '').replace(/\[([^\]]+)]\([^)]+\)/g, '$1').trim()).find((line) => line.length > 30 && !line.startsWith('!['))
-      const summary = summaryLine?.slice(0, 280) ?? `Готовая Docker Compose-конфигурация для самостоятельного запуска ${name}.`
+      const summary = summaryLine?.slice(0, 280) ?? `A ready-to-run Docker Compose configuration for ${name}.`
       addOrMerge({
         id: stableId(repositoryUrl ?? `${repoName}:${slug}`), slug, name, summary, description: summary,
         categories: ['Docker Compose'], tags: ['Docker', 'Compose'], aliases: [entry.name],
