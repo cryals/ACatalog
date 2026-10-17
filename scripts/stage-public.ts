@@ -19,6 +19,7 @@ const runtimeApps = payload.apps.map((app) => {
 })
 writeFileSync(path.join(publicData, 'apps.json'), `${JSON.stringify({ ...payload, apps: runtimeApps })}\n`)
 if (existsSync(path.join(dataRoot, 'icons'))) cpSync(path.join(dataRoot, 'icons'), path.join(publicData, 'icons'), { recursive: true })
+if (existsSync(path.join(dataRoot, 'flag'))) cpSync(path.join(dataRoot, 'flag'), path.join(publicData, 'flag'), { recursive: true })
 if (existsSync(path.join(dataRoot, 'icons', 'icon.png'))) cpSync(path.join(dataRoot, 'icons', 'icon.png'), path.join(projectRoot, 'public', 'acatalog-icon.png'))
 if (existsSync(path.join(dataRoot, 'catalog', 'sources.json'))) cpSync(path.join(dataRoot, 'catalog', 'sources.json'), path.join(publicData, 'sources.json'))
 console.log(`Staged ${runtimeApps.length} records and ${runtimeApps.filter((app) => app.compose).length} Compose files.`)

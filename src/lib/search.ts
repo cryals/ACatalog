@@ -10,7 +10,7 @@ export interface CatalogFilters {
 }
 
 function normalize(value: string): string {
-  return value.normalize('NFKD').toLocaleLowerCase('ru-RU').replace(/[^a-zа-яё0-9+.-]+/gi, ' ').trim()
+  return value.normalize('NFKD').toLocaleLowerCase().replace(/[^\p{L}\p{N}+.-]+/gu, ' ').trim()
 }
 
 function distanceWithinTwo(left: string, right: string): boolean {

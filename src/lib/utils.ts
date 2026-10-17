@@ -6,14 +6,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatNumber(value: number | null): string {
+export function formatNumber(value: number | null, locale = 'en'): string {
   if (value === null) return '—'
-  return new Intl.NumberFormat('ru-RU', { notation: value >= 10_000 ? 'compact' : 'standard', maximumFractionDigits: 1 }).format(value)
+  return new Intl.NumberFormat(locale, { notation: value >= 10_000 ? 'compact' : 'standard', maximumFractionDigits: 1 }).format(value)
 }
 
-export function formatDate(value: string | null): string {
-  if (!value) return 'Нет данных'
-  return new Intl.DateTimeFormat('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value))
+export function formatDate(value: string | null, locale = 'en', empty = 'No data'): string {
+  if (!value) return empty
+  return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value))
 }
 
 export function safeExternalUrl(value: string | null): string | null {
