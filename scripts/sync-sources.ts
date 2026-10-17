@@ -14,12 +14,15 @@ const git = (args: string[], cwd?: string) => execFileSync('git', args, { cwd, e
 mkdirSync(rawRoot, { recursive: true })
 for (const source of lock.sources.sort((a, b) => b.priority - a.priority)) {
   const destination = path.join(rawRoot, source.name)
-  if (!existsSync(path.join(destination, '.git'))) {
+  const isNewClone = !existsSync(path.join(destination, '.git'))
+  if (isNewClone) {
     git(['clone', '--filter=blob:none', '--no-checkout', source.url, destination])
   }
   const currentOrigin = git(['remote', 'get-url', 'origin'], destination)
   if (currentOrigin.replace(/\.git$/, '') !== source.url.replace(/\.git$/, '')) throw new Error(`${source.name}: origin differs from sources.lock.json`)
-  if (git(['status', '--porcelain'], destination)) throw new Error(`${source.name}: source clone has local changes`)
+  // A `--no-checkout` clone reports every indexed file as deleted until its
+  // first checkout. Only enforce a clean working tree for an existing clone.
+  if (!isNewClone && git(['status', '--porcelain'], destination)) throw new Error(`${source.name}: source clone has local changes`)
   git(['fetch', '--prune', 'origin', source.branch], destination)
   const target = latest ? `origin/${source.branch}` : source.commit
   git(['checkout', '--detach', target], destination)
