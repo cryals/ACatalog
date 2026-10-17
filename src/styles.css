@@ -115,7 +115,8 @@ a { color: inherit; }
 .locale-picker { position: relative; }
 .locale-trigger { display: inline-flex; min-height: 34px; align-items: center; gap: 7px; padding: 0 8px; border: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--ink); font: 600 10px/1 "JetBrains Mono", monospace; letter-spacing: .08em; }
 .locale-trigger:hover, .locale-trigger:focus-visible { border-color: var(--blue); }
-.locale-trigger img, .locale-menu img { display: block; width: auto; object-fit: cover; }
+.locale-trigger img { display: block; width: 20px; height: 14px; object-fit: cover; }
+.locale-menu img { display: block; width: 24px; height: 16px; object-fit: cover; }
 .locale-trigger__chevron--open { transform: rotate(180deg); }
 .locale-menu { position: absolute; z-index: 4; right: 0; bottom: calc(100% + 8px); display: grid; min-width: 152px; border: 1px solid var(--line-strong); background: #08080a; }
 .locale-menu button { display: flex; min-height: 42px; align-items: center; gap: 9px; padding: 0 10px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--muted); text-align: left; }
