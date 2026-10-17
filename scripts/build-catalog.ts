@@ -6,6 +6,11 @@ import { appCompleteness, cleanUrl, dataRoot, extractUrls, getSourceRef, guessRe
 
 const importedAt = process.env.SOURCE_DATE_EPOCH ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toISOString() : new Date().toISOString()
 const apps = new Map<string, CatalogApp>()
+const previousCatalogPath = path.join(dataRoot, 'catalog', 'apps.json')
+const previousCatalog = existsSync(previousCatalogPath)
+  ? JSON.parse(readFileSync(previousCatalogPath, 'utf8')) as CatalogPayload
+  : null
+const previousAppsById = new Map(previousCatalog?.apps.map((app) => [app.id, app]) ?? [])
 const composeMappingsPath = path.join(dataRoot, 'overrides', 'compose-mappings.json')
 const composeMappings = existsSync(composeMappingsPath) ? JSON.parse(readFileSync(composeMappingsPath, 'utf8')) as Record<string, string> : {}
 
@@ -232,9 +237,21 @@ function attachDeploymentSources() {
     const app = [...apps.values()].find((item) => item.id === appId)
     if (!app) continue
     const clonePath = path.join(rawRoot, 'deployments', deployment.sourceDir)
-    if (!existsSync(path.join(clonePath, '.git'))) continue
     let content = ''
-    try { content = execFileSync('git', ['-C', clonePath, 'show', `${deployment.commitSha}:${deployment.composePath}`], { encoding: 'utf8' }) } catch { continue }
+    if (existsSync(path.join(clonePath, '.git'))) {
+      try { content = execFileSync('git', ['-C', clonePath, 'show', `${deployment.commitSha}:${deployment.composePath}`], { encoding: 'utf8' }) } catch { content = '' }
+    }
+    if (!content) {
+      const previous = previousAppsById.get(appId)
+      const previousCompose = previous?.compose
+      const expectedRepoName = deployment.repositoryUrl.replace('https://github.com/', '')
+      const verifiedSnapshot = previousCompose?.path === deployment.composePath
+        && previousCompose.sourceRepo === expectedRepoName
+        && previousCompose.content.length > 0
+        && Boolean(previous?.provenance.some((source) => source.repoUrl === deployment.repositoryUrl && source.commitSha === deployment.commitSha && source.sourcePath === deployment.composePath))
+      if (!verifiedSnapshot || !previousCompose) continue
+      content = previousCompose.content
+    }
     app.compose = { path: deployment.composePath, content, sourceRepo: deployment.repositoryUrl.replace('https://github.com/', '') }
     app.installGuideUrl = deployment.guideUrl
     app.provenance.push({ repoName: deployment.repositoryUrl.replace('https://github.com/', ''), repoUrl: deployment.repositoryUrl, commitSha: deployment.commitSha, sourcePath: deployment.composePath, importedAt })
