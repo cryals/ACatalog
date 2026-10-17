@@ -156,9 +156,11 @@ kbd { padding: 4px 7px; border: 1px solid var(--line); border-bottom-width: 2px;
 .card-topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .card-actions { display: flex; gap: 2px; }
 .app-icon { display: grid; place-items: center; flex: 0 0 auto; width: 52px; height: 52px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #0b0b0d; color: var(--ink); font-weight: 700; }
-.app-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.app-icon img { width: 30px; height: 30px; max-width: 100%; max-height: 100%; object-fit: contain; }
 .app-icon--sm { width: 36px; height: 36px; border-radius: 9px; font-size: 12px; }
+.app-icon--sm img { width: 20px; height: 20px; }
 .app-icon--lg { width: 82px; height: 82px; border-radius: 18px; font-size: 24px; }
+.app-icon--lg img { width: 48px; height: 48px; }
 .card-copy { margin-top: 19px; flex: 1; }
 .card-title { font-size: 19px; font-weight: 660; letter-spacing: -.02em; text-decoration: none; }
 .card-title:hover { color: var(--blue); }
