@@ -3,10 +3,11 @@
 </p>
 
 <p align="center">
+  <sub><code>README</code></sub><br>
   <a href="README.md"><img src="data/flag/english.webp" alt="English README" width="24" height="16"></a>
-  &nbsp;
+  &nbsp;|&nbsp;
   <a href="README_RU.md"><img src="data/flag/russia.webp" alt="Русский README" width="24" height="16"></a>
-  &nbsp;
+  &nbsp;|&nbsp;
   <a href="README_UK.md"><img src="data/flag/ukraine.webp" alt="Український README" width="24" height="16"></a>
 </p>
 
