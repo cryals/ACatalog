@@ -30,9 +30,12 @@ jobs:
       - run: npm run test:run
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e -- --project=chromium
+      - run: npm run test:e2e -- --project=chromium --reporter=github
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: acatalog-dist
-          path: dist
-          if-no-files-found: error
+          name: acatalog-ci-artifacts
+          path: |
+            dist
+            output/playwright
+          if-no-files-found: warn
