@@ -1,54 +1,103 @@
-# ACatalog
+<p align="center">
+  <img src="data/logo/acatalog-wordmark.png" alt="ACatalog" width="760">
+</p>
 
-> Каталог open-source приложений, которые можно развернуть у себя: дома, на NAS или VPS.
+<p align="center">
+  <strong>Self-hosted software directory.</strong><br>
+  Find an application. Check its source. Deploy it on your own infrastructure.
+</p>
 
-[![CI](https://github.com/cryals/ACatalog/actions/workflows/ci.yml/badge.svg)](https://github.com/cryals/ACatalog/actions/workflows/ci.yml)
+<p align="center">
+  <a href="https://github.com/cryals/ACatalog/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/cryals/ACatalog/ci.yml?branch=main&style=flat-square&label=CI&labelColor=0a0a0b&color=f5f5f5" alt="CI status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-f5f5f5?style=flat-square&labelColor=0a0a0b" alt="AGPL-3.0 license"></a>
+  <img src="https://img.shields.io/badge/apps-1%20857-f5f5f5?style=flat-square&labelColor=0a0a0b" alt="1,857 applications">
+  <img src="https://img.shields.io/badge/verified%20Compose-746-f5f5f5?style=flat-square&labelColor=0a0a0b" alt="746 verified Compose files">
+</p>
 
-ACatalog помогает выбрать self-hosted замену SaaS без потери контекста: найти сервис, сравнить варианты, открыть официальный репозиторий или сайт и, когда он проверен, сразу получить исходный Docker Compose-файл.
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│  ACATALOG  /  OPEN-SOURCE SOFTWARE FOR YOUR OWN INFRASTRUCTURE             │
+├────────────────────────────────────────────────────────────────────────────┤
+│  1 857 APPS   ·   134 CATEGORIES   ·   746 VERIFIED COMPOSE FILES          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
-## Возможности
+## What it is
 
-- **1 857 приложений** из локально зафиксированных Git-источников;
-- поиск по названию, описанию, категориям, тегам и алиасам;
-- прокручиваемый список категорий, фильтры по лицензии, архитектуре и Docker Compose;
-- сортировка по релевантности, GitHub stars, дате обновления и названию;
-- подробная страница приложения с официальными ссылками, лицензией, stars, источниками и статусом данных;
-- **746 проверенных Compose-конфигураций**: текст, копирование, скачивание и ссылка на исходный файл;
-- избранное и сравнение до четырёх сервисов в браузере;
-- страница качества данных — неполные и требующие проверки записи видны отдельно;
-- локальные WebP-иконки 512×512 и manifest их происхождения;
-- тёмный монохромный интерфейс, клавиатурная навигация, видимый focus-state и адаптация для мобильных устройств.
+ACatalog is a curated directory for people building a home server, NAS, lab, or private VPS. It turns large self-hosted lists into a fast, inspectable catalogue: search a service, compare alternatives, open its official repository or website, and copy an actual Docker Compose configuration when the source provides one.
 
-## Быстрый старт
+No invented deployment instructions. No opaque cards. Every entry keeps its provenance.
 
-Нужен **Node.js 22+**.
+## Interface
+
+<table>
+  <tr>
+    <td width="33%"><strong>SEARCH</strong><br><sub>Name, description, category, tags, aliases.</sub></td>
+    <td width="33%"><strong>FILTER</strong><br><sub>Category first; advanced filters only when needed.</sub></td>
+    <td width="33%"><strong>VERIFY</strong><br><sub>Source repository, ref, README path, Compose origin.</sub></td>
+  </tr>
+</table>
+
+The UI is deliberately dark, monochrome and compact: square geometry, white as the only accent, keyboard-accessible controls and responsive navigation. The catalogue, details page, favourites, comparison and data-quality view work without a separate backend.
+
+## Catalogue snapshot
+
+| Signal | Current snapshot |
+| --- | ---: |
+| Applications | **1,857** |
+| Categories | **134** |
+| Verified Docker Compose files | **746** |
+| Records with a Git repository | **1,755** |
+| Average metadata completeness | **83%** |
+
+Snapshot metadata lives in [`data/catalog/quality-report.json`](data/catalog/quality-report.json). The scheduled refresh opens a pull request rather than changing `main` on its own.
+
+## Run locally
+
+Requires Node.js **22+**.
 
 ```bash
 git clone https://github.com/cryals/ACatalog.git
 cd ACatalog
 npm ci
-npm run data:build
 npm run dev
 ```
 
-Vite выведет адрес локального сервера. Нормализованный каталог уже хранится в `data/catalog/apps.json`; обычная сборка не изменяет папку `raw/`.
+Vite prints the local address. The prebuilt normalized catalogue is versioned in `data/catalog/`, so browsing the application does not require cloning external sources.
 
-## Production через Docker Compose
+### Production: Docker Compose
 
 ```bash
 docker compose up --build -d
 ```
 
-После запуска:
+Then open [http://localhost:8080](http://localhost:8080). The production image uses Nginx, a read-only filesystem, security headers, CSP and a `/healthz` healthcheck. For Internet exposure, place it behind your own TLS reverse proxy.
 
-- сайт: <http://localhost:8080>
-- healthcheck: <http://localhost:8080/healthz>
+## Data, provenance and Compose
 
-Контейнер запускается через Nginx в read-only режиме с security headers, CSP, healthcheck и без лишних Linux capabilities. Перед внешним размещением замените проброшенный порт и настройте reverse proxy/TLS на своей инфраструктуре.
+Every catalogue record carries the source of its claims:
 
-## Проверка перед изменениями
+- local origin under `raw/<repository>`;
+- upstream repository name and URL;
+- exact commit SHA/ref used at import time;
+- README or Compose path in the upstream project;
+- import date, validation state and warnings.
+
+`raw/` and `raw/deployments/` are intentionally **not** committed. They are reproducibly restored from [`data/sources.lock.json`](data/sources.lock.json), and must never be edited to make the frontend more convenient.
+
+When an official Compose file is verified, ACatalog displays its actual text with copy/download controls and a link to the original file. If that relation is uncertain or no Compose file is supplied by the project, the UI links to the official documentation instead.
+
+## Development workflow
 
 ```bash
+# Recreate the pinned source clones after a fresh checkout
+npm run data:bootstrap
+
+# Inspect and build data from the local sources
+npm run data:inventory
+npm run data:build
+
+# Quality gates
 npm run lint
 npm run typecheck
 npm run test:run
@@ -56,72 +105,46 @@ npm run build
 npm run test:e2e
 ```
 
-## Обновление каталога
-
-`raw/` — это исходный, локально склонированный материал. Его не редактируют вручную и не меняют во время обычной сборки.
+Useful maintenance commands:
 
 ```bash
-npm run data:sources      # fast-forward чистых исходных Git-клонов
-npm run data:inventory    # manifest и статистика источников
-npm run data:build        # нормализация, Compose и quality report
-npm run data:github       # stars, forks и last push; использует cache
-npm run data:icons        # favicon/fallback → WebP 512×512
-npm run data:deployments  # поиск Compose в официальных репозиториях
-npm run data:version      # snapshot и changelog index
+npm run data:sources      # update clean source clones
+npm run data:github       # GitHub metadata (uses cache; token optional)
+npm run data:icons        # favicon / fallback → WebP 512×512
+npm run data:deployments  # discover Compose in official repositories
+npm run data:version      # write a catalogue snapshot and changelog index
+npm run data:all          # run the complete data pipeline
 ```
 
-Полный pipeline из текущих источников:
+Use `GITHUB_TOKEN` via the environment or GitHub Actions secret to avoid the low unauthenticated GitHub API rate limit. Never put a token in the repository.
 
-```bash
-npm run data:all
-```
-
-`GITHUB_TOKEN` необязателен, но снимает низкий публичный rate limit при GitHub enrichment. Передавайте его через окружение или GitHub Actions secret — никогда не добавляйте токен в репозиторий.
-
-## Provenance и Docker Compose
-
-Каждая запись каталога хранит источник фактов:
-
-- каталог-источник в `raw/`;
-- название и URL исходного репозитория;
-- commit SHA/ref и путь к README или Compose-файлу;
-- дату импорта, валидацию и предупреждения.
-
-ACatalog не выдумывает Compose, сайт, GitHub URL, лицензию или stars. Если официальный Compose не найден либо связь с приложением неоднозначна, интерфейс ведёт к официальной документации вместо генерации конфигурации наугад.
-
-## Структура проекта
+## Repository map
 
 ```text
-src/                    Vue 3-приложение
-tests/                  unit- и Playwright-тесты
-scripts/                импорт, нормализация, enrichment, иконки и snapshots
-data/catalog/           нормализованный каталог и quality report
-data/icons/             локальные WebP-иконки и их метаданные
-data/overrides/         явные, проверяемые исключения pipeline
-public/data/            runtime-данные и Compose-файлы для приложения
-raw/                    внешние Git-клоны, immutable input (не коммитятся)
-raw/deployments/        минимальные официальные клоны с Compose (не коммитятся)
-deploy/                 Nginx-конфигурация для production image
-.github/workflows/      CI и еженедельное обновление каталога
-docs/                   эксплуатация и проектные решения
+src/                 Vue 3 application
+tests/               Vitest and Playwright coverage
+scripts/             import, normalization, enrichment and snapshot pipeline
+data/catalog/        normalized catalogue and quality report
+data/icons/          local WebP icons and provenance metadata
+data/logo/           ACatalog branding assets
+data/overrides/      explicit, reviewable pipeline exceptions
+public/data/         browser-ready catalogue and Compose payloads
+raw/                 external immutable Git inputs (ignored by Git)
+deploy/              Nginx configuration for the production container
+docs/                operating notes and project decisions
+.github/workflows/   CI and weekly refresh automation
 ```
 
-## Автоматизация GitHub
+## Automation
 
-- **CI** на каждый pull request и push в `main`: сборка данных, lint, typecheck, unit-тесты, production build и Playwright smoke.
-- **Weekly refresh**: обновляет источники, пересобирает каталог и открывает отдельный pull request. Автоматизация не публикует изменения в `main` сама — их можно проверить до merge.
+`CI` runs on every pull request and push to `main`: pinned-source bootstrap, catalogue build, lint, strict TypeScript check, unit tests, production build and Playwright smoke tests.
 
-## Технологии
+`Refresh catalog` runs weekly and creates a reviewable pull request with updated inputs, metadata, icons and quality data. It never pushes generated data directly into `main`.
 
-- Vue 3 + TypeScript strict + Vite;
-- shadcn-vue conventions, Tailwind CSS 4 и Lucide;
-- IBM Plex Sans и JetBrains Mono;
-- Vitest и Playwright;
-- Node.js data pipeline, Sharp и WebP;
-- Nginx, Docker и Docker Compose.
+## Stack
 
-## Безопасность и лицензии
+Vue 3 · TypeScript (strict) · Vite · shadcn-vue conventions · Tailwind CSS 4 · Lucide · IBM Plex Sans · JetBrains Mono · Vitest · Playwright · Sharp · Docker · Nginx
 
-ACatalog агрегирует метаданные сторонних проектов и не гарантирует безопасность их контейнеров. Перед запуском любого сервиса проверяйте официальный репозиторий, лицензию, версии образов, переменные окружения, секреты и открытые порты.
+## License
 
-Проект не отображает внешний Markdown как HTML; ссылки проходят protocol allowlist, а production Nginx добавляет CSP и базовые security headers. Подробнее — в [docs/OPERATIONS.md](docs/OPERATIONS.md).
+ACatalog is free software licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-only). In short: you may use, modify and share it under the AGPL terms; if you run a modified version as a network service, you must offer its corresponding source to its users. See [`LICENSE`](LICENSE) for the full text.
