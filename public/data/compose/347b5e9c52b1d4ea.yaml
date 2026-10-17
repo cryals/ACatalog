@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/hightman/xunsearch
+services:
+  xunsearch:
+    container_name: xunsearch
+    env_file:
+      - path: ./.env
+        required: false
+    image: hightman/xunsearch:latest
+    ports:
+      - 8383:8383
+      - 8384:8384
+    restart: unless-stopped

@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  artalk:
+    container_name: artalk
+    image: artalk/artalk-go
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:23366
+    volumes:
+      - ./data:/data
+    environment:
+      - TZ=Asia/Shanghai
+      - ATK_LOCALE=zh-CN
+      - ATK_SITE_DEFAULT=Artalk 的博客
+      - ATK_SITE_URL=https://example.com

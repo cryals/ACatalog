@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  server:
+    image: neosy/elengrab
+    ports:
+      - 8080:8080
+    environment:
+      TZ: "Europe/Moscow"
+      ELENGRAB_DOWNLOAD_WORKERS: "3"
+      ELENGRAB_MODE: "public"
+    volumes:
+      - db:/app_n/sqlite/data
+      - db_backups:/app_n/sqlite/backups
+      - downloads:/app_n/downloads
+      - cookies:/app_n/cookies
+      - media:/app_n/media
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "6.0"
+          memory: "4G"
+
+volumes:
+  db:
+  db_backups:
+  downloads:
+  cookies:
+  media:

@@ -1,0 +1,155 @@
+services:
+  # PostgreSQL database for SuperSync
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: supersync
+      POSTGRES_PASSWORD: superpassword
+      POSTGRES_DB: supersync_db
+    # No restart policy on purpose: this is a throwaway E2E database. With
+    # `restart: always` a db container from a since-deleted checkout came back
+    # on every Docker daemon start and squatted the fixed host port forever —
+    # including after a Ctrl-C, where the teardown never runs.
+    #
+    # DB_PORT defaults to 0 = ephemeral host port, so a leftover db can never
+    # block the next run. (The supersync port is still fixed at 1901, so only
+    # one supersync suite runs at a time regardless.) Nothing on the host needs
+    # the db — only the supersync container does, over the compose network. For
+    # host access (the packages/super-sync-server integration tests) use
+    # `npm run supersync:db`, which pins DB_PORT=55432 and applies the schema.
+    # Flipping DB_PORT makes compose recreate the container, so a later
+    # `npm run e2e:supersync` takes the db back to an ephemeral port.
+    #
+    # Don't pin DB_PORT in an env file: every checkout sharing that file gets
+    # the same fixed port back, and with it the collision.
+    # Loopback-bound for the same reason as supersync below: the credentials
+    # above are committed to a public repo, and postgres superuser access means
+    # code execution (COPY ... FROM PROGRAM) on the compose network. The one
+    # host consumer, `npm run supersync:db`, connects to localhost.
+    ports:
+      - '127.0.0.1:${DB_PORT:-0}:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # Gate on supersync_db existing AND accepting queries from the app user.
+    # Plain `pg_isready -U supersync` returns OK as soon as postgres accepts
+    # connections to the default `postgres` database — but during first-run
+    # initdb the server briefly bounces while POSTGRES_DB is created, so
+    # supersync's `prisma db push` race-fails with P1001. Querying
+    # supersync_db directly closes that window.
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U supersync -d supersync_db && psql -U supersync -d supersync_db -c "SELECT 1" > /dev/null 2>&1',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    # A CMD-SHELL probe that exceeds `timeout` leaves its forked pg_isready
+    # orphaned; with postgres as PID 1 the postmaster reaps it, and an exit
+    # status of 2 is taken for a backend crash that restarts the whole
+    # cluster. docker-init adopts the orphan instead. See #9695 and the
+    # production compose in packages/super-sync-server.
+    init: true
+
+  # SuperSync server for E2E testing
+  # Start with: docker compose up -d supersync
+  # Required for @supersync e2e tests
+  supersync:
+    build:
+      context: .
+      dockerfile: packages/super-sync-server/Dockerfile.test
+    # Optional: the E2E stack supplies every var it needs below, but a local
+    # .env may override them. Compose resolves env_file for ALL services at
+    # project load, so a required one breaks `docker compose up app webdav`
+    # for self-hosters who never created it.
+    env_file:
+      - path: .env
+        required: false
+    # Loopback-bound on purpose: TEST_MODE exposes unauthenticated /api/test/*
+    # routes (cleanup wipes every user and operation) with rate limiting off.
+    # Docker's iptables rules bypass ufw/firewalld, so a bare '1900:1900' hands
+    # that to the whole LAN. Mirrors the production compose in
+    # packages/super-sync-server, which binds 127.0.0.1 for the same reason.
+    ports:
+      - '127.0.0.1:1900:1900'
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - PORT=1900
+      - TEST_MODE=true
+      - TEST_MODE_CONFIRM=yes-i-understand-the-risks
+      - JWT_SECRET=e2e-test-secret-minimum-32-chars-long-for-security
+      - CORS_ORIGINS=*
+      - DATA_DIR=/data
+      # Prisma connection string
+      - DATABASE_URL=postgresql://supersync:superpassword@db:5432/supersync_db
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://127.0.0.1:1900/health',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Super Productivity app
+  app:
+    image: johannesjo/super-productivity:latest
+    ports:
+      - '8080:80'
+    environment:
+      # Pre-configured defaults for easier setup
+      WEBDAV_BASE_URL: ${WEBDAV_BASE_URL:-http://localhost:2345/}
+      WEBDAV_USERNAME: ${WEBDAV_USERNAME:-admin}
+      WEBDAV_SYNC_FOLDER_PATH: ${WEBDAV_SYNC_FOLDER_PATH:-/}
+      SYNC_INTERVAL: ${SYNC_INTERVAL:-15}
+      IS_COMPRESSION_ENABLED: ${IS_COMPRESSION_ENABLED:-true}
+      IS_ENCRYPTION_ENABLED: ${IS_ENCRYPTION_ENABLED:-false}
+
+  # WebDAV sync server
+  webdav:
+    image: hacdias/webdav:v5
+    ports:
+      - '2345:2345'
+    volumes:
+      - ./webdav.yaml:/etc/webdav/config.yaml:ro
+      - webdav_data:/data
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:2345/']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # E2E-only WebDAV server. Unlike `webdav` (hacdias), it enforces If-Match and
+  # If-None-Match on PUT, so concurrent-upload tests exercise real CAS (#10590).
+  webdav-e2e:
+    build: ./e2e/webdav-server
+    image: sp-webdav-e2e
+    ports:
+      - '2345:2345'
+    healthcheck:
+      # the Debian httpd image ships neither wget nor curl
+      test: ['CMD', 'bash', '-c', 'exec 3<>/dev/tcp/127.0.0.1/2345']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  db_data:
+  webdav_data:

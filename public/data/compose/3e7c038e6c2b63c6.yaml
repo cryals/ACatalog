@@ -1,0 +1,115 @@
+# Optional self-host / production-like stack for Peon.
+#
+# Day-to-day local development usually runs the app on the host:
+#
+#   docker compose --profile db up -d       # Postgres
+#   docker compose --profile sqs up -d      # ElasticMQ (local SQS)
+#   pnpm dev / pnpm worker / pnpm schedule / pnpm socket
+#
+# Or run the full containerized stack (app + worker + schedule + socket + SQS):
+#
+#   docker compose --profile full up -d
+#
+# Point `.env` at ElasticMQ when using the local queue (see `.env.example`),
+# or leave SQS_ENDPOINT empty to use real AWS SQS.
+
+x-local-sqs-env: &local-sqs-env
+  SQS_ENDPOINT: http://elasticmq:9324
+  SQS_DEPLOYMENT_QUEUE_URL: http://elasticmq:9324/000000000000/peon-deployments
+  SQS_TASKS_QUEUE_URL: http://elasticmq:9324/000000000000/peon-tasks
+  AWS_ACCESS_KEY_ID: local
+  AWS_SECRET_ACCESS_KEY: local
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: peon-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: peon
+    ports:
+      - "5432:5432"
+    volumes:
+      - peon_pgdata:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    profiles: ["db"]
+
+  elasticmq:
+    image: softwaremill/elasticmq-native
+    container_name: peon-elasticmq
+    restart: unless-stopped
+    ports:
+      - "9324:9324"
+    volumes:
+      - ./docker/elasticmq.conf:/opt/elasticmq.conf:ro
+    profiles: ["sqs", "full"]
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: peon-app
+    restart: unless-stopped
+    command: ["pnpm", "start"]
+    env_file:
+      - .env
+    environment:
+      <<: *local-sqs-env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - elasticmq
+    profiles: ["full"]
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    container_name: peon-worker
+    restart: unless-stopped
+    command: ["node", "--import", "tsx", "worker/index.ts"]
+    env_file:
+      - .env
+    environment:
+      <<: *local-sqs-env
+    depends_on:
+      - elasticmq
+    profiles: ["full"]
+
+  schedule:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    container_name: peon-schedule
+    restart: unless-stopped
+    command: ["node", "--import", "tsx", "worker/schedule.ts"]
+    env_file:
+      - .env
+    environment:
+      <<: *local-sqs-env
+    depends_on:
+      - elasticmq
+    profiles: ["full"]
+
+  socket:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    container_name: peon-socket
+    restart: unless-stopped
+    command: ["node", "--import", "tsx", "worker/socket.ts"]
+    env_file:
+      - .env
+    ports:
+      - "${TERMINAL_WS_PORT:-8081}:${TERMINAL_WS_PORT:-8081}"
+    profiles: ["full"]
+
+volumes:
+  peon_pgdata:

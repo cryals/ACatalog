@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: always
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: myfinrootpassword
+      MYSQL_DATABASE: myfin
+      MYSQL_USER: myfin
+      MYSQL_PASSWORD: myfinpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "--silent" ]
+
+  myfin-api:
+    image: ghcr.io/afaneca/myfin-api:latest
+    container_name: myfin-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      # Database Configuration
+      - DB_NAME=myfin
+      - DB_USER=myfin
+      - DB_PW=myfinpassword
+      - DB_PORT=3306
+      - DB_HOST=db
+      # Email Configuration
+      - SMTP_HOST=
+      - SMTP_PORT=
+      - SMTP_SECURE=
+      - SMTP_USER=
+      - SMTP_PASSWORD=
+      - SMTP_FROM=
+      # Application Configuration
+      - PORT=3001
+      - LOGGING=false
+      - BYPASS_SESSION_CHECK=false
+      - ENABLE_USER_SIGNUP=false
+      # Reverse proxy trust for Express
+      # - TRUST_PROXY=1 trusts the first proxy hop (Traefik / Nginx proxy in front)
+      # - Override with other values as needed (see README/.env.example)
+      - TRUST_PROXY=1
+    depends_on:
+      db:
+        condition: service_healthy
+
+  myfin-frontend:
+    image: ghcr.io/afaneca/myfin:latest
+    container_name: myfin-frontend
+    restart: unless-stopped
+    ports:
+      - "8181:80"
+    depends_on:
+      myfin-api:
+        condition: service_healthy
+    environment:
+      - VITE_MYFIN_BASE_API_URL=https://myfin.domain.tld:3001
+
+volumes:
+  db_data:

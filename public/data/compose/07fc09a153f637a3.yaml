@@ -1,0 +1,104 @@
+services:
+  postgres:
+    image: postgres:18.3
+    container_name: postgres-se2eend
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: se2eend
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5
+    container_name: keycloak-se2eend
+    restart: always
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT_HTTPS: false
+      THEME_COLOR_PRIMARY: ${THEME_COLOR_PRIMARY:-#2563eb}
+      THEME_COLOR_PRIMARY_DARK: ${THEME_COLOR_PRIMARY_DARK:-#1d4ed8}
+      THEME_COLOR_PRIMARY_LIGHT: ${THEME_COLOR_PRIMARY_LIGHT:-#3b82f6}
+    command:
+      - start-dev
+      - --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true
+      - --import-realm
+      - --spi-theme-static-max-age=-1
+      - --spi-theme-cache-themes=false
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./keycloak/themes:/opt/keycloak/themes
+      - ./keycloak/realm-config:/opt/keycloak/data/import
+    entrypoint: ["/opt/keycloak/themes/entrypoint.sh"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    image: ghcr.io/se2eend/se2eend-backend:latest
+    container_name: backend-se2eend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/se2eend
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: ${KEYCLOAK_EXTERNAL_URL:-http://localhost:8090}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-se2eend}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+      STORAGE_PROVIDER: ${STORAGE_PROVIDER:-local}
+      STORAGE_LOCAL_BASE_DIR: /app/uploads
+      STORAGE_S3_BUCKET: ${STORAGE_S3_BUCKET:-}
+      STORAGE_S3_REGION: ${STORAGE_S3_REGION:-us-east-1}
+      STORAGE_S3_ACCESS_KEY: ${STORAGE_S3_ACCESS_KEY:-}
+      STORAGE_S3_SECRET_KEY: ${STORAGE_S3_SECRET_KEY:-}
+      STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT:-}
+      STORAGE_S3_PATH_STYLE: ${STORAGE_S3_PATH_STYLE:-false}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+
+  frontend:
+    image: ghcr.io/se2eend/se2eend-frontend:latest
+    container_name: frontend-se2eend
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      KEYCLOAK_URL: ${KEYCLOAK_EXTERNAL_URL:-http://localhost:8090}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-se2eend}
+      KEYCLOAK_CLIENT_ID: se2eend-frontend
+      # Override if backend is not reachable as "backend" on port 8081 (e.g. Podman, custom network)
+      BACKEND_URL: ${BACKEND_URL:-http://backend:8081}
+    depends_on:
+      - backend
+      - keycloak
+
+volumes:
+  postgres_data:
+    name: se2eend_data
+  uploads_data:
+    name: se2eend_uploads

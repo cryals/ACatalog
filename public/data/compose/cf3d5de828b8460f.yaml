@@ -1,0 +1,8 @@
+services:
+  slink:
+    image: anirdev/slink:latest
+    container_name: slink
+    restart: always
+    environment:
+      - TZ=Europe/Kyiv
+      - API_ENABLED=true

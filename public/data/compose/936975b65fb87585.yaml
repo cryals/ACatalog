@@ -1,0 +1,62 @@
+services:
+
+  vouchervault:
+    image: l4rm4nd/vouchervault:1.30.x
+    container_name: vouchervault
+    environment:
+      # your FQDN or IP; multiple ones supported via comma delimiter
+      - DOMAIN=vouchervault.example.com
+      # set to True if you use a reverse proxy with tls; enables secure cookie flag and hsts
+      - SECURE_COOKIES=False
+      # send notifications xx days prior expiry
+      - EXPIRY_THRESHOLD_DAYS=90
+      # define the timezone
+      - TZ=Europe/Berlin
+      # ------- OPTIONAL OIDC AUTH --------
+      # Set to 'True' to enable OIDC authentication
+      #- OIDC_ENABLED=True
+      # Decide whether login area triggers automatic OIDC login flow
+      #- OIDC_AUTOLOGIN=False
+      # Set to 'True' to allow the creation of new users through OIDC
+      #- OIDC_CREATE_USER=True
+      # The signing algorithm used by the OIDC provider (e.g., RS256, HS256)
+      #- OIDC_RP_SIGN_ALGO=RS256
+      # URL of the JWKS endpoint for the OIDC provider
+      #- OIDC_OP_JWKS_ENDPOINT=https://authentik.example.com/application/o/vouchervault/jwks/
+      # Client ID for your OIDC RP
+      #- OIDC_RP_CLIENT_ID=vouchervault
+      # Client secret for your OIDC RP
+      #- OIDC_RP_CLIENT_SECRET=super-secure-secret-key
+      # Authorization endpoint URL of the OIDC provider
+      #- OIDC_OP_AUTHORIZATION_ENDPOINT=https://authentik.example.com/application/o/authorize/
+      # Token endpoint URL of the OIDC provider
+      #- OIDC_OP_TOKEN_ENDPOINT=https://authentik.example.com/application/o/token/
+      # User info endpoint URL of the OIDC provider
+      #- OIDC_OP_USER_ENDPOINT=https://authentik.example.com/application/o/userinfo/
+    restart: unless-stopped
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/vouchervault/database:/opt/app/database
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.vouchervault.rule=Host(`vouchervault.example.com`)
+    #  - traefik.http.services.vouchervault.loadbalancer.server.port=8000
+    #  # Optional part for traefik middlewares
+    #  - traefik.http.routers.vouchervault.middlewares=local-ipwhitelist@file
+
+  redis:
+    image: redis:8-alpine
+    container_name: vouchervault-redis
+    restart: unless-stopped
+    #networks:
+    #  - proxy
+
+#networks:
+#  proxy:
+#    external: true      

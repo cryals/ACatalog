@@ -1,0 +1,9 @@
+services:
+    wizarr:
+        build: .
+        ports:
+            - 5690:5690
+        volumes:
+            - ./test-data:/data/database
+        environment:
+            - TZ=Europe/London

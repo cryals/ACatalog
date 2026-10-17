@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/whyour/qinglong
+# https://github.com/whyour/qinglong
+services:
+  qinglong:
+    container_name: qinglong
+    env_file:
+      - path: ./.env
+        required: false
+    image: whyour/qinglong:latest
+    ports:
+      - 5700:5700
+    restart: unless-stopped

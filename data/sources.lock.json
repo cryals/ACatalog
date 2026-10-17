@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-14T00:00:00.000Z",
+  "sources": [
+    { "name": "awesome-selfhosted", "url": "https://github.com/awesome-selfhosted/awesome-selfhosted.git", "branch": "master", "commit": "b8a940520736dea7e0cfceb5120779dd290e0368", "priority": 100 },
+    { "name": "Compose-Examples", "url": "https://github.com/Haxxnet/Compose-Examples.git", "branch": "main", "commit": "f56dde06aa19f5968684a1cd6c51b1f94ee895a5", "priority": 90 },
+    { "name": "awesome-compose", "url": "https://github.com/docker/awesome-compose.git", "branch": "master", "commit": "30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562", "priority": 80 },
+    { "name": "awesome-compose1", "url": "https://github.com/jetsung/awesome-compose.git", "branch": "main", "commit": "96107decfec42ad61ee7bc02084a5be4a2b5a9f1", "priority": 70 },
+    { "name": "awesome-selfhost-docker", "url": "https://github.com/hotheadhacker/awesome-selfhost-docker.git", "branch": "main", "commit": "561c9d044ef82a7e9efe83ab2bf05ca6a08c4dfe", "priority": 60 },
+    { "name": "awesome-docker", "url": "https://github.com/veggiemonk/awesome-docker.git", "branch": "master", "commit": "83cf001f32514ad310bae06483e6dd4522abd329", "priority": 50 }
+  ]
+}

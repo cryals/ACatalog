@@ -1,0 +1,347 @@
+name: docs
+
+services:
+  postgresql:
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 2s
+      retries: 300
+    env_file:
+      - env.d/development/postgresql
+      - env.d/development/postgresql.local
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./docker/files/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+
+  redis:
+    image: redis:5
+
+  mailcatcher:
+    image: sj26/mailcatcher:latest
+    ports:
+      - "1081:1080"
+
+  minio:
+    user: ${DOCKER_USER:-1000}
+    image: pgsty/silo
+    environment:
+      - MINIO_ROOT_USER=impress
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 1s
+      timeout: 20s
+      retries: 300
+    command: server --console-address :9001 /data
+    volumes:
+      - ./data/media:/data
+
+  createbuckets:
+    image: pgsty/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+        restart: true
+    # The yhub bucket is made here rather than left to the collaboration
+    # server, which creates the bucket it does not find with no versioning on
+    # it. Versioning is what a deployment runs, and it is the case where
+    # deleting an object needs the version named to delete anything at all
+    # (YHUB_S3_PERSISTENCE, src/yhub-server/README.md).
+    #
+    # The lines below end on `&&` and not on a backslash: yaml folds this block
+    # by joining its lines with a space, so a trailing `\` reaches the shell as
+    # an escaped space glued to the word after it — ` /usr/bin/mc`, which is no
+    # command, and everything past the first `&&` silently did nothing.
+    entrypoint: >
+      sh -c "
+      /usr/bin/mc alias set impress http://minio:9000 impress password &&
+      /usr/bin/mc mb --ignore-existing impress/impress-media-storage &&
+      /usr/bin/mc version enable impress/impress-media-storage &&
+      /usr/bin/mc mb --ignore-existing impress/yhub-storage &&
+      /usr/bin/mc version enable impress/yhub-storage &&
+      exit 0;"
+
+  app-dev:
+    build:
+      context: .
+      target: backend-development
+      args:
+        DOCKER_USER: ${DOCKER_USER:-1000}
+    user: ${DOCKER_USER:-1000}
+    image: impress:backend-development
+    environment:
+      - PYLINTHOME=/app/.pylint.d
+      - DJANGO_CONFIGURATION=Development
+    env_file:
+      - env.d/development/common
+      - env.d/development/common.local
+      - env.d/development/postgresql
+      - env.d/development/postgresql.local
+    ports:
+      - "8071:8000"
+    networks:
+      default: {}
+      lasuite:
+        aliases:
+          - impress
+    volumes:
+      - ./src/backend:/app
+      - ./data/static:/data/static
+      - ./data/jwt:/data/jwt:ro
+      - /app/.venv
+    depends_on:
+      postgresql:
+        condition: service_healthy
+        restart: true
+      mailcatcher:
+        condition: service_started
+      redis:
+        condition: service_started
+      createbuckets:
+        condition: service_started
+
+  celery-dev:
+    user: ${DOCKER_USER:-1000}
+    image: impress:backend-development
+    command: ["celery", "-A", "impress.celery_app", "worker", "-l", "DEBUG"]
+    environment:
+      - DJANGO_CONFIGURATION=Development
+    networks:
+      - default
+      - lasuite
+    env_file:
+      - env.d/development/common
+      - env.d/development/common.local
+      - env.d/development/postgresql
+      - env.d/development/postgresql.local
+    volumes:
+      - ./src/backend:/app
+      - ./data/static:/data/static
+      - ./data/jwt:/data/jwt:ro
+      - /app/.venv
+    depends_on:
+      - app-dev
+
+  nginx:
+    image: nginx:1.25
+    ports:
+      - "8083:8083"
+    networks:
+      default: {}
+      lasuite:
+        aliases:
+          - nginx
+    volumes:
+      - ./docker/files/etc/nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      app-dev:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+        restart: true
+
+  nginx-frontend:
+    image: nginx:1.25
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/frontend/apps/impress/conf/default.conf:/etc/nginx/conf.d/impress.conf
+      - ./src/frontend/apps/impress/out:/app
+    depends_on:
+      keycloak:
+        condition: service_healthy
+        restart: true
+
+  frontend-development:
+    user: "${DOCKER_USER:-1000}"
+    build:
+      context: .
+      dockerfile: ./src/frontend/Dockerfile
+      target: impress-dev
+      args:
+        API_ORIGIN: "http://localhost:8071"
+        PUBLISH_AS_MIT: "false"
+        SW_DEACTIVATED: "true"
+    image: impress:frontend-development
+    volumes:
+      - ./src/frontend:/home/frontend
+      - /home/frontend/node_modules
+      - /home/frontend/apps/impress/node_modules
+    ports:
+      - "3000:3000"
+
+  crowdin:
+    image: crowdin/cli:3.16.0
+    volumes:
+      - ".:/app"
+    env_file:
+      - env.d/development/crowdin
+      - env.d/development/crowdin.local
+    user: "${DOCKER_USER:-1000}"
+    working_dir: /app
+
+  node:
+    image: node:22
+    user: "${DOCKER_USER:-1000}"
+    environment:
+      HOME: /tmp
+    volumes:
+      - ".:/app"
+
+  y-provider-development-converter:
+    user: ${DOCKER_USER:-1000}
+    build:
+      context: .
+      dockerfile: ./src/frontend/servers/y-provider/Dockerfile
+      target: y-provider-development
+    image: impress:y-provider-development
+    restart: unless-stopped
+    env_file:
+      - env.d/development/common
+      - env.d/development/common.local
+    volumes:
+      - ./src/frontend/:/home/frontend
+      - /home/frontend/node_modules
+      - /home/frontend/servers/y-provider/node_modules
+
+  yhub-valkey:
+    image: valkey/valkey:alpine
+    # volatile-lru per yhub DEPLOYMENT.md; AOF because valkey is the authoritative store
+    # for updates the worker hasn't persisted yet (up to taskDebounce+minMessageLifetime)
+    command: ["valkey-server", "--maxmemory-policy", "volatile-lru",
+              "--appendonly", "yes", "--appendfsync", "everysec"]
+    volumes:
+      - yhub-valkey-data:/data
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 1s
+      timeout: 2s
+      retries: 60
+
+  yhub-postgres:
+    image: postgres:16-alpine
+    env_file:
+      - env.d/development/yhub-postgres
+      - env.d/development/yhub-postgres.local
+    volumes:
+      - yhub-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 2s
+      retries: 60
+    # no published port (Django's postgres already publishes)
+    # the schema is not seeded here: initdb.d would only replay on a fresh
+    # volume, so an upgrade that adds a table would silently skip an existing
+    # one. `make migrate-yhub` runs yhub's own DDL script instead, the same way
+    # `make migrate` runs Django's migrations.
+
+  yhub:
+    user: ${DOCKER_USER:-1000}
+    build:
+      context: .
+      dockerfile: ./src/yhub-server/Dockerfile
+      target: yhub-development
+    image: impress:yhub-development
+    environment:
+      HOME: /tmp # same reason as node-based services above (unmapped uid)
+    # its own files rather than the backend's: this server reads none of the
+    # django settings `common` carries. The database url is in the file its
+    # postgres is configured from, beside the credentials it spells out;
+    # everything else this server reads is in `yhub`
+    env_file:
+      - env.d/development/yhub-postgres
+      - env.d/development/yhub-postgres.local
+      - env.d/development/yhub
+      - env.d/development/yhub.local
+    volumes:
+      - ./data/jwt:/data/jwt:ro
+      # editing a source file recompiles and restarts the server (nodemon)
+      - ./src/yhub-server:/app
+      # installed / built in the image, not in the source tree: keep the bind
+      # mount above from hiding node_modules, and the compiled output out of it
+      - /app/node_modules
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    depends_on:
+      yhub-valkey:
+        condition: service_healthy
+      yhub-postgres:
+        condition: service_healthy
+      # soft migration reads the legacy document store at startup traffic —
+      # starting before minio would cache 401s for the first accessed docs —
+      # and YHUB_S3_PERSISTENCE checks its own bucket at boot. Waiting for the
+      # buckets to be *made*, not merely for the job to have started: the
+      # collaboration server creates the bucket it does not find, and the one
+      # it creates has no versioning
+      createbuckets:
+        condition: service_completed_successfully
+      minio:
+        condition: service_healthy
+
+  kc_postgresql:
+    image: postgres:14.3
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 1s
+      timeout: 2s
+      retries: 300
+    ports:
+      - "5433:5432"
+    env_file:
+      - env.d/development/kc_postgresql
+      - env.d/development/kc_postgresql.local
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3
+    volumes:
+      - ./docker/auth/realm.json:/opt/keycloak/data/import/realm.json
+    env_file:
+      - env.d/development/kc_auth
+      - env.d/development/kc_auth.local
+    command:
+      - start-dev
+      - --features=preview
+      - --import-realm
+      - --hostname-strict=false
+      - --health-enabled=true
+      - --metrics-enabled=true
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'exec 3<>/dev/tcp/localhost/9000; echo -e "GET /health/live HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n" >&3; grep "HTTP/1.1 200 OK" <&3',
+        ]
+      start_period: 5s
+      interval: 1s
+      timeout: 2s
+      retries: 300
+    ports:
+      - "8080:8080"
+    depends_on:
+      kc_postgresql:
+        condition: service_healthy
+        restart: true
+
+  docspec:
+    image: ghcr.io/docspec/api:1.21.4
+    ports:
+      - "4000:3000"
+
+networks:
+  default: {}
+  lasuite:
+    name: lasuite-network
+    driver: bridge
+    external: true
+
+volumes:
+  yhub-pgdata: {}
+  yhub-valkey-data: {}

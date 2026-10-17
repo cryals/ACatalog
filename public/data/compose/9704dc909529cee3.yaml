@@ -1,0 +1,150 @@
+# NOTE: If you're selfhosting, you'll find it much easier (and more performant) to use the proper selfhosted
+# dockerfile that exists here: https://github.com/julianpoy/recipesage-selfhost
+
+x-common-env: &common-env
+  LOG_LEVEL: "info"
+  AWS_REGION: us-west-2
+  AWS_BUCKET_RECIPE_IMAGE: chefbook-dev
+  AWS_BUCKET_PROFILE_IMAGE: chefbook-dev
+  AWS_BUCKET_IMPORT_DATA: chefbook-dev-import-data
+  AWS_BUCKET_DATA_EXPORT: chefbook-dev-data-export
+  STORAGE_TYPE: s3
+  NODE_ENV: development
+  ENVIRONMENT: development
+  VERBOSE: "false"
+  VERSION: development
+  POSTGRES_DB: recipesage_dev
+  POSTGRES_USER: recipesage_dev
+  POSTGRES_PASSWORD: recipesage_dev
+  POSTGRES_PORT: "5432"
+  POSTGRES_HOST: postgres
+  POSTGRES_SSL: "false"
+  POSTGRES_LOGGING: "true"
+  DATABASE_URL: postgresql://recipesage_dev:recipesage_dev@postgres:5432/recipesage_dev
+  GRIP_URL: http://pushpin:5561/
+  GRIP_KEY: changeme
+  JOB_QUEUE_REDIS_HOST: valkey
+  GROCERY_CATEGORIZER_URL: http://grocery-categorizer:8000/
+  OTEL_LOG_LEVEL: info
+  FIREBASE_CREDENTIALS_PATH: /app/.credentials/firebase.json
+  NX_DAEMON: "true"
+  API_PUBLIC_BASE_URL: https://example.com
+
+services:
+  proxy:
+    restart: on-failure
+    image: nginx
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    command: nginx -g 'daemon off;'
+    depends_on:
+      - frontend
+      - www
+      - backend
+      - pushpin
+    stop_grace_period: 1s
+  frontend:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./packages:/app/packages
+    ports:
+      - "8100:8100"
+    command: pnpm exec nx start frontend
+    environment:
+      - ENVIRONMENT=development
+      - APP_VERSION=development
+    ulimits:
+      core:
+        soft: 0
+        hard: 0
+    stop_grace_period: 1s
+  www:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./packages:/app/packages
+    ports:
+      - "4321:4321"
+    command: pnpm exec nx dev www -- --ignore-lock
+    environment:
+      - ENVIRONMENT=development
+    stop_grace_period: 1s
+  backend:
+    restart: on-failure
+    depends_on:
+      - postgres
+      - pushpin
+      - grocery-categorizer
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./packages:/app/packages
+      - ./.credentials:/app/.credentials
+    command: node_modules/nx/bin/nx.js serve backend
+    environment:
+      <<: *common-env
+    env_file:
+      - ./.env
+    stop_grace_period: 1s
+  queue-worker:
+    restart: on-failure
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./packages:/app/packages
+      - ./.credentials:/app/.credentials
+    command: node_modules/nx/bin/nx.js serve queue-worker
+    environment:
+      <<: *common-env
+      NODE_OPTIONS: --max-old-space-size=2000
+    env_file:
+      - ./.env
+    stop_grace_period: 1s
+  pushpin:
+    restart: on-failure
+    image: julianpoy/pushpin:2023-09-17
+    entrypoint: /bin/sh -c
+    command:
+      [
+        'sed -i "s/sig_key=changeme/sig_key=$$GRIP_KEY/" /etc/pushpin/pushpin.conf && echo "* $${TARGET},over_http" > /etc/pushpin/routes && pushpin --merge-output',
+      ]
+    environment:
+      - GRIP_KEY=changeme
+      - TARGET=backend:3000
+    stop_grace_period: 1s
+  postgres:
+    restart: on-failure
+    image: postgres:16.1
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=recipesage_dev
+      - POSTGRES_USER=recipesage_dev
+      - POSTGRES_PASSWORD=recipesage_dev
+  valkey:
+    restart: on-failure
+    image: valkey/valkey
+  grocery-categorizer:
+    restart: on-failure
+    image: julianpoy/grocery-categorizer:f9d9562
+    stop_grace_period: 1s
+
+volumes:
+  postgres-data:

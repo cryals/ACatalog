@@ -1,0 +1,68 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      # Serves the web UI, the REST API (/api), and the remote MCP endpoint (/mcp)
+      # for AI assistants — all on the same port, authenticated with a ByteStash API key.
+      - "5000:5000"
+    environment:
+      # e.g. write /bytestash for a domain such as my.domain/bytestash, leave blank in every other case
+      - BASE_PATH=
+      # optionally include additional allowed hosts for reverse proxies
+      # e.g. localhost,my.domain.com,my.domain.net
+      - ALLOWED_HOSTS=
+      # Either provide JWT_SECRET directly or use JWT_SECRET_FILE for Docker secrets
+      #- JWT_SECRET_FILE=/run/secrets/jwt
+      # how long the token lasts, examples: "2 days", "10h", "7d", "1m", "60s"
+      - TOKEN_EXPIRY=24h
+      # is this bytestash instance open to new accounts being created?
+      - ALLOW_NEW_ACCOUNTS=true
+      # Should debug mode be enabled? Essentially enables logging, in most cases leave this as false
+      - DEBUG=false
+      # Should we use accounts at all? When enabled, it will be like starting a fresh account so export your snippets, no login required
+      - DISABLE_ACCOUNTS=false
+      # Should internal accounts be disabled?
+      - DISABLE_INTERNAL_ACCOUNTS=false
+      # Allow password changes (false by default)
+      - ALLOW_PASSWORD_CHANGES=true
+
+      # Optional: Enable OIDC for Single Sign On
+      - OIDC_ENABLED=true
+      # Optional: Display name for users signing in with SSO, will default to Single Sign-on
+      - OIDC_DISPLAY_NAME=
+      # Your OIDC issuer url, e.g. https://authentik.mydomain.com/application/o/bytestash/ for authentik
+      - OIDC_ISSUER_URL=
+      # Your OIDC client ID, you can find it in your app provider
+      - OIDC_CLIENT_ID=
+      # Your OIDC client secret, again, found in the app provider
+      - OIDC_CLIENT_SECRET=
+      # The OIDC scopes to request, e.g. "openid profile email groups"
+      - OIDC_SCOPES=
+      # Optional: Comma-separated list of usernames that should have admin privileges
+      # e.g. "admin,jordan" - these users will have access to the admin panel
+      - ADMIN_USERNAMES=admin
+
+      # Optional: store data in PostgreSQL instead of SQLite, leave commented out to keep using SQLite
+      # Either provide DATABASE_URL (or DATABASE_URL_FILE for Docker secrets) or the individual POSTGRES_* values
+      #- DATABASE_URL=postgres://bytestash:password@postgres:5432/bytestash
+      #- POSTGRES_HOST=postgres
+      #- POSTGRES_PORT=5432
+      #- POSTGRES_USER=bytestash
+      #- POSTGRES_PASSWORD=password
+      #- POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      #- POSTGRES_DB=bytestash
+      # Optional: true to require TLS, no-verify to skip certificate verification
+      #- POSTGRES_SSL=false
+      # Optional: copy the existing SQLite data into PostgreSQL on startup, only runs while PostgreSQL is empty
+      #- MIGRATE_SQLITE_TO_POSTGRES=true
+    volumes:
+      - ./data:/data/snippets
+# Uncomment to use docker secrets
+#    secrets:
+#      - jwt
+
+#secrets:
+#  jwt:
+#    file: ./secrets/jwt.txt

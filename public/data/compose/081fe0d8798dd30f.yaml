@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  traduora:
+    image: everco/ever-traduora:latest
+    container_name: traduora
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+    ports:
+      - '8080:8080'
+    environment:
+      TR_DB_TYPE: better-sqlite3
+      TR_DB_SQLITE_PATH: ${TR_DB_SQLITE_PATH:-api/data/tr_dev.sqlite3}
+      NODE_ENV: ${NODE_ENV:-development}
+    entrypoint: './docker-entrypoint.compose.sh'
+    restart: on-failure
+    volumes:
+      - ./traduora_sqlite_data:/app/api/data
+    networks:
+      - overlay
+
+networks:
+  overlay:
+    driver: bridge

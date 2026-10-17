@@ -1,0 +1,105 @@
+version: '3'
+
+x-common-env: &cenv
+  MEILI_URL: http://search:7700
+  MEILI_MASTER_KEY: vODkljPcfFANYNepCHyDyGjzAMPcdHnrb6X5KyXQPWo
+
+services:
+  search:
+    container_name: wanderer-search
+    image: getmeili/meilisearch:v1.36.0
+    environment:
+      <<: *cenv
+      MEILI_NO_ANALYTICS: "true"
+    ports:
+      - 7700:7700
+    networks:
+      - wanderer
+    volumes:
+      - ./data/data.ms:/meili_data/data.ms
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail http://localhost:7700/health || exit 1
+      interval: 15s
+      retries: 10
+      start_period: 20s
+      timeout: 10s
+  db:
+    container_name: wanderer-db
+    image: flomp/wanderer-db
+    depends_on:
+      search:
+        condition: service_healthy
+    environment:
+      <<: *cenv
+      POCKETBASE_ENCRYPTION_KEY: fde406459dc1f6ca6f348e1f44a9a2af
+      POCKETBASE_PROXY_SECRET: dev-proxy-secret-change-me
+      ORIGIN: http://localhost:3000
+    ports:
+      - "8090:8090"
+    networks:
+      - wanderer
+    restart: unless-stopped
+    volumes:
+      - ./data/pb_data:/pb_data
+      - ./data/plugins:/data/plugins
+    healthcheck:
+      test: ["CMD", "/curl", "--fail", "http://localhost:8090/health"]
+      interval: 15s
+      retries: 10
+      start_period: 20s
+      timeout: 10s
+  web:
+    container_name: wanderer-web
+    image: flomp/wanderer-web
+    depends_on:
+      search:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    environment:
+      <<: *cenv
+      ORIGIN: http://localhost:3000
+      BODY_SIZE_LIMIT: Infinity
+      POCKETBASE_PROXY_SECRET: dev-proxy-secret-change-me
+      PUBLIC_POCKETBASE_URL: http://db:8090
+      PUBLIC_DISABLE_SIGNUP: "false"
+      UPLOAD_FOLDER: /app/uploads
+      UPLOAD_USER:
+      UPLOAD_PASSWORD:
+      OVERPASS_API_URL: https://overpass-api.de
+      VALHALLA_URL: https://valhalla1.openstreetmap.de
+      NOMINATIM_URL: https://nominatim.openstreetmap.org
+      PUBLIC_MAP_MAX_POLYLINES: 100
+    volumes:
+      - ./data/uploads:/app/uploads
+      # - ./data/about.md:/app/build/client/md/about.md
+    ports:
+      - "3000:3000"
+    networks:
+      - wanderer
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/"]
+      interval: 15s
+      retries: 10
+      start_period: 20s
+      timeout: 10s
+# valhalla:
+#   image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+#   ports:
+#     - "8002:8002"
+#   volumes:
+#     - ./data/valhalla:/custom_files
+#   environment:
+#     - tile_urls=https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
+#     - use_tiles_ignore_pbf=True
+#     - force_rebuild=False
+#     - force_rebuild_elevation=False
+#     - build_elevation=True
+#     - build_admins=True
+#     - build_time_zones=True
+
+networks:
+  wanderer:
+    driver: bridge

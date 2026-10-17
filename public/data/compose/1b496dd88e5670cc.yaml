@@ -1,0 +1,46 @@
+services:
+
+  photofield:
+    build: ./
+    image: photofield
+    ports:
+      - 8080:8080
+    labels:
+      - "traefik.http.services.photofield.loadbalancer.server.port=8080"
+    volumes:
+      - ./docs/assets:/app/assets:ro
+    restart: "no"
+
+  prometheus:
+    build: ./docker/prometheus/
+    ports:
+      - 9090:9090
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  pyroscope:
+    image: "pyroscope/pyroscope:latest"
+    ports:
+      - "4040:4040"
+    command:
+      - "server"
+
+  grafana:
+    build: ./docker/grafana/
+    environment:
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
+      - GF_PATHS_PROVISIONING=/provisioning
+    ports:
+      - 9091:3000
+    volumes:
+      - ./docker/grafana/provisioning:/provisioning
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./data/grafana:/var/lib/grafana
+
+  # Local Docker registry for "task docker:multiarch:local:push"
+  registry:
+    image: registry:2
+    ports:
+      - 5000:5000
+    volumes:
+      - ./dist/registry:/var/lib/registry

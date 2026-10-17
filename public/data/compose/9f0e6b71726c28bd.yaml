@@ -1,0 +1,63 @@
+volumes:
+  database:
+  letsencrypt:
+
+services:
+  traefik:
+    image: "traefik:v2.11"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=<MyEmail>"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik_proxy
+
+  frontend:
+    build:
+      context: ./frontend/
+      args:
+        VITE_API_URL: https://<BackendDomain>
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`<FrontendDomain>`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+    networks:
+      - traefik_proxy
+
+  backend:
+    build:
+      context: ./backend/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`<BackendDomain>`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=myresolver"
+    environment:
+      API_TOKEN: ${API_TOKEN}
+      FRONTEND_URL: https://<FrontendDomain>
+    volumes:
+      - database:/app/data
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external: true

@@ -1,0 +1,72 @@
+services:
+
+  database:
+    image: postgres:16-alpine
+    container_name: hedgedoc-db
+    restart: always    
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=hedgedoc
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=hedgedoc
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/hedgedoc/database:/var/lib/postgresql/data
+    #networks:
+    #  - proxy
+
+  app:
+    image: quay.io/hedgedoc/hedgedoc:1.10.7
+    container_name: hedgedoc-app
+    restart: always    
+    environment:
+      - CMD_DB_URL=postgres://hedgedoc:password@database:5432/hedgedoc
+      - CMD_DOMAIN=collab.example.com
+      - CMD_URL_ADDPORT=false
+      - CMD_PROTOCOL_USESSL=true
+      - CMD_SESSION_LIFE=1209600000 # 14 days default
+      - CMD_SESSION_SECRET="discolor-subtitle-seducing-result-ceramics" # define secret
+      - CMD_EMAIL="false" # disallow login; only guest notes
+      - CMD_ALLOW_EMAIL_REGISTER="false" # disallow registration
+      - CMD_ALLOW_ANONYMOUS=false
+      - CMD_ALLOW_ANONYMOUS_EDITS=False
+      - CMD_DEFAULT_PERMISSION=locked
+      # ------- OAUTH SSO -------
+      # see https://docs.goauthentik.io/integrations/services/hedgedoc/
+      #- CMD_ALLOW_ANONYMOUS_EDITS=False
+      #- CMD_OAUTH2_USER_PROFILE_URL=https://authentik.example.com/application/o/userinfo/
+      #- CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=preferred_username
+      #- CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=name
+      #- CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=email
+      #- CMD_OAUTH2_TOKEN_URL=https://authentik.example.com/application/o/token/
+      #- CMD_OAUTH2_AUTHORIZATION_URL=https://authentik.example.com/application/o/authorize/
+      #- CMD_OAUTH2_CLIENT_ID=<ID>
+      #- CMD_OAUTH2_CLIENT_SECRET=<SECRET>
+      #- CMD_OAUTH2_PROVIDERNAME=Authentik
+      #- CMD_OAUTH2_SCOPE=openid email profile
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/hedgedoc/uploads:/hedgedoc/public/uploads
+    ports:
+      - 3000:3000/tcp
+    expose:
+      - 3000
+    depends_on:
+      - database
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.hedgedoc.rule=Host(`collab.example.com`)
+    #  - traefik.http.routers.hedgedoc.service=hedgedoc
+    #  - traefik.http.services.hedgedoc.loadbalancer.server.port=3000
+    #  - traefik.http.routers.hedgedoc.middlewares=local-ipwhitelist@file
+    #  # prevent unauthorized access to the /metrics endpoint
+    #  - traefik.http.routers.hedgedoc-metrics.rule=Host(`collab.example.com`) && PathPrefix(`/metrics`)
+    #  - traefik.http.routers.hedgedoc-metrics.service=hedgedoc
+    #  - traefik.http.services.hedgedoc-metrics.loadbalancer.server.port=3000
+    #  - traefik.http.routers.hedgedoc-metrics.middlewares=local-ipwhitelist@file    
+
+#networks:
+#  proxy:
+#    external: true

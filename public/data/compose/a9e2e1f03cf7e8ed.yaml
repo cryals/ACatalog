@@ -1,0 +1,39 @@
+networks:
+  bracket_lan:
+    driver: bridge
+
+volumes:
+  bracket_pg_data:
+  bracket_static_data:
+
+services:
+  bracket:
+    container_name: bracket
+    depends_on:
+      - postgres
+    environment:
+      ENVIRONMENT: DEVELOPMENT
+      CORS_ORIGINS: http://localhost:8400
+      PG_DSN: postgresql://bracket_dev:bracket_dev@postgres:5432/bracket_dev
+      SERVE_FRONTEND: true
+      API_PREFIX: '/api'
+    image: ghcr.io/evroon/bracket
+    networks:
+      - bracket_lan
+    ports:
+      - 8400:8400
+    restart: unless-stopped
+    volumes:
+      - bracket_static_data:/app/static
+
+  postgres:
+    environment:
+      POSTGRES_DB: bracket_dev
+      POSTGRES_PASSWORD: bracket_dev
+      POSTGRES_USER: bracket_dev
+    image: postgres
+    networks:
+      - bracket_lan
+    restart: always
+    volumes:
+      - bracket_pg_data:/var/lib/postgresql

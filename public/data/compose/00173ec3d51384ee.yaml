@@ -1,0 +1,94 @@
+services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:1.9
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf:ro
+    restart: always
+
+  acme-companion:
+    image: nginxproxy/acme-companion:2.6
+    container_name: nginx-proxy-acme
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - vhost:/etc/nginx/vhost.d:rw
+      - html:/usr/share/nginx/html:rw
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - DEFAULT_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+    restart: always
+
+  mycart:
+    image: ghcr.io/shurco/mycart:latest
+    container_name: mycart
+    restart: always
+    expose:
+      - "8080"
+    volumes:
+      - ./lc_base:/lc_base
+      - ./lc_digitals:/lc_digitals
+      - ./lc_uploads:/lc_uploads
+      - ./site:/site
+    environment:
+      - VIRTUAL_HOST=${DOMAIN:-yourdomain.com}
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=${DOMAIN:-yourdomain.com}
+      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+      # Database selection. Both empty (the default) keeps myCart on the
+      # embedded SQLite database in ./lc_base, which is what an existing
+      # installation uses. Set them to run on PostgreSQL; see .env.example.
+      - MYCART_DB_DRIVER=${MYCART_DB_DRIVER:-}
+      - MYCART_DB_DSN=${MYCART_DB_DSN:-}
+
+  # PostgreSQL is opt-in: it is behind a compose profile so an installation
+  # that keeps the default SQLite database does not start a second container.
+  #
+  #   docker compose --profile postgres up -d
+  #
+  # and, before installing, in .env:
+  #
+  #   MYCART_DB_DRIVER=postgres
+  #   MYCART_DB_DSN=postgres://mycart:change-me@postgres:5432/mycart?sslmode=disable
+  #
+  # The database is a host directory (./lc_pgdata) so it is as visible as the
+  # SQLite file it replaces, and backed up with pg_dump.
+  postgres:
+    profiles:
+      - postgres
+    image: postgres:17-alpine
+    container_name: mycart-postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-mycart}
+      - POSTGRES_USER=${POSTGRES_USER:-mycart}
+      # No default on purpose: the postgres image refuses to initialise
+      # without one, which fails the opt-in profile loudly instead of
+      # starting a database with a password nobody chose.
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+      # The server timezone only affects tools run inside the container; myCart
+      # pins its own session to UTC and refuses to start otherwise.
+      - TZ=UTC
+    volumes:
+      - ./lc_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-mycart} -d $${POSTGRES_DB:-mycart}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  certs:
+  vhost:
+  html:
+  acme:

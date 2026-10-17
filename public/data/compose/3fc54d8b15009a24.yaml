@@ -1,0 +1,7 @@
+services:
+  dayglance:
+    image: ghcr.io/krelltunez/dayglance:latest
+    container_name: dayglance
+    restart: unless-stopped
+    ports:
+      - "6767:80"

@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  kics:
+    platform: linux
+    image: checkmarx/kics:${IMAGE_TAG:-dev}
+    container_name: kics
+    hostname: kics
+    volumes:
+      - ./:/path/
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        ENGINE_VERSION: ${ENGINE_VERSION:-local}
+        COMMIT: ${COMMIT}
+        DESCRIPTIONS_URL: ${DESCRIPTIONS_URL}
+    command: scan -p /path/ -v

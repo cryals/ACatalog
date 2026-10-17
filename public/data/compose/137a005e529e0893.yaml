@@ -1,0 +1,60 @@
+version: "3.8"
+
+networks:
+  sama_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.25.0.0/16"
+
+services:
+  sama-client:
+    extends:
+      file: ./prefs/docker-compose/services/frontend.yml
+      service: sama-client
+
+  nginx:
+    extends:
+      file: ./prefs/docker-compose/services/frontend.yml
+      service: nginx
+
+  sama-server:
+    extends:
+      file: ./prefs/docker-compose/services/backend.yml
+      service: sama-server
+
+  sama-push-daemon:
+    extends:
+      file: ./prefs/docker-compose/services/push-daemon.yml
+      service: sama-push-daemon
+
+  s3:
+    extends:
+      file: ./prefs/docker-compose/services/s3.yml
+      service: s3
+
+  s3-service:
+    extends:
+      file: ./prefs/docker-compose/services/s3.yml
+      service: s3-service
+
+  mongo:
+    extends:
+      file: ./prefs/docker-compose/services/db.yml
+      service: mongo
+
+  redis:
+    extends:
+      file: ./prefs/docker-compose/services/db.yml
+      service: redis
+
+  redis-commander:
+    extends:
+      file: ./prefs/docker-compose/services/db.yml
+      service: redis-commander
+
+volumes:
+  data:
+  mongo:
+  sama-client-dist:

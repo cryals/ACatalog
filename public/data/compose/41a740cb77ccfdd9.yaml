@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/forkdo/mindoc
+services:
+  mindoc:
+    container_name: mindoc
+    env_file:
+      - path: ./.env
+        required: false
+    image: forkdo/mindoc:latest
+    ports:
+      - 8181:8181
+    privileged: false
+    restart: unless-stopped

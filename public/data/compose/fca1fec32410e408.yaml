@@ -1,0 +1,12 @@
+---
+# https://hub.docker.com/r/jpillora/cloud-torrent
+services:
+  cloud-torrent:
+    container_name: cloud-torrent
+    env_file:
+      - path: ./.env
+        required: false
+    image: jpillora/cloud-torrent:latest
+    ports:
+      - 3000:3000
+    restart: unless-stopped

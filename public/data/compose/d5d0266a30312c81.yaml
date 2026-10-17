@@ -1,0 +1,145 @@
+# Single source of truth for container tool versions. CI reads this block too.
+x-build-args: &build-args
+  V_DEBIAN: ${V_DEBIAN:-trixie}
+  V_GOLANG: ${V_GOLANG:-1.27.1}
+  V_NODE: ${V_NODE:-26}
+  V_AIR: ${V_AIR:-1.67.4}
+  V_SQLC: ${V_SQLC:-1.31.1}
+
+x-images:
+  go: &go-image golang:${V_GOLANG:-1.27.1}
+  node: &node-image node:${V_NODE:-26}
+  cypress: &cypress-image cypress/included:${V_CYPRESS:-16.1.0}
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/dev.dockerfile
+      args: *build-args
+    command: >
+      air
+      --build.pre_cmd "sqlc generate"
+      --build.cmd "go build -o tmp/main ."
+      --build.include_ext "go"
+      --build.exclude_dir "web,docs,node_modules,dist,screenshots,tmp,services/jobs"
+      --build.entrypoint "tmp/main"
+      --build.delay "100"
+      --build.stop_on_error "false"
+      --build.send_interrupt "true"
+      --build.kill_delay "5000"
+      --misc.clean_on_exit true
+    hostname: gocron
+    volumes:
+      - ./:/app/
+      - /var/run/docker.sock:/var/run/docker.sock
+      - go-mod-cache:/root/go/pkg/mod
+      - go-build-cache:/root/.cache/go-build
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://127.0.0.1:8156/health']
+      start_period: 10s
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    environment:
+      - TZ=Europe/Berlin
+    ports:
+      - 8156:8156
+
+  release:
+    profiles:
+      - build
+    build:
+      context: .
+      dockerfile: docker/release.dockerfile
+      args:
+        <<: *build-args
+        APP_VERSION: ${APP_VERSION:-dev}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
+        REPO_URL: ${REPO_URL:-}
+
+  go:
+    profiles:
+      - dev
+    image: *go-image
+    working_dir: /app
+    entrypoint: go
+    volumes:
+      - ./:/app/
+      - go-build-cache:/root/.cache/go-build
+
+  npm:
+    profiles:
+      - dev
+    image: *node-image
+    working_dir: /app
+    entrypoint: npm
+    volumes:
+      - ./web:/app/
+
+  format:
+    profiles:
+      - dev
+    image: *node-image
+    working_dir: /app
+    command: sh -c "npm install && npm run format"
+    volumes:
+      - ./:/app/
+
+  types:
+    depends_on:
+      backend:
+        condition: service_healthy
+    image: *node-image
+    working_dir: /app
+    command: sh -c "npm ci --no-audit --no-fund && wget -qO- http://backend:8156/api/openapi.json -O openapi.json && npm run types"
+    volumes:
+      - ./web/:/app/
+
+  frontend:
+    depends_on:
+      types:
+        condition: service_completed_successfully
+    image: *node-image
+    working_dir: /app
+    command: npm run dev
+    volumes:
+      - ./web/:/app/
+    healthcheck:
+      test: ['CMD', 'sh', '-c', 'wget -qO- http://127.0.0.1:5173/ >/dev/null']
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    ports:
+      - 5173:5173
+
+  npm-e2e:
+    profiles:
+      - dev
+    image: *node-image
+    working_dir: /app
+    entrypoint: npm
+    volumes:
+      - ./web/e2e/:/app/
+
+  e2e:
+    network_mode: host
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    profiles:
+      - test
+    image: *cypress-image
+    working_dir: /app
+    command: cypress run --browser firefox
+    environment:
+      - CYPRESS_baseUrl=http://localhost:5173
+    volumes:
+      - ./web/e2e/:/app/
+
+volumes:
+  go-mod-cache:
+  go-build-cache:

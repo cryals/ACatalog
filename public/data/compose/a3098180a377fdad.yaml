@@ -1,0 +1,121 @@
+services:
+  nutritrace:
+    image: ghcr.io/traceapps/nutritrace:latest
+    container_name: nutritrace
+    ports:
+      - "3001:3001"
+    volumes:
+      - ${DATA_DB_PATH}:/data/db
+      - ${DATA_UPLOADS_PATH}:/data/uploads
+      # Optional — local Open Food Facts mirror (for air-gapped or
+      # offline-resilient barcode + name lookups). Uncomment the mount + set
+      # OFF_LOCAL_DB in .env. NutriTrace downloads the initial ~7-8 GB
+      # Parquet snapshot from Hugging Face automatically on first boot if
+      # the file is missing; subsequent refreshes happen on a schedule from
+      # the Settings UI. File extension is auto-detected — Parquet (default)
+      # or legacy .duckdb both supported. See DEPLOY.md → "Local Open Food
+      # Facts mirror" for the full recipe.
+      #
+      # IMPORTANT: bind-mount a parent DIRECTORY, not the file itself.
+      # Docker auto-creates missing single-file bind-mount sources as
+      # directories on the host, which then surfaces inside the container
+      # as a directory at the mount point and breaks the atomic-swap
+      # rename during refresh with EISDIR (issue #22 followup, reported
+      # by @duplaja). The file lives inside the mounted directory; set
+      # OFF_LOCAL_DB to the in-container path of the file below.
+      # - ${OFF_LOCAL_DB_HOST_PATH:-./off-mirror}:/data/off-mirror
+    # Forward every variable from .env into the container. Without this, only
+    # variables explicitly named in the `environment:` block below reach the
+    # app, so .env settings like INSECURE_COOKIES were silently ignored (#41).
+    # The explicit `environment:` block stays as live documentation of the
+    # common options; .env values override defaults declared there.
+    env_file:
+      - .env
+    environment:
+      # Do not change — container-internal paths tied to volume mounts above
+      - DB_PATH=/data/db/nutritrace.db
+      - UPLOADS_PATH=/data/uploads
+      # Required if using user management — set a long random secret
+      - JWT_SECRET=${JWT_SECRET}
+      # Or mount a Swarm/Docker secret and set JWT_SECRET_FILE=/run/secrets/<name>
+      # Optional — at-rest encryption key for OIDC client secrets and wearable
+      # OAuth tokens. Defaults to a key derived from JWT_SECRET, which means
+      # rotating JWT_SECRET also invalidates every encrypted secret. Set this
+      # explicitly if you want to rotate session tokens independently.
+      # - TOKEN_ENC_KEY=${TOKEN_ENC_KEY:-}
+      # Optional — lockout recovery token (required for login page recovery)
+      - RECOVERY_TOKEN=${RECOVERY_TOKEN:-}
+      # Optional — set to 1 ONLY when running on plain HTTP (no TLS in front).
+      # Without TLS, auth cookies default to Secure and the browser silently
+      # drops them after login, so every request 401s and the login screen
+      # keeps re-appearing. Common gotcha for first-time self-hosters on a
+      # LAN (#41, #43). Cookies travel in cleartext when this is on, so use
+      # only on a trusted network; for anything internet-facing put TLS in
+      # front (Caddy, nginx with Let's Encrypt, Cloudflare Tunnel, etc.).
+      # - INSECURE_COOKIES=${INSECURE_COOKIES:-}
+      # Optional — mount at a subpath instead of root (for reverse-proxy setups)
+      # - BASE_URL=/nutritrace
+      # Optional — log level: error | warn | info (default) | debug | trace
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      # Request bodies require a second explicit opt-in at trace level.
+      - TRACE_REQUEST_BODIES=${TRACE_REQUEST_BODIES:-}
+      # A deliberately empty value or `none` disables body tracing while
+      # preserving internal LOG_LEVEL=trace activity. Single `-` means the
+      # default applies only when the host variable is truly unset.
+      - TRACE_REQUEST_PATHS=${TRACE_REQUEST_PATHS-/api/diary,/api/sync/push}
+      - TRACE_BODY_MAX_BYTES=${TRACE_BODY_MAX_BYTES:-32768}
+      # Optional — SMTP email (for password reset & invites). Can also be set in Settings UI.
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_SECURE=${SMTP_SECURE:-false}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+      # Optional — AI Assistant (shared key for all users). When set, AI calls
+      # are proxied through the server (key never reaches the browser) and the
+      # provider/model/key fields are locked in Settings for all users.
+      # Supports every provider the app supports — cloud (claude / openai /
+      # gemini) and OpenAI-compatible local endpoints (Ollama, LM Studio,
+      # LocalAI, vLLM, DeepSeek, Groq, etc.). Set AI_PROVIDER=oai-compat +
+      # AI_BASE_URL + AI_MODEL to point at a private-network LLM the browser
+      # can't reach directly (e.g. an Ollama sidecar on this compose network).
+      # - AI_PROVIDER=${AI_PROVIDER:-}            # claude | openai | gemini | oai-compat
+      # - AI_API_KEY=${AI_API_KEY:-}              # required for cloud; optional for oai-compat
+      # - AI_MODEL=${AI_MODEL:-}                  # optional for cloud; REQUIRED for oai-compat
+      # - AI_BASE_URL=${AI_BASE_URL:-}            # REQUIRED for oai-compat, e.g. http://ollama:11434
+      # - AI_ENABLED=${AI_ENABLED:-}
+      # Optional — OIDC Single Sign-On declared in env instead of the Settings UI.
+      # Single-provider shorthand (`OIDC_*` is an alias for `OIDC_PROVIDER_1_*`):
+      # - OIDC_ISSUER=${OIDC_ISSUER:-}
+      # - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:-}
+      # - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-}
+      # - OIDC_DISPLAY_NAME=${OIDC_DISPLAY_NAME:-}
+      # - OIDC_REDIRECT_URIS=${OIDC_REDIRECT_URIS:-}        # comma-separated for multi
+      # - OIDC_SCOPE=${OIDC_SCOPE:-}
+      # - OIDC_ADMIN_GROUP_CLAIM=${OIDC_ADMIN_GROUP_CLAIM:-}
+      # - OIDC_ADMIN_GROUP_VALUE=${OIDC_ADMIN_GROUP_VALUE:-}
+      # - OIDC_AUTO_LINK=${OIDC_AUTO_LINK:-1}
+      # - OIDC_AUTO_REGISTER=${OIDC_AUTO_REGISTER:-0}
+      # Multi-provider — repeat with the numbered prefix:
+      # - OIDC_PROVIDER_2_ISSUER=${OIDC_PROVIDER_2_ISSUER:-}
+      # - OIDC_PROVIDER_2_CLIENT_ID=${OIDC_PROVIDER_2_CLIENT_ID:-}
+      # - OIDC_PROVIDER_2_CLIENT_SECRET=${OIDC_PROVIDER_2_CLIENT_SECRET:-}
+      # - OIDC_PROVIDER_2_DISPLAY_NAME=${OIDC_PROVIDER_2_DISPLAY_NAME:-}
+      # Env-defined providers show with a lock badge in Settings → Authentication
+      # and are read-only there — edit via .env / docker-compose / k8s secrets.
+      # Optional — Local Open Food Facts mirror (Issue #22). When set,
+      # barcode + name lookups try the local mirror before reaching out
+      # to api.openfoodfacts.org. Path is the in-container path to the
+      # mirror file, which lives inside the directory bind-mount above.
+      # File extension is auto-detected (Parquet default since rc.39, or
+      # legacy .duckdb still supported). See DEPLOY.md for download /
+      # refresh.
+      # - OFF_LOCAL_DB=${OFF_LOCAL_DB:-}                        # e.g. /data/off-mirror/off.parquet
+      # - OFF_LOCAL_ONLY=${OFF_LOCAL_ONLY:-}                    # 1 = air-gap mode, never call remote OFF
+      # - OFF_LOCAL_URL=${OFF_LOCAL_URL:-}                      # override download source (defaults to HF Parquet)
+      # Any server env var may also be supplied via <NAME>_FILE, for example:
+      # - SMTP_PASS_FILE=/run/secrets/nutritrace_smtp_pass
+      # - AI_API_KEY_FILE=/run/secrets/nutritrace_ai_api_key
+      # - TOKEN_ENC_KEY_FILE=/run/secrets/nutritrace_token_enc_key
+      # - RECOVERY_TOKEN_FILE=/run/secrets/nutritrace_recovery_token
+    restart: unless-stopped

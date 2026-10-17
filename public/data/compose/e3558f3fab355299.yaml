@@ -1,0 +1,13 @@
+services:
+  cups:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cups
+    restart: unless-stopped
+    command: ["/usr/sbin/cupsd", "-f"]
+    ports:
+      - "631:631"
+    volumes:
+      - ./container-config:/etc/cups
+      - ./container-config/logs:/var/log/cups

@@ -1,0 +1,45 @@
+services:
+  ideon-app:
+    image: ghcr.io/3xpyth0n/ideon:latest
+    container_name: ideon-app
+    env_file:
+      - ${ENV_FILE:-.env}
+    # environment:
+    # PUID: 1000 # Optional: User ID for file ownership (default: 1001)
+    # PGID: 1000 # Optional: Group ID for file ownership (default: 1001)
+    depends_on:
+      ideon-db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:${APP_PORT:-3000}"
+    volumes:
+      - ideon-app-data:/app/storage
+    healthcheck:
+      test:
+        ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-3000}/api/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  ideon-db:
+    image: postgres:18-alpine
+    container_name: ideon-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ideon-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ideon-app-data:
+  ideon-db-data:

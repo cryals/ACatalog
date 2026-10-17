@@ -1,0 +1,80 @@
+services:
+  app:
+    build:
+      target: dev
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    container_name: app
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/var/www/cocktails
+      - ./resources/docker/localdev/php.ini:/usr/local/etc/php/conf.d/zzz-xbass-php.ini
+
+  horizon:
+    build:
+      target: dev
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+    restart: unless-stopped
+    environment:
+      APP_ROLE: "worker"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["php", "/var/www/cocktails/artisan", "horizon"]
+    volumes:
+      - ./:/var/www/cocktails
+      - ./resources/docker/localdev/php.ini:/usr/local/etc/php/conf.d/zzz-xbass-php.ini
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www/cocktails
+      - ./resources/docker/localdev/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  redis:
+    image: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    restart: unless-stopped
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.50
+    environment:
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_MASTER_KEY=masterKeyThatIsReallyReallyLong4Real
+    restart: unless-stopped
+    ports:
+      - 7700:7700
+    volumes:
+      - meilidata:/meili_data
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - RUSTFS_ROOT_USER=rustfsadmin
+      - RUSTFS_ROOT_PASSWORD=rustfsadmin
+    volumes:
+      - rustfsdata:/data
+
+  # metrics:
+  #   image: prom/prometheus
+  #   volumes:
+  #     - ./resources/docker/localdev/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   ports:
+  #     - 9090:9090
+
+volumes:
+  meilidata:
+  rustfsdata:

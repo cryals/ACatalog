@@ -1,0 +1,142 @@
+# This docker compose example targets rxresume < 4.0
+# For a newer version, please see https://github.com/AmruthPillai/Reactive-Resume/tree/main/tools/compose
+
+# Make sure that you expose both the client and server container behind the same (sub)domain,
+# which is properly resolvable. Otherwise, you'll either receive DNS or CORS errors, as the domain
+# cannot be resolved by the containers properly or since the Same Origin Policy (SOP) will prevent
+# access from Domain A (client) to Domain B (server). So let both containers run on the same domain
+# and tell your reverse proxy (here traefik) that the server container will handle all /api requests.
+
+# If PDF export keeps failing, you may want to enable the `extra_hosts` definition in the client's
+# Docker Compose service definition. Specify your domain name and your server's IP address where
+# Traefik is listening on TCP/80 and TCP/443. See this GitHub issue here:
+# https://github.com/AmruthPillai/Reactive-Resume/issues/721#issuecomment-1530550167
+
+# Also ensure to create a new resume always as soon as you've changed your setup or the Docker
+# Compose file. Older resumes may introduce previous errors, which are false positives and only
+# occur for the old resume.
+
+# If you use Nginx Proxy Manager as reverse proxy, may have a read here:
+# https://github.com/AmruthPillai/Reactive-Resume/issues/721#issuecomment-1405283786
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: rxresume-db
+    restart: always
+    expose:
+      - 5432
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/rxresume/postgresql:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      start_period: 15s
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - proxy
+
+  server:
+    image: amruthpillai/reactive-resume:server-latest
+    container_name: rxresume-server
+    restart: always
+    #extra_hosts:
+    #  - "resume.example.com:10.10.0.100" # optionally enable if PDF export keeps failing; specify your domain and server's IP address where traefik is running
+    expose:
+      - 3100
+    depends_on:
+      - postgres
+    environment:
+      - PUBLIC_URL=http://resume.example.com
+      - PUBLIC_SERVER_URL=http://resume.example.com/api # only change the subdomain, leave /api as is
+      - PUBLIC_GOOGLE_CLIENT_ID=
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - SECRET_KEY=change-me-to-something-secure
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_SSL_CERT=
+      - JWT_SECRET=change-me-to-something-secure
+      - JWT_EXPIRY_TIME=604800
+      - GOOGLE_CLIENT_SECRET=
+      - GOOGLE_API_KEY=
+      - MAIL_FROM_NAME=Reactive Resume
+      - MAIL_FROM_EMAIL=noreply@rxresu.me
+      - MAIL_HOST=
+      - MAIL_PORT=
+      - MAIL_USERNAME=
+      - MAIL_PASSWORD=
+      - STORAGE_BUCKET=
+      - STORAGE_REGION=
+      - STORAGE_ENDPOINT=
+      - STORAGE_URL_PREFIX=
+      - STORAGE_ACCESS_KEY=
+      - STORAGE_SECRET_KEY=
+      - PDF_DELETION_TIME=
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.rxresume-server.rule=Host(`resume.example.com`) && PathPrefix(`/api`) # only change the subdomain, leave /api as is
+      - traefik.http.services.rxresume-server.loadbalancer.server.port=3100
+      - traefik.docker.network=proxy
+      # Part for optional traefik middlewares
+      - traefik.http.routers.rxresume-server.middlewares=path-strip # may add local-ipwhitelist@file for access control
+      - traefik.http.middlewares.path-strip.stripprefix.prefixes=/api 
+      - traefik.http.middlewares.path-strip.stripprefix.forceSlash=false
+
+  client:
+    image: amruthpillai/reactive-resume:client-latest
+    container_name: rxresume-client
+    restart: always
+    #extra_hosts:
+    #  - "resume.example.com:10.10.0.100" # # optionally enable if PDF export keeps failing; specify your domain and server's IP address where traefik is running
+    expose:
+      - 3000
+    depends_on:
+      - server
+    environment:
+      - PUBLIC_URL=http://resume.example.com
+      - PUBLIC_SERVER_URL=http://resume.example.com/api # only change the subdomain, leave /api as is
+      - PUBLIC_GOOGLE_CLIENT_ID=
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.rxresume-client.rule=Host(`resume.example.com`)
+      - traefik.http.services.rxresume-client.loadbalancer.server.port=3000
+      - traefik.docker.network=proxy
+      # Part for optional traefik middlewares
+      #- traefik.http.routers.rxresume-client.middlewares=local-ipwhitelist@file # may enable this middleware for access control
+      
+  traefik:
+    image: traefik:v2.11
+    container_name: rxresume-traefik
+    restart: unless-stopped
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - 80:80
+      - 8080:8080
+    environment:
+      - VIRTUAL_HOST=resume.example.com
+      - VIRTUAL_PORT=80
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro      
+
+networks:
+  proxy:
+    external: true

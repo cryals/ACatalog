@@ -1,0 +1,17 @@
+---
+# https://hub.docker.com/r/openlistteam/openlist
+services:
+  openlist:
+    container_name: openlist
+    env_file:
+      - path: ./.env
+        required: false
+    image: openlistteam/openlist:latest
+    ports:
+      - 5244:5244
+    restart: unless-stopped
+    user: '0:0'
+  ocr:
+    container_name: ocr
+    image: openlistteam/ocr_api_server:main
+    restart: unless-stopped

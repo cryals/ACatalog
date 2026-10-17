@@ -1,0 +1,56 @@
+services:
+
+  watchtower:
+    image: nickfedor/watchtower:latest
+    container_name: watchtower
+    hostname: watchtower
+    environment:
+      #- WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=${SMTP_PORT:-587}
+      #- WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${SMTP_USER:-smtpuser}
+      #- WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${SMTP_PASS:-smtppass}
+      #- WATCHTOWER_NOTIFICATION_EMAIL_FROM=${SMTP_MAIL_FROM:-watchtower@example.com}
+      #- WATCHTOWER_NOTIFICATION_EMAIL_TO=${SMTP_MAIL_TO:-watchtower@example.com}
+      #- WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${SMTP_SERVER:-smtp.google.com}
+      #- WATCHTOWER_HTTP_API_TOKEN=${API_TOKEN:-SecureApiToken}
+      #- WATCHTOWER_NOTIFICATIONS=email
+      #- WATCHTOWER_MONITOR_ONLY=true
+      - WATCHTOWER_SCHEDULE=0 0 6 * * * # requires a go cron syntax of 6 space-separated fields; see https://containrrr.dev/watchtower/arguments/#scheduling
+      - WATCHTOWER_CLEANUP=true # remove unused images afterwards
+      - DOCKER_HOST=tcp://socket-proxy:2375 # use socket-proxy for secure docker api access
+    restart: always
+    networks:
+      - watchtower
+      - proxynet
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      #- /home/myuser/.docker/config.json:/config.json:ro # to support fetching private registries; use docker login to create the file
+    working_dir: /
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: socket-proxy-watchtower
+    environment:
+      - ALLOW_START=1
+      - ALLOW_STOP=1
+      - ALLOW_RESTARTS=1
+      - CONTAINERS=1
+      - IMAGES=1
+      - NETWORKS=1
+      - POST=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxynet
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+    restart: always
+    read_only: true
+    tmpfs:
+      - /run
+
+networks:
+  proxynet:
+    internal: true
+  watchtower:

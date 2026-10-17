@@ -1,0 +1,43 @@
+services:
+
+  hemmelig:
+    image: hemmeligapp/hemmelig:latest
+    container_name: hemmelig
+    hostname: hemmelig
+    init: true
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/hemmelig/files:/var/tmp/hemmelig/upload/files
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/hemmelig/database:/home/node/hemmelig/database/
+    environment:
+      - SECRET_LOCAL_HOSTNAME=0.0.0.0     # The local hostname for the fastify instance
+      - SECRET_PORT=3000                  # The port number for the fastify instance
+      - SECRET_HOST=                      # Used for i.e. set cors to your domain name
+      - SECRET_DISABLE_USERS=false        # Disable user registration
+      - SECRET_ENABLE_FILE_UPLOAD=true    # Enable or disable file upload
+      - SECRET_FILE_SIZE=10               # Set the total allowed upload file size in mb
+      - SECRET_FORCED_LANGUAGE=en         # Set the default language for the application
+      - SECRET_JWT_SECRET=!changeme!      # Override this for the secret signin JWT tokens for log in
+      - SECRET_MAX_TEXT_SIZE=256          # The max text size for the secret. Is set in kb. i.e. 256 for 256kb
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    restart: always
+    stop_grace_period: 1m
+    healthcheck:
+      test: "wget -O /dev/null localhost:3000 || exit 1"
+      timeout: 5s
+      retries: 1
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.http.routers.hemmelig.rule=Host(`hemmelig.example.com`)
+    #  - traefik.http.services.hemmelig.loadbalancer.server.port=3000
+    #  - traefik.docker.network=proxy
+    #  # Part for optional traefik middlewares
+    #  - traefik.http.routers.hemmelig.middlewares=local-ipwhitelist@file,basic-auth@file  
+
+#networks:
+#  proxy:
+#    external: true

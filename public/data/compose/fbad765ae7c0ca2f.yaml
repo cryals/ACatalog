@@ -1,0 +1,118 @@
+# Infra (redis, postgres, mongodb, adminer): `docker compose up -d`
+# App + Prometheus: `docker compose --profile app up -d`
+
+services:
+  gomodel:
+    profiles:
+      - app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-8080}:8080"
+    env_file:
+      - .env
+    environment:
+      # Cache configuration
+      - REDIS_URL=redis://redis:6379
+      # Metrics
+      - METRICS_ENABLED=true
+      # Storage configuration (PostgreSQL for audit logs)
+      - POSTGRES_URL=postgres://gomodel:gomodel@postgres:5432/gomodel
+      # MongoDB configuration (uncomment to use MongoDB instead)
+      - MONGODB_URL=mongodb://mongodb:27017/gomodel
+      # Audit logging is enabled by default; pick its storage backend below
+      # - STORAGE_TYPE=postgresql
+      - STORAGE_TYPE=mongodb
+    volumes:
+      # The gateway's own state: the SQLite database when STORAGE_TYPE is
+      # sqlite, the pid file, and the install identity. Without this the
+      # directory is part of the container and is lost when it is recreated.
+      - gomodel_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:18-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=gomodel
+      - POSTGRES_PASSWORD=gomodel
+      - POSTGRES_DB=gomodel
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gomodel -d gomodel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  mongodb:
+    image: mongo:8
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "try { rs.status() } catch(e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}) }; if (!db.hello().isWritablePrimary) { quit(1) }"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+  adminer:
+    image: adminer:5
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  prometheus:
+    profiles:
+      - app
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
+    depends_on:
+      - gomodel
+    restart: unless-stopped
+
+volumes:
+  gomodel_data:
+  redis_data:
+  postgres_data:
+  mongodb_data:
+  prometheus_data:

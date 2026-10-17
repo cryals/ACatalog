@@ -1,0 +1,105 @@
+services:
+    postgres:
+        image: ghcr.io/aliasvault/postgres:latest
+        volumes:
+            - ./database/postgres:/var/lib/postgresql/data:rw
+            - ./secrets:${SECRETS_PATH:-/secrets}:ro
+        env_file:
+            - .env
+        restart: always
+        environment:
+            POSTGRES_DB: aliasvault
+            POSTGRES_USER: aliasvault
+            POSTGRES_PASSWORD_FILE: ${SECRETS_PATH:-/secrets}/postgres_password
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U aliasvault"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+
+    client:
+        image: ghcr.io/aliasvault/client:latest
+        expose:
+            - "3000"
+        restart: always
+        env_file:
+            - .env
+
+    api:
+        image: ghcr.io/aliasvault/api:latest
+        expose:
+            - "3001"
+        volumes:
+            - ./database:/database:rw
+            - ./logs:/logs:rw
+            - ./secrets:${SECRETS_PATH:-/secrets}:ro
+        restart: always
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
+
+    admin:
+        image: ghcr.io/aliasvault/admin:latest
+        expose:
+            - "3002"
+        volumes:
+            - ./database:/database:rw
+            - ./logs:/logs:rw
+            - ./secrets:${SECRETS_PATH:-/secrets}:ro
+        restart: always
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
+
+    reverse-proxy:
+        image: ghcr.io/aliasvault/reverse-proxy:latest
+        ports:
+            - "${HTTP_PORT:-80}:80"
+            - "${HTTPS_PORT:-443}:443"
+        volumes:
+            - ./certificates/ssl:/etc/nginx/ssl:rw
+            - ./certificates/letsencrypt:/etc/nginx/ssl-letsencrypt:rw
+            - ./certificates/letsencrypt/www:/var/www/certbot:rw
+        depends_on:
+            - admin
+            - client
+            - api
+            - smtp
+        restart: always
+        env_file:
+            - .env
+
+    smtp:
+        image: ghcr.io/aliasvault/smtp:latest
+        ports:
+            - "${SMTP_PORT:-25}:25"
+            - "${SMTP_TLS_PORT:-587}:587"
+        volumes:
+            - ./database:/database:rw
+            - ./logs:/logs:rw
+            - ./secrets:${SECRETS_PATH:-/secrets}:ro
+            - ./certificates/smtp:/certificates/smtp:ro
+        restart: always
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
+
+    task-runner:
+        image: ghcr.io/aliasvault/task-runner:latest
+        volumes:
+            - ./database:/database:rw
+            - ./logs:/logs:rw
+            - ./secrets:${SECRETS_PATH:-/secrets}:ro
+        restart: always
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy

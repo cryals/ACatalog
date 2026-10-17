@@ -1,0 +1,155 @@
+x-flowctl-env: &flowctl-env
+  # Database configuration
+  FLOWCTL_DB__HOST: postgres
+  FLOWCTL_DB__PORT: 5432
+  FLOWCTL_DB__USER: ${POSTGRES_USER:-flowctl}
+  FLOWCTL_DB__PASSWORD: ${POSTGRES_PASSWORD:-flowctl}
+  FLOWCTL_DB__DBNAME: ${POSTGRES_DB:-flowctl}
+
+  # App configuration
+  FLOWCTL_APP__ADMIN_USERNAME: ${ADMIN_USERNAME:-flowctl_admin}
+  FLOWCTL_APP__ADMIN_PASSWORD: ${ADMIN_PASSWORD:-flowctl_password}
+  FLOWCTL_APP__FLOWS_DIRECTORY: /app/flows
+  FLOWCTL_APP__ROOT_URL: ${ROOT_URL:-http://localhost:7000}
+  FLOWCTL_APP__ADDRESS: :7000
+  FLOWCTL_APP__USE_TLS: ${USE_TLS:-false}
+  FLOWCTL_APP__MAX_FILE_UPLOAD_SIZE: ${MAX_FILE_UPLOAD_SIZE:-104857600}
+
+  # Keystore configuration
+  FLOWCTL_KEYSTORE__KEEPER_URL: ${KEYSTORE_KEEPER_URL:-base64key://2M-MkchieLohxn0jlmSfbuh4KE4EZz9tWrhcY9DZ8bE=}
+
+  # OIDC configuration
+  FLOWCTL_OIDC__NAME: ${OIDC_NAME:-oidc}
+  FLOWCTL_OIDC__CLIENT_ID: ${OIDC_CLIENT_ID:-flowctl}
+  FLOWCTL_OIDC__CLIENT_SECRET: ${OIDC_CLIENT_SECRET:-secret}
+  FLOWCTL_OIDC__ISSUER: ${OIDC_ISSUER:-http://dex:5556/dex}
+  FLOWCTL_OIDC__AUTH_URL: ${OIDC_AUTH_URL:-http://localhost:5556/dex/auth}
+  FLOWCTL_OIDC__TOKEN_URL: ${OIDC_TOKEN_URL:-http://dex:5556/dex/token}
+  FLOWCTL_OIDC__REDIRECT_URL: ${OIDC_REDIRECT_URL:-http://localhost:7000/auth/callback}
+
+  # Scheduler configuration
+  FLOWCTL_SCHEDULER__BACKEND: ${SCHEDULER_BACKEND:-}
+  FLOWCTL_SCHEDULER__CRON_SYNC_INTERVAL: ${SCHEDULER_CRON_SYNC_INTERVAL:-5m0s}
+  FLOWCTL_SCHEDULER__WORKERS: ${SCHEDULER_WORKERS:-20}
+  FLOWCTL_SCHEDULER__FLOW_EXECUTION_TIMEOUT: ${SCHEDULER_FLOW_EXECUTION_TIMEOUT:-1h}
+  FLOWCTL_SCHEDULER__DEFAULT_TIMEZONE: UTC
+
+  # Logger configuration
+  FLOWCTL_LOGGER__BACKEND: ${LOG_BACKEND:-file}
+  FLOWCTL_LOGGER__LOG_DIRECTORY: ${LOG_DIRECTORY:-/var/log/flowctl}
+  FLOWCTL_LOGGER__MAX_SIZE_BYTES: ${LOG_MAX_SIZE_BYTES:-0}
+  FLOWCTL_LOGGER__RETENTION_TIME: ${LOG_RETENTION_TIME:-0s}
+  FLOWCTL_LOGGER__SCAN_INTERVAL: ${LOG_SCAN_INTERVAL:-1h0m0s}
+
+  # Metrics configuration
+  FLOWCTL_METRICS__ENABLED: ${METRICS_ENABLED:-true}
+  FLOWCTL_METRICS__PATH: ${METRICS_PATH:-/metrics}
+
+  # Email configuration
+  FLOWCTL_MESSENGERS__EMAIL__ENABLED: ${EMAIL_ENABLED:-false}
+  FLOWCTL_MESSENGERS__EMAIL__HOST: ${EMAIL_HOST:-localhost}
+  FLOWCTL_MESSENGERS__EMAIL__PORT: ${EMAIL_PORT:-587}
+  FLOWCTL_MESSENGERS__EMAIL__USERNAME: ${EMAIL_USERNAME:-}
+  FLOWCTL_MESSENGERS__EMAIL__PASSWORD: ${EMAIL_PASSWORD:-}
+  FLOWCTL_MESSENGERS__EMAIL__FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-flowctl@flowctl.internal}
+  FLOWCTL_MESSENGERS__EMAIL__FROM_NAME: ${EMAIL_FROM_NAME:-}
+  FLOWCTL_MESSENGERS__EMAIL__MAX_CONNS: ${EMAIL_MAX_CONNS:-10}
+  FLOWCTL_MESSENGERS__EMAIL__SSL: ${EMAIL_SSL:-none}
+
+  # Debug
+  DEBUG_LOG: ${DEBUG_LOG:-false}
+
+services:
+  postgres:
+    image: docker.io/postgres:17.0-alpine3.20
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-flowctl}
+      - POSTGRES_USER=${POSTGRES_USER:-flowctl}
+      - POSTGRES_DB=${POSTGRES_DB:-flowctl}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-flowctl}"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    volumes:
+      - type: volume
+        source: flowctl-db-data
+        target: /var/lib/postgresql/data
+
+  dex:
+    image: dexidp/dex:v2.44.0-alpine
+    ports:
+      - "5556:5556"
+    configs:
+      - source: dex-config
+        target: /etc/dex/config.yml
+    command: ["dex", "serve", "/etc/dex/config.yml"]
+
+  flowctl-migrate:
+    image: ghcr.io/cvhariharan/flowctl:latest
+    environment:
+      <<: *flowctl-env
+    command: ["install"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dex:
+        condition: service_started
+    restart: "no"
+
+  flowctl:
+    image: ghcr.io/cvhariharan/flowctl:latest
+    ports:
+      - "7000:7000"
+    environment:
+      <<: *flowctl-env
+    command: ["start"]
+    volumes:
+      - flowctl-flows:/app/flows
+      # This is required for docker executor
+      - /var/run/docker.sock:/var/run/docker.sock
+      # This is a workaround to get tmp mounts in executors working
+      - /tmp:/tmp
+    depends_on:
+      flowctl-migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  flowctl-db-data:
+  flowctl-flows:
+
+configs:
+  dex-config:
+    content: |
+      issuer: http://dex:5556/dex
+      issuerRotation:
+        - issuer: http://localhost:5556/dex
+
+      storage:
+        type: sqlite3
+        config:
+          file: /var/dex/dex.db
+
+      web:
+        http: 0.0.0.0:5556
+
+      staticClients:
+        - id: flowctl
+          redirectURIs:
+            - "http://localhost:7000/auth/callback"
+          name: flowctl
+          secret: secret
+
+      oauth2:
+        skipApprovalScreen: true
+
+      enablePasswordDB: true
+
+      staticPasswords:
+        - email: "user@flowctl.internal"
+          # Password - flowctl
+          hash: "$2y$10$76VGxsIYbm7U2WRLkCsqVeBeMKdH3F6qLH88cmqDE6r9c17ZQEVEC"
+          username: "user"
+          userID: "4ec61291-40f3-4b0e-8090-99c67190758d"

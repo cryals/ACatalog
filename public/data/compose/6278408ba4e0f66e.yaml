@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: db  
+    hostname: db  
+    #image: mariadb:latest
+    image: mysql:latest
+    #command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: vvveb
+      MYSQL_DATABASE: vvveb
+      MYSQL_USER: vvveb
+      MYSQL_PASSWORD: vvveb
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - internal
+
+  php:
+    #build:
+      #context: .
+      #dockerfile: Dockerfile
+    image: vvveb/vvvebcms:latest
+    environment:
+      VVVEB_HOST: db
+      VVVEB_PASSWORD: vvveb
+      DB_HOST: db
+      DB_DATABASE: vvveb
+      DB_USER: vvveb
+      DB_PASSWORD: vvveb
+      DB_ENGINE: mysqli
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - "8080:80"
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - internal
+
+  # uncomment lines bellow for auto install
+  #vvveb-install:
+    #build:
+      #context: .
+    #volumes:
+      #- ./:/var/www/html/
+    #entrypoint:
+      #[
+        #"bash",
+        #"-c",
+        #"sleep 5 && php cli.php install module=index host=db user=vvveb password=vvveb database=vvveb admin[email]=admin@vvveb.com admin[password]=admin",
+      #]
+    #depends_on:
+      #- php
+    #networks:
+      #- internal
+
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_USER=vvveb
+      - PMA_PASSWORD=vvveb
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - internal
+
+volumes:
+  db:
+
+networks:
+  internal:
+    driver: bridge

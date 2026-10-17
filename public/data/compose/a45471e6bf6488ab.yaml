@@ -1,0 +1,43 @@
+services:
+  retroarr:
+    build: .
+    container_name: retroarr
+    ports:
+      - "2727:2727"      # HTTP
+      - "2728:2728"      # HTTPS (optional, remove if running behind a reverse proxy)
+    volumes:
+      - ./config:/app/config       # Logs are stored in ./config/logs/ by default
+      - ./games:/media
+      - ./downloads:/downloads
+      - ./savestates:/app/savestates
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RetroArr_SAVESTATES_PATH=/app/savestates
+      # https with a self-signed cert at ./config/certs/retroarr.pfx.
+      # drop this if you proxy via swag/traefik/caddy with a real cert.
+      # needed for psp/nds/n64/saturn/3do on a lan ip (SharedArrayBuffer).
+      - RETROARR_HTTPS_PORT=2728
+      # cidr ranges of trusted proxies. default covers rfc1918 + loopback.
+      # - RETROARR_TRUSTED_PROXIES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+    restart: unless-stopped
+    networks:
+      - arr-network
+  # Optional: Include Prowlarr if not running separately
+  # prowlarr:
+  #   image: lscr.io/linuxserver/prowlarr:latest
+  #   container_name: prowlarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Madrid
+  #   volumes:
+  #     - ./prowlarr-config:/config
+  #   ports:
+  #     - "9696:9696"
+  #   restart: unless-stopped
+  #   networks:
+  #     - arr-network
+
+networks:
+  arr-network:
+    driver: bridge

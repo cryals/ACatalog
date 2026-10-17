@@ -1,0 +1,11 @@
+services:
+  re-director:
+    image: jensknipper/re-director:0.0.11
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - re-director-data:/data
+
+volumes:
+  re-director-data:

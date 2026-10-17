@@ -1,0 +1,175 @@
+name: rssmonster
+
+services:
+  rssmonster:
+    image: "${RSSMONSTER_IMAGE:-rssmonster/rssmonster:${RSSMONSTER_TAG:-latest}}"
+    container_name: rssmonster
+    restart: unless-stopped
+
+    ports:
+      - "${RSSMONSTER_BIND_ADDRESS:-127.0.0.1}:${RSSMONSTER_PORT:-3000}:3000"
+
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+
+      # SQLite is for lightweight local experimentation. This profile intentionally
+      # omits the AI worker; use the MySQL profile for database-intensive AI jobs.
+      DB_DIALECT: sqlite
+      DB_STORAGE: /app/data/rssmonster.sqlite
+
+      # Required application secrets.
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+      FEVER_CREDENTIAL_SECRET: ${FEVER_CREDENTIAL_SECRET:?FEVER_CREDENTIAL_SECRET must be set}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+
+      # Optional deployment settings.
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-86400}
+      JWT_REMEMBER_EXPIRES_IN: ${JWT_REMEMBER_EXPIRES_IN:-2592000}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      RSSMONSTER_INTERNAL_HOST_ALLOWLIST: ${RSSMONSTER_INTERNAL_HOST_ALLOWLIST:-}
+      # Feed acquisition only; lowercase host variables take precedence.
+      HTTP_PROXY: ${http_proxy-${HTTP_PROXY:-}}
+      HTTPS_PROXY: ${https_proxy-${HTTPS_PROXY:-}}
+      NO_PROXY: ${no_proxy-${NO_PROXY:-}}
+      FEED_MAX_COUNT: ${FEED_MAX_COUNT:-100}
+      FEED_CONNECT_TIMEOUT_MS: ${FEED_CONNECT_TIMEOUT_MS:-10000}
+      FEED_BODY_TIMEOUT_MS: ${FEED_BODY_TIMEOUT_MS:-30000}
+      FEED_TIMEOUT_MS: ${FEED_TIMEOUT_MS:-60000}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-}
+
+      # Optional connection to a standalone inference service; Settings can configure it too.
+      INFERENCE_AI_ENABLED: ${INFERENCE_AI_ENABLED:-}
+      INFERENCE_BASE_URL: ${INFERENCE_BASE_URL:-}
+      INFERENCE_API_KEY: ${INFERENCE_API_KEY:-}
+      SKIP_ARTICLE_CLASSIFICATION_ANALYSIS: ${SKIP_ARTICLE_CLASSIFICATION_ANALYSIS:-false}
+      SKIP_ARTICLE_EMBEDDINGS: ${SKIP_ARTICLE_EMBEDDINGS:-false}
+      SKIP_SEMANTIC_LABELING: ${SKIP_SEMANTIC_LABELING:-false}
+      CRAWL_WORKER_HEALTH_FILE: /app/worker-health/crawl-worker-health.json
+
+    volumes:
+      - rssmonster-data:/app/data
+      - rssmonster-worker-health:/app/worker-health:ro
+
+    init: true
+
+    security_opt:
+      - no-new-privileges:true
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >
+          fetch('http://127.0.0.1:3000/api/health')
+          .then(response => process.exit(response.ok ? 0 : 1))
+          .catch(() => process.exit(1))
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  rssmonster-worker:
+    image: "${RSSMONSTER_IMAGE:-rssmonster/rssmonster:${RSSMONSTER_TAG:-latest}}"
+    container_name: rssmonster-worker
+    restart: unless-stopped
+
+    depends_on:
+      rssmonster:
+        condition: service_healthy
+        restart: true
+
+    command:
+      - npm
+      - run
+      - start:worker
+
+    environment:
+      NODE_ENV: production
+      # Crawl-only by design. SQLite optional-job concurrency is limited to one,
+      # and this lightweight profile does not start rssmonster-ai-worker.
+      DB_DIALECT: sqlite
+      DB_STORAGE: /app/data/rssmonster.sqlite
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+      FEVER_CREDENTIAL_SECRET: ${FEVER_CREDENTIAL_SECRET:?FEVER_CREDENTIAL_SECRET must be set}
+      RSSMONSTER_INTERNAL_HOST_ALLOWLIST: ${RSSMONSTER_INTERNAL_HOST_ALLOWLIST:-}
+      # Feed acquisition only; lowercase host variables take precedence.
+      HTTP_PROXY: ${http_proxy-${HTTP_PROXY:-}}
+      HTTPS_PROXY: ${https_proxy-${HTTPS_PROXY:-}}
+      NO_PROXY: ${no_proxy-${NO_PROXY:-}}
+      FEED_MAX_COUNT: ${FEED_MAX_COUNT:-100}
+      FEED_CONNECT_TIMEOUT_MS: ${FEED_CONNECT_TIMEOUT_MS:-10000}
+      FEED_BODY_TIMEOUT_MS: ${FEED_BODY_TIMEOUT_MS:-30000}
+      FEED_TIMEOUT_MS: ${FEED_TIMEOUT_MS:-60000}
+      INFERENCE_AI_ENABLED: ${INFERENCE_AI_ENABLED:-}
+      INFERENCE_BASE_URL: ${INFERENCE_BASE_URL:-}
+      INFERENCE_API_KEY: ${INFERENCE_API_KEY:-}
+      SKIP_ARTICLE_CLASSIFICATION_ANALYSIS: ${SKIP_ARTICLE_CLASSIFICATION_ANALYSIS:-false}
+      SKIP_ARTICLE_EMBEDDINGS: ${SKIP_ARTICLE_EMBEDDINGS:-false}
+      SKIP_SEMANTIC_LABELING: ${SKIP_SEMANTIC_LABELING:-false}
+      CRAWL_WORKER_HEALTH_FILE: /app/worker-health/crawl-worker-health.json
+      CRAWL_WORKER_HEALTH_MAX_FAILURES: ${CRAWL_WORKER_HEALTH_MAX_FAILURES:-3}
+      CRAWL_WORKER_HEALTH_MAX_STALE_MS: ${CRAWL_WORKER_HEALTH_MAX_STALE_MS:-900000}
+
+    volumes:
+      - rssmonster-data:/app/data
+      - rssmonster-worker-health:/app/worker-health
+
+    init: true
+
+    security_opt:
+      - no-new-privileges:true
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - src/workers/checkCrawlWorkerHealth.js
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 2m
+
+  rssmonster-webhook-worker:
+    image: "${RSSMONSTER_IMAGE:-rssmonster/rssmonster:${RSSMONSTER_TAG:-latest}}"
+    container_name: rssmonster-webhook-worker
+    restart: unless-stopped
+    depends_on:
+      rssmonster:
+        condition: service_healthy
+        restart: true
+    command: [npm, run, start:webhook-worker]
+    environment:
+      NODE_ENV: production
+      DB_DIALECT: sqlite
+      DB_STORAGE: /app/data/rssmonster.sqlite
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+    volumes:
+      - rssmonster-data:/app/data
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  rssmonster-data:
+  rssmonster-worker-health:

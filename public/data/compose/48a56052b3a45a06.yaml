@@ -1,0 +1,31 @@
+services:
+  service:
+    build:
+      context: .
+      target: development
+    ports:
+      - "9000:9000" # development
+      - "8080:8080" # production
+      - "35729:35729" # livereload
+      - "5858:5858" # debugger
+      - "9229:9229" # profiler
+    working_dir: &PROJECT_ROOT_DIR /app
+    # linux permissions: we must explicitly run as the node user
+    user: node
+    volumes:
+      # mount working directory
+      # https://docs.docker.com/docker-for-mac/osxfs-caching/#delegated
+      # the container’s view is authoritative (permit delays before updates on the container appear in the host)
+      - .:/app:delegated
+
+    environment:
+      # Set your key in the .gitignored .env file.
+      GOOGLE_FONTS_API_KEY: ${GOOGLE_FONTS_API_KEY}
+
+    # Overrides default command so things don't shut down after the process ends.
+    command:
+      - /bin/sh
+      - -c
+      - |
+        git config --global --add safe.directory /app
+        while sleep 1000; do :; done

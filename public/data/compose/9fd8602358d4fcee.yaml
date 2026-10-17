@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  warracker:
+    build: .
+    ports:
+      - "8005:80"
+    volumes:
+      - ./uploads:/data/uploads
+      - ./backend/migrations:/app/migrations
+    environment:
+      - DB_HOST=warrackerdb
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=warranty_test
+      - DB_USER=warranty_user
+      - DB_PASSWORD=${DB_PASSWORD:-warranty_password}
+      - DB_ADMIN_USER=warracker_admin
+      - DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD:-change_this_password_in_production}
+      - SMTP_HOST=${SMTP_HOST:-localhost}
+      - SMTP_PORT=${SMTP_PORT:-1025}
+      - SMTP_USERNAME=${SMTP_USERNAME:-notifications@warracker.com}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      # if SMTP_FROM_ADDRESS isn't defined, then SMTP_USERNAME will be used - but that may not always work
+      - SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS:-}
+      - SECRET_KEY=${SECRET_KEY:-your_very_secret_flask_key_change_me} # For Flask session and JWT
+      # OIDC SSO Configuration (User needs to set these based on their OIDC provider)
+      - OIDC_PROVIDER_NAME=${OIDC_PROVIDER_NAME:-oidc}
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:-} # e.g., your_oidc_client_id
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-} # e.g., your_oidc_client_secret
+      - OIDC_ISSUER_URL=${OIDC_ISSUER_URL:-} # e.g., https://your-oidc-provider.com/auth/realms/your-realm
+      - OIDC_SCOPE=${OIDC_SCOPE:-openid email profile}
+      # URL settings (Important for redirects and email links)
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:8005} # Public URL of the frontend (matching the port mapping)
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:8005} # Public base URL of the application for links
+      # Apprise Notification Configuration
+      - APPRISE_ENABLED=${APPRISE_ENABLED:-false} # Enable/disable Apprise notifications
+      - APPRISE_URLS=${APPRISE_URLS:-} # Comma-separated list of notification URLs (e.g., "mailto://user:pass@gmail.com,discord://webhook_id/webhook_token")
+      - APPRISE_EXPIRATION_DAYS=${APPRISE_EXPIRATION_DAYS:-7,30} # Days before expiration to send notifications (comma-separated)
+      - APPRISE_NOTIFICATION_TIME=${APPRISE_NOTIFICATION_TIME:-09:00} # Time of day to send notifications (HH:MM format)
+      - APPRISE_TITLE_PREFIX=${APPRISE_TITLE_PREFIX:-[Warracker]} # Prefix for notification titles
+      - PYTHONUNBUFFERED=1
+      # Memory optimization settings
+      - WARRACKER_MEMORY_MODE=${WARRACKER_MEMORY_MODE:-optimized} # Options: optimized (default), ultra-light, performance
+      - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-16} # Reduced from 32MB default for memory efficiency
+      - NGINX_MAX_BODY_SIZE_VALUE=${NGINX_MAX_BODY_SIZE_VALUE:-16M} # Match upload limit
+    depends_on:
+      warrackerdb:
+        condition: service_healthy
+    restart: unless-stopped
+    command: >
+      bash -c "
+        exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+      "
+    
+  warrackerdb:
+    image: "postgres:15-alpine"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=warranty_test
+      - POSTGRES_USER=warranty_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-warranty_password}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

@@ -1,0 +1,24 @@
+services:
+  notediscovery:
+    build: .
+    container_name: notediscovery
+    ports:
+      - "8000:8000"
+    volumes:
+      # Required: Your notes
+      - ./data:/app/data
+      # Optional: Uncomment to customize (file/folder must exist with content!)
+      # - ./config.yaml:/app/config.yaml
+      # - ./themes:/app/themes
+      # - ./plugins:/app/plugins
+      # - ./locales:/app/locales
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 60s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+

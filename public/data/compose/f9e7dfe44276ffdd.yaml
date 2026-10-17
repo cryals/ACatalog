@@ -1,0 +1,44 @@
+# this is a demo of using the production cypht image
+
+services:
+  db:
+    image: mariadb:10
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=cypht
+      - MYSQL_USER=cypht
+      - MYSQL_PASSWORD=cypht_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ucypht", "-pcypht_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cypht:
+    image: cypht/cypht:2.12.2
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    environment:
+      - AUTH_USERNAME=admin
+      - AUTH_PASSWORD=admin
+      - DB_CONNECTION_TYPE=host
+      - DB_DRIVER=mysql
+      - DB_HOST=db
+      - DB_NAME=cypht
+      - DB_USER=cypht
+      - DB_PASS=cypht_password
+      - SESSION_TYPE=DB
+      - USER_CONFIG_TYPE=DB
+    volumes:
+      - ./data/log/nginx:/var/log/nginx
+      - ./data/log/php:/var/log/php
+      - ./data/log/supervisord:/var/log/supervisord
+      - ./data/fonts:/usr/local/share/cypht/site/fonts
+

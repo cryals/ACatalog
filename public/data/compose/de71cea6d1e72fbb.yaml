@@ -1,0 +1,61 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: genealogy-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - genealogy-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    container_name: genealogy-db
+    ports:
+      - "${DB_EXTERNAL_PORT:-3306}:3306"
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE:-genealogy}"
+      # NOTE: Empty root password is intentional for local development only.
+      # Never use MYSQL_ALLOW_EMPTY_PASSWORD in production.
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - ./.docker/data:/var/lib/mysql
+    networks:
+      - genealogy-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  vite:
+    image: node:25-alpine
+    container_name: genealogy-vite
+    working_dir: /app
+    ports:
+      - "${VITE_PORT:-5173}:5173"
+    volumes:
+      - .:/app
+    networks:
+      - genealogy-network
+    depends_on:
+      - app
+    command: sh -c "npm install && npm run dev"
+    stdin_open: true
+    tty: true
+
+networks:
+  genealogy-network:
+    driver: bridge

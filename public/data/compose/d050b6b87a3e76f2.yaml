@@ -1,0 +1,48 @@
+volumes:
+  postgres-data:
+    driver: local
+    name: ctk_postgres_data
+
+services:
+  postgres:
+    container_name: ctk-postgres
+    image: postgres:11
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - ctk-dev
+
+  backend:
+    container_name: ctk-server
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./services/backend/Dockerfile
+    image: omhq/ctk-server:0.0.1
+    working_dir: /app
+    depends_on:
+      - postgres
+    volumes:
+      - ./services/backend/src:/app/
+      - ./services/backend/alembic:/alembic
+      - ./services/backend/alembic.ini:/alembic.ini
+    ports:
+      - "9001:9001"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - ctk-dev
+
+networks:
+  ctk-dev:
+    driver: bridge

@@ -1,0 +1,22 @@
+# Minimal getting-started setup: run "docker compose up -d", then open
+# localhost:3001 (or http://<server-ip>:3001 from any device on your network).
+# Hardened variants (log rotation, healthchecks, Traefik reverse proxy
+# with HTTPS) live in docker/compose/ - see docker/compose/README.md.
+services:
+  imgcompress:
+    image: karimz1/imgcompress:latest
+    container_name: imgcompress
+    restart: always
+    ports:
+      - "3001:5000"
+    environment:
+      # Set to true to remove the mascot and enable a minimal, mascot-free UI
+      - DISABLE_LOGO=false
+      # Set to true to disable the storage management features (e.g., for your users to not see all the files)
+      - DISABLE_STORAGE_MANAGEMENT=false
+    healthcheck:
+      test: ["CMD", "python", "/container/healthcheck.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

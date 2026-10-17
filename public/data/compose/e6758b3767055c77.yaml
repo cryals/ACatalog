@@ -1,0 +1,386 @@
+# =============================================================================
+# usulnet — Docker Management Platform
+# =============================================================================
+#
+# Production-ready Docker Compose configuration.
+#
+# Quick start:
+#   1. cp .env.example .env
+#   2. Edit .env (change ALL passwords and secrets)
+#   3. docker compose up -d
+#   4. Open https://localhost:7443
+#   5. Login with: admin / usulnet
+#
+# With agent (multi-node):
+#   docker compose --profile agent up -d
+#
+# Requirements:
+#   - Docker Engine 24+ with Compose v2
+#   - 2 GB RAM minimum (4 GB recommended)
+#   - Ports 8080 (HTTP) and 7443 (HTTPS) available
+#
+# Image registries:
+#   - Docker Hub:  usulnet/usulnet          (default)
+#   - GHCR:        ghcr.io/usulnet/usulnet  (alternative)
+#
+# Network architecture:
+#   - usulnet-backend: Internal network for PostgreSQL, Redis, NATS (not exposed)
+#   - usulnet-frontend: Network for the application and web-facing services
+#
+# Documentation: https://docs.usulnet.com
+# Source:        https://github.com/fr4nsys/usulnet
+# License:       AGPL-3.0 (Community Edition)
+#
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # usulnet — Application Server
+  # ---------------------------------------------------------------------------
+  usulnet:
+    image: usulnet/usulnet:${USULNET_VERSION:-latest}
+    container_name: usulnet
+    restart: unless-stopped
+    ports:
+      # Port 8080 (HTTP) is kept internal for health checks and HTTP→HTTPS redirect.
+      # Uncomment the line below only if you need direct HTTP access.
+      # - "${USULNET_HTTP_PORT:-8080}:8080"  # HTTP (not exposed by default)
+      - "${USULNET_HTTPS_PORT:-7443}:7443"   # HTTPS (auto-TLS, default entry point)
+    volumes:
+      # Docker socket for container management (required)
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Persistent application data (backups, PKI certs, license, etc.)
+      - usulnet_data:/app/data
+      # Trivy vulnerability scanner cache
+      - trivy_cache:/var/lib/usulnet/trivy
+    # Host terminal support (nsenter into host PID namespace)
+    pid: "host"
+    cap_add:
+      - SYS_PTRACE    # For host process inspection
+      - SYS_ADMIN      # For nsenter into host namespaces
+    environment:
+      # --- Operation mode ---
+      # standalone: Single host, all services local
+      # master: Multi-host mode, accepts agent connections
+      - USULNET_MODE=${USULNET_MODE:-standalone}
+
+      # --- Infrastructure connections ---
+      # URLs stay plain by default. When USULNET_TLS_LOCAL_SERVICES=true,
+      # the application rewires the schemes at startup (postgres
+      # sslmode=require, rediss://, NATS with TLS).
+      - USULNET_DATABASE_URL=postgres://${DB_USER:-usulnet}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-usulnet}
+      - USULNET_REDIS_URL=redis://redis:6379
+      - USULNET_NATS_URL=nats://nats:4222
+
+      # --- Optional TLS for in-cluster Postgres / Redis / NATS ---
+      # Opt-in only. When unset/false, services run on plain TCP on the
+      # private usulnet-backend network (defaults unchanged). When true,
+      # the matching entrypoint scripts in ./deploy/tls/ generate
+      # self-signed ECDSA P-256 certs and the binary rewrites the URL
+      # schemes to use TLS.
+      - USULNET_TLS_LOCAL_SERVICES=${USULNET_TLS_LOCAL_SERVICES:-false}
+
+      # --- Security (MUST be changed in production) ---
+      - USULNET_JWT_SECRET=${JWT_SECRET}
+      - USULNET_ENCRYPTION_KEY=${ENCRYPTION_KEY}
+
+      # --- Host terminal (web terminal into the Docker host) ---
+      - HOST_TERMINAL_ENABLED=${HOST_TERMINAL_ENABLED:-true}
+      - HOST_TERMINAL_USER=${HOST_TERMINAL_USER:-nobody}
+      - HOST_TERMINAL_SHELL=/bin/bash
+
+      # --- RDP Web Access (Apache Guacamole) ---
+      - GUACD_ENABLED=${GUACD_ENABLED:-true}
+      - GUACD_HOST=${GUACD_HOST:-guacd}
+      - GUACD_PORT=${GUACD_PORT:-4822}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "2.0"
+        reservations:
+          memory: 256M
+          cpus: "0.25"
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - usulnet-frontend
+      - usulnet-backend
+
+  # ---------------------------------------------------------------------------
+  # usulnet Agent — Remote Node (optional, enable with --profile agent)
+  # ---------------------------------------------------------------------------
+  usulnet-agent:
+    image: usulnet/usulnet-agent:${USULNET_VERSION:-latest}
+    container_name: usulnet-agent
+    restart: unless-stopped
+    profiles:
+      - agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - agent_data:/app/data
+    environment:
+      - USULNET_GATEWAY_URL=nats://nats:4222
+      - USULNET_AGENT_TOKEN=${AGENT_TOKEN:-change-me}
+    depends_on:
+      nats:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "test", "-f", "/app/data/agent.pid"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+        reservations:
+          memory: 64M
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+    networks:
+      - usulnet-backend
+
+  # ---------------------------------------------------------------------------
+  # Apache Guacamole Daemon — RDP/VNC Web Gateway
+  # ---------------------------------------------------------------------------
+  guacd:
+    image: guacamole/guacd:1.5.5
+    container_name: usulnet-guacd
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 4822 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+        reservations:
+          memory: 64M
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+    networks:
+      - usulnet-frontend
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 16 — Primary Database
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: usulnet-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-usulnet}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-usulnet}
+      # Performance tuning for containerized PostgreSQL
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      # Toggle TLS bootstrap inside the entrypoint. Off by default.
+      USULNET_TLS_LOCAL_SERVICES: ${USULNET_TLS_LOCAL_SERVICES:-false}
+    # The entrypoint script is a dispatcher: when
+    # USULNET_TLS_LOCAL_SERVICES is unset or false it execs the stock
+    # postgres entrypoint with the tuning args below and behaves
+    # exactly like before. When the flag is true it generates a
+    # self-signed ECDSA P-256 cert in /var/lib/postgresql/tls/ and
+    # re-execs with `-c ssl=on` prepended.
+    entrypoint:
+      - "/usulnet-tls/postgres-entrypoint.sh"
+    command:
+      - "-c"
+      - "shared_buffers=128MB"
+      - "-c"
+      - "work_mem=8MB"
+      - "-c"
+      - "maintenance_work_mem=64MB"
+      - "-c"
+      - "effective_cache_size=256MB"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "wal_buffers=4MB"
+      - "-c"
+      - "checkpoint_completion_target=0.9"
+      - "-c"
+      - "log_min_duration_statement=1000"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deploy/tls:/usulnet-tls:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-usulnet} -d ${DB_NAME:-usulnet}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+        reservations:
+          memory: 128M
+    logging:
+      driver: json-file
+      options:
+        max-size: "30m"
+        max-file: "3"
+    networks:
+      - usulnet-backend
+    # Port NOT exposed to host by default for security.
+    # Access via: docker exec -it usulnet-postgres psql -U usulnet
+
+  # ---------------------------------------------------------------------------
+  # Redis 8 — Sessions, Cache & JWT Blacklist
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:8-alpine
+    container_name: usulnet-redis
+    restart: unless-stopped
+    environment:
+      USULNET_TLS_LOCAL_SERVICES: ${USULNET_TLS_LOCAL_SERVICES:-false}
+    # The entrypoint script is a dispatcher: when
+    # USULNET_TLS_LOCAL_SERVICES is unset or false it execs the stock
+    # redis entrypoint with the args below and behaves exactly like
+    # before (plain TCP on 6379). When the flag is true it generates a
+    # self-signed cert in /tls/ and starts redis-server with TLS bound
+    # on 6379 — plain TCP is disabled.
+    entrypoint:
+      - "/usulnet-tls/redis-entrypoint.sh"
+    command:
+      - "redis-server"
+      - "--appendonly"
+      - "yes"
+      - "--maxmemory"
+      - "256mb"
+      - "--maxmemory-policy"
+      - "allkeys-lru"
+      - "--save"
+      - "60"
+      - "1000"
+      - "--tcp-backlog"
+      - "511"
+    volumes:
+      - redis_data:/data
+      - ./deploy/tls:/usulnet-tls:ro
+    healthcheck:
+      # When TLS is on, redis-cli speaks plaintext on 6379 by default
+      # and PING fails. Skip the cipher check by using TCP probe.
+      test: ["CMD-SHELL", "redis-cli ping 2>/dev/null || nc -z localhost 6379"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+          cpus: "0.5"
+        reservations:
+          memory: 64M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - usulnet-backend
+
+  # ---------------------------------------------------------------------------
+  # NATS 2.12 — Messaging & Agent Communication (JetStream)
+  # ---------------------------------------------------------------------------
+  nats:
+    image: nats:2.12-alpine
+    container_name: usulnet-nats
+    restart: unless-stopped
+    environment:
+      USULNET_TLS_LOCAL_SERVICES: ${USULNET_TLS_LOCAL_SERVICES:-false}
+    # The entrypoint script is a dispatcher: when
+    # USULNET_TLS_LOCAL_SERVICES is unset or false it execs nats-server
+    # against the mounted nats-server.conf (plain TCP on 4222). When
+    # the flag is true it generates a self-signed cert in /tls/,
+    # appends a tls{} block to a copy of the config, and execs
+    # nats-server against the effective copy.
+    entrypoint:
+      - "/usulnet-tls/nats-entrypoint.sh"
+    volumes:
+      - nats_data:/data
+      - ./deploy/nats-server.conf:/etc/nats/nats-server.conf:ro
+      - ./deploy/tls:/usulnet-tls:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+        reservations:
+          memory: 64M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - usulnet-backend
+
+# =============================================================================
+# Volumes — Named and persistent
+# =============================================================================
+volumes:
+  usulnet_data:
+    name: usulnet_data
+  trivy_cache:
+    name: usulnet_trivy_cache
+  postgres_data:
+    name: usulnet_postgres_data
+  redis_data:
+    name: usulnet_redis_data
+  nats_data:
+    name: usulnet_nats_data
+  agent_data:
+    name: usulnet_agent_data
+
+# =============================================================================
+# Networks — Isolated backend and frontend
+# =============================================================================
+networks:
+  # Backend network: PostgreSQL, Redis, NATS (not exposed to host)
+  usulnet-backend:
+    name: usulnet-backend
+    driver: bridge
+    internal: true
+  # Frontend network: usulnet app, guacd (web-facing services)
+  usulnet-frontend:
+    name: usulnet-frontend
+    driver: bridge

@@ -1,0 +1,64 @@
+services:
+  app:
+    image: cfu288/mere-medical:latest
+    ports:
+      - '4200:8080'
+    restart: unless-stopped
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - ONPATIENT_CLIENT_ID=${ONPATIENT_CLIENT_ID}
+      - ONPATIENT_CLIENT_SECRET=${ONPATIENT_CLIENT_SECRET}
+      - EPIC_CLIENT_ID=${EPIC_CLIENT_ID}
+      - EPIC_CLIENT_ID_DSTU2=${EPIC_CLIENT_ID_DSTU2}
+      - EPIC_CLIENT_ID_R4=${EPIC_CLIENT_ID_R4}
+      - EPIC_SANDBOX_CLIENT_ID=${EPIC_SANDBOX_CLIENT_ID}
+      - EPIC_SANDBOX_CLIENT_ID_DSTU2=${EPIC_SANDBOX_CLIENT_ID_DSTU2}
+      - EPIC_SANDBOX_CLIENT_ID_R4=${EPIC_SANDBOX_CLIENT_ID_R4}
+      - CERNER_CLIENT_ID=${CERNER_CLIENT_ID}
+      - VERADIGM_CLIENT_ID=${VERADIGM_CLIENT_ID}
+      - VA_CLIENT_ID=${VA_CLIENT_ID}
+      - HEALOW_CLIENT_ID=${HEALOW_CLIENT_ID}
+      - HEALOW_CLIENT_SECRET=${HEALOW_CLIENT_SECRET}
+      - ATHENA_CLIENT_ID=${ATHENA_CLIENT_ID}
+      - ATHENA_SANDBOX_CLIENT_ID=${ATHENA_SANDBOX_CLIENT_ID}
+      - NEXTGEN_CLIENT_ID=${NEXTGEN_CLIENT_ID}
+      - NEXTGEN_CLIENT_SECRET=${NEXTGEN_CLIENT_SECRET}
+      - PUBLIC_URL=${PUBLIC_URL}
+  docs:
+    image: cfu288/mere-medical-docs:latest
+    ports:
+      - '4202:8080'
+    restart: unless-stopped
+    init: true
+    security_opt:
+      - no-new-privileges:true
+  demo:
+    image: cfu288/mere-medical:latest
+    ports:
+      - '3366:8080'
+    restart: unless-stopped
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - ONPATIENT_CLIENT_ID=${ONPATIENT_CLIENT_ID}
+      - ONPATIENT_CLIENT_SECRET=${ONPATIENT_CLIENT_SECRET}
+      - EPIC_CLIENT_ID=${EPIC_CLIENT_ID}
+      - EPIC_CLIENT_ID_DSTU2=${EPIC_CLIENT_ID_DSTU2}
+      - EPIC_CLIENT_ID_R4=${EPIC_CLIENT_ID_R4}
+      - EPIC_SANDBOX_CLIENT_ID=${EPIC_SANDBOX_CLIENT_ID}
+      - EPIC_SANDBOX_CLIENT_ID_DSTU2=${EPIC_SANDBOX_CLIENT_ID_DSTU2}
+      - EPIC_SANDBOX_CLIENT_ID_R4=${EPIC_SANDBOX_CLIENT_ID_R4}
+      - CERNER_CLIENT_ID=${CERNER_CLIENT_ID}
+      - VERADIGM_CLIENT_ID=${VERADIGM_CLIENT_ID}
+      - VA_CLIENT_ID=${VA_CLIENT_ID}
+      - HEALOW_CLIENT_ID=${HEALOW_CLIENT_ID}
+      - HEALOW_CLIENT_SECRET=${HEALOW_CLIENT_SECRET}
+      - ATHENA_CLIENT_ID=${ATHENA_CLIENT_ID}
+      - ATHENA_SANDBOX_CLIENT_ID=${ATHENA_SANDBOX_CLIENT_ID}
+      - NEXTGEN_CLIENT_ID=${NEXTGEN_CLIENT_ID}
+      - NEXTGEN_CLIENT_SECRET=${NEXTGEN_CLIENT_SECRET}
+      - PUBLIC_URL=${PUBLIC_URL}
+      - IS_DEMO=enabled

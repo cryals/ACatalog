@@ -1,0 +1,87 @@
+#For privacy reasons please change all data with your personal one known only by you!
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo_password_here
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    restart: always
+    command: ["redis-server", "--requirepass", "redis_password_here"]
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_USERNAME: default
+      REDIS_PASSWORD: redis_password_here
+    volumes:
+      - redis_data:/data
+
+  producer:
+    build: ./producer
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DEV_MODE=false
+      - EMAIL_TRPC_URL=none
+      - MONGO_CONNECTION_STRING=mongodb://root:mongo_password_here@mongo:27017/Litlyx?authSource=admin
+      - STREAM_NAME=LITLYX_STREAM
+      - REDIS_URL=redis://redis:6379
+      - REDIS_USERNAME=default
+      - REDIS_PASSWORD=redis_password_here
+    depends_on:
+      - mongo
+      - redis
+
+  consumer:
+    build: ./consumer
+    environment:
+      - DEV_MODE=false
+      - EMAIL_TRPC_URL=none
+      - EMAIL_SECRET=none
+      - MONGO_CONNECTION_STRING=mongodb://root:mongo_password_here@mongo:27017/Litlyx?authSource=admin
+      - STREAM_NAME=LITLYX_STREAM
+      - REDIS_URL=redis://redis:6379
+      - REDIS_USERNAME=default
+      - REDIS_PASSWORD=redis_password_here
+      - GROUP_NAME=DATABASE
+    depends_on:
+      - mongo
+      - redis
+
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NUXT_LICENSE_KEY=YOUR_LICENSE_KEY_HERE
+      - NUXT_MONGO_CONNECTION_STRING=mongodb://root:mongo_password_here@mongo:27017/Litlyx?authSource=admin
+      - NUXT_REDIS_URL=redis://redis:6379
+      - NUXT_REDIS_USERNAME=default
+      - NUXT_REDIS_PASSWORD=redis_password_here
+      - NUXT_BASE_URL=http://127.0.0.1:3000
+      - NUXT_SESSION_PASSWORD=jwt_secret_here_for_authentication
+      - NUXT_ADMIN_EMAIL=test@admin.admin
+      - NUXT_ADMIN_PASSWORD=passwordadmin
+      - NUXT_PUBLIC_SELFHOSTED=true
+      - NUXT_PUBLIC_AI_ENABLED=false # change to TRUE if you've provided AI keys down below
+      # NUXT_AI_ORG=your_openai_org_id
+      # NUXT_AI_PROJECT=your_openai_project_id
+      # NUXT_AI_KEY=your_openai_api_key
+
+    depends_on:
+      - mongo
+      - redis
+      - producer
+      - consumer
+
+volumes:
+  mongo_data:
+  redis_data:

@@ -1,0 +1,93 @@
+# Nimbus Self-Hosted Dashboard - Unified Deployment
+#
+# Quick Start - No configuration required!
+#   docker-compose up -d
+#
+# That's it! Access Nimbus at http://localhost:3000
+#
+# Optional: Create a .env file to customize:
+#   DB_PASSWORD=your-custom-password    # Default: nimbus-default-password
+#   JWT_SECRET=your-custom-secret       # Auto-generated if not set
+#   ENCRYPTION_KEY=your-base64-key      # Auto-generated if not set (openssl rand -base64 32)
+#
+# Auto-generated secrets are stored in the uploads volume. Back it up: without
+# ENCRYPTION_KEY, saved integration credentials can't be read.
+#
+# Coming from the old separate backend/frontend containers? See docs/MIGRATION.md
+
+services:
+  db:
+    image: turboot/nimbus-postgres:18
+    container_name: nimbus-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nimbus
+      POSTGRES_USER: nimbus
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-nimbus-default-password}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nimbus -d nimbus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nimbus-network
+
+  nimbus:
+    image: turboot/nimbus:latest
+    container_name: nimbus
+    restart: unless-stopped
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:-nimbus-default-password}
+      JWT_SECRET: ${JWT_SECRET:-}
+      # Encrypts integration credentials, auto-generated if empty:
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-}
+      DB_HOST: db
+      # Public URL for password reset emails and OAuth redirects:
+      # FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      # SMTP for password reset emails (or configure via Admin Settings):
+      # SMTP_HOST: ${SMTP_HOST:-}
+      # SMTP_PORT: ${SMTP_PORT:-}
+      # SMTP_USERNAME: ${SMTP_USERNAME:-}
+      # SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      # SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      # SMTP_FROM_NAME: ${SMTP_FROM_NAME:-}
+      # SMTP_TLS_MODE: ${SMTP_TLS_MODE:-}
+      # SMTP_TLS_SKIP_VERIFY: ${SMTP_TLS_SKIP_VERIFY:-}
+      # Generic OIDC (Keycloak, Authentik, Dex, etc.):
+      # OIDC_ISSUER_URL: ${OIDC_ISSUER_URL:-}
+      # OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:-}
+      # OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:-}
+      # OIDC_REDIRECT_URL: ${OIDC_REDIRECT_URL:-}
+      # Optional overrides:
+      # DB_PORT: 5432
+      # DB_USER: nimbus
+      # DB_NAME: nimbus
+      # Docker integration over the socket (mount it below too):
+      # DOCKER_SOCKET: /var/run/docker.sock
+    volumes:
+      - uploads_data:/app/backend/uploads
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - nimbus-network
+
+volumes:
+  postgres_data:
+  uploads_data:
+
+networks:
+  nimbus-network:
+    driver: bridge

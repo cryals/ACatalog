@@ -1,0 +1,23 @@
+services:
+  bindery:
+    image: dinkeyes/bindery:latest
+    container_name: bindery
+    ports:
+      - "5000:5000"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      # - SKIP_CHOWN=true   # uncomment for NFS/SMB volumes the container can't chown
+    volumes:
+      - ./config:/app/config
+      - ./books_in:/Books_in
+      - ./books_out:/Books_out
+      - ./comics_in:/Comics_in
+      - ./comics_out:/Comics_out
+      - ./comics_raw:/Comics_raw
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

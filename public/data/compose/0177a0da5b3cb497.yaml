@@ -1,0 +1,53 @@
+services:
+
+  crowdsec:
+    image: crowdsecurity/crowdsec:v1.8.1
+    container_name: crowdsec
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9876:8080 # http api for local fw bouncers
+      - 127.0.0.1:6060:6060 # metrics endpoint for prometheus
+    expose:
+      - 8080 # http api for bouncers
+      - 6060 # metrics endpoint for prometheus
+      - 7422 # appsec waf endpoint
+    volumes:
+      # crowdsec container data
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/crowdsec/data:/var/lib/crowdsec/data
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/crowdsec/etc:/etc/crowdsec
+      # log bind mounts into crowdsec
+      - /var/log/auth.log:/var/log/auth.log:ro
+      - /var/log/syslog:/var/log/syslog:ro
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/traefik/logs:/var/log/traefik:ro
+    environment:
+      - GID=1000
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve crowdsecurity/base-http-scenarios crowdsecurity/sshd crowdsecurity/linux crowdsecurity/appsec-crs crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-bot-challenge
+      #- BOUNCER_KEY_<NAME>=${CROWDSEC-BOUNCER-API-TOKEN:-FIXME-LAPI-KEY} # pre-supply a bouncer with api key
+      #- CUSTOM_HOSTNAME=crowdsec-host123
+    #security_opt:
+    #  - no-new-privileges=true
+    #networks:
+    #  - proxy
+
+  # - You can enable the below service to enhance crowdsec's blocklist
+  # - More info here: https://github.com/wolffcatskyy/crowdsec-blocklist-import
+  # ----------------------------------------------------------------------------
+  #crowdsec-blocklist-import:
+  #  image: ghcr.io/wolffcatskyy/crowdsec-blocklist-import:2.1.0
+  #  container_name: crowdsec-blocklist-import
+  #  restart: "no"
+  #  environment:
+  #    # setup: 
+  #    # docker exec -it crowdsec cscli machines add blocklist-importer --password secretpassphrase -f blocklist-importer
+  #    - CROWDSEC_LAPI_URL=http://crowdsec:8080
+  #    - CROWDSEC_MACHINE_ID=blocklist-importer
+  #    - CROWDSEC_MACHINE_PASSWORD=secretpassphrase
+  #    - DECISION_DURATION=24h
+  #    - TZ=Europe/Berlin
+  #    - TELEMETRY_ENABLED=false
+  #  #networks:
+  #  #  - proxy
+
+#networks:
+#  proxy:
+#    external: true

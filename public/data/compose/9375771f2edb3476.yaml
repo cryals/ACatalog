@@ -1,0 +1,13 @@
+---
+# https://ghcr.io/agentgateway/agentgateway
+services:
+  agentgateway:
+    container_name: agentgateway
+    env_file:
+      - path: ./.env
+        required: false
+    image: ghcr.io/agentgateway/agentgateway:latest
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    restart: unless-stopped

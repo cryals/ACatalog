@@ -1,0 +1,89 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+    stdin_open: true
+    environment:
+      DATABASE_HOST: ${DOCKER_COMPOSE_APP_DATABASE_HOST:-postgres}
+      DATABASE_NAME: ${DOCKER_COMPOSE_APP_DATABASE_NAME:-mindwendel-dev}
+      DATABASE_PORT: ${DOCKER_COMPOSE_POSTGRES_PORT:-5432}
+      DATABASE_SSL: ${DOCKER_COMPOSE_APP_DATABASE_SSL:-false}
+      DATABASE_USER_PASSWORD: ${DOCKER_COMPOSE_APP_DATABASE_USER_PASSWORD:-mindwendel-user-password}
+      DATABASE_USER: ${DOCKER_COMPOSE_APP_DATABASE_USER:-mindwendel-user}
+      MW_DEFAULT_LOCALE: ${DOCKER_COMPOSE_APP_MW_DEFAULT_LOCALE:-en}
+      MW_FEATURE_BRAINSTORMING_REMOVAL_AFTER_DAYS: ${DOCKER_COMPOSE_APP_MW_FEATURE_BRAINSTORMING_REMOVAL_AFTER_DAYS:-30}
+      MW_FEATURE_IDEA_FILE_UPLOAD: ${DOCKER_COMPOSE_APP_MW_FEATURE_IDEA_FILE_UPLOAD:-true}
+      MW_AI_ENABLED: ${DOCKER_COMPOSE_APP_MW_AI_ENABLED:-false}
+      MW_AI_API_KEY: ${DOCKER_COMPOSE_APP_MW_AI_API_KEY}
+      MW_AI_API_BASE_URL: ${DOCKER_COMPOSE_APP_MW_AI_API_BASE_URL}
+      MW_AI_API_PROVIDER: ${DOCKER_COMPOSE_APP_MW_AI_PROVIDER}
+      MW_AI_API_MODEL: ${DOCKER_COMPOSE_APP_MW_AI_MODEL}
+      MW_AI_TOKEN_LIMIT_DAILY: ${DOCKER_COMPOSE_APP_MW_AI_TOKEN_LIMIT_DAILY}
+      MW_AI_TOKEN_LIMIT_HOURLY: ${DOCKER_COMPOSE_APP_MW_AI_TOKEN_LIMIT_HOURLY}
+      MW_AI_TOKEN_RESET_HOUR: ${DOCKER_COMPOSE_APP_MW_AI_TOKEN_RESET_HOUR:-0}
+      # This is an example secret key base that can be use in development
+      # NOTE: There are multiple commands you can use to generate a secret key base. Pick one command you like, e.g.:
+      # - `date +%s | sha256sum | base64 | head -c 64 ; echo`
+      # - `date +%s | shasum -a 256 | base64 | head -c 64 ; echo`
+      # !!ATTENTION: DO NOT USE THIS FOR PRODUCTION!!
+      SECRET_KEY_BASE: ${DOCKER_COMPOSE_APP_SECRET_KEY_BASE:-NDliN2UzNjAzMTlmMWIxODZhNzRjMDIzMDY2OTQ5N2Q4NGU3MjUxZjM0YmI0ZGY1}
+      TEST_DATABASE_HOST: ${DOCKER_COMPOSE_APP_TEST_DATABASE_HOST:-postgres}
+      TEST_DATABASE_NAME: ${DOCKER_COMPOSE_APP_TEST_DATABASE_NAME:-mindwendel-test}
+      TEST_DATABASE_USER_PASSWORD: ${DOCKER_COMPOSE_APP_TEST_DATABASE_USER_PASSWORD:-mindwendel-user-password}
+      TEST_DATABASE_USER: ${DOCKER_COMPOSE_APP_TEST_DATABASE_USER:-mindwendel-user}
+      URL_HOST: ${DOCKER_COMPOSE_APP_URL_HOST:-localhost}
+      URL_PORT: ${DOCKER_COMPOSE_APP_URL_PORT:-4000}
+      URL_SCHEME: ${DOCKER_COMPOSE_APP_URL_SCHEME:-http}
+      MW_ENDPOINT_HTTP_PORT: ${DOCKER_COMPOSE_APP_MW_ENDPOINT_HTTP_PORT:-4000}
+      # Attention: Please note that you have to add rustfs in etc/hosts to make the links of signed urls work:
+      # Example: 127.0.0.1 rustfs
+
+      OBJECT_STORAGE_BUCKET: mindwendel
+      OBJECT_STORAGE_SCHEME: "http://"
+      OBJECT_STORAGE_HOST: rustfs
+      OBJECT_STORAGE_PORT: 9000
+      OBJECT_STORAGE_REGION: local
+      OBJECT_STORAGE_USER: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_USER:-rustfsadmin}
+      OBJECT_STORAGE_PASSWORD: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_PASSWORD:-rustfsadmin}
+      VAULT_ENCRYPTION_KEY_BASE64: ${DOCKER_COMPOSE_APP_VAULT_ENCRYPTION_KEY_BASE64}
+    ports:
+      - "${DOCKER_COMPOSE_APP_PORT_PUBLISHED:-4000}:${DOCKER_COMPOSE_APP_PORT_TARGET:-4000}"
+    depends_on:
+      - postgres
+      - rustfs
+    volumes:
+      - ./:/home/elixir/app
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    environment:
+      RUSTFS_ACCESS_KEY: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_USER:-rustfsadmin}
+      RUSTFS_SECRET_KEY: ${DOCKER_COMPOSE_APP_OBJECT_STORAGE_PASSWORD:-rustfsadmin}
+      RUSTFS_CONSOLE_USERNAME: ${DOCKER_COMPOSE_RUSTFS_USER:-rustfsadmin}
+      RUSTFS_CONSOLE_PASSWORD: ${DOCKER_COMPOSE_RUSTFS_PASSWORD:-rustfsadmin}
+      RUSTFS_REGION: local
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - rustfs_data:/data
+
+  postgres:
+    image: postgres:15
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      # IMPORTANT: Do not use these credentials in production. Please use other credentials when deploying this in production
+      POSTGRES_DB: ${DOCKER_COMPOSE_POSTGRES_DB:-mindwendel-dev}
+      POSTGRES_USER: ${DOCKER_COMPOSE_POSTGRES_USER:-mindwendel-user}
+      POSTGRES_PASSWORD: ${DOCKER_COMPOSE_POSTGRES_PASSWORD:-mindwendel-user-password}
+      POSTGRES_PORT: ${DOCKER_COMPOSE_POSTGRES_PORT:-5432}
+    ports:
+      - "127.0.0.1:${DOCKER_COMPOSE_POSTGRES_PORT_PUBLISHED:-5432}:${DOCKER_COMPOSE_POSTGRES_PORT:-5432}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  rustfs_data:
+  deps:

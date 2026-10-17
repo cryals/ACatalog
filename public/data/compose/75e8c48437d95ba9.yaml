@@ -1,0 +1,65 @@
+services:
+  php:
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+      cache_from:
+        - php:8.2-fpm
+    env_file:
+      - .env
+    depends_on:
+      - database
+    volumes:
+      - ./:/var/www/bolt
+    working_dir: /var/www/bolt
+
+  database:
+    image: mariadb:10
+    env_file:
+      - .env
+    ports:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD:-bolt}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD:-bolt}
+      MYSQL_USER: ${DATABASE_USER:-bolt}
+      MYSQL_DATABASE: ${DATABASE_NAME:-bolt}
+      MYSQL_INITDB_SKIP_TZINFO: 0
+
+  web:
+    image: nginx:alpine
+    ports:
+      - 8088:80
+    depends_on:
+      - php
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./:/var/www/bolt
+      - ./var/log:/var/log/nginx
+    entrypoint:
+      - sh
+      - /etc/nginx/conf.d/entrypoint.sh
+
+  node:
+    image: node:16.13.0
+    volumes:
+      - ./:/home/node/app
+    working_dir: /home/node/app
+    user: node
+    command:
+      - ./node_modules/.bin/encore
+      - dev
+      - --watch
+
+  padm:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8099:80
+    links:
+      - database:db
+
+#  maildev:
+#    image: djfarrelly/maildev
+#    container_name: sf4_maildev
+#    ports:
+#      - 8089:80

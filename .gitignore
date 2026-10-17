@@ -1,0 +1,15 @@
+node_modules/
+raw/
+dist/
+.vite/
+coverage/
+output/
+.playwright-cli/
+.env
+.env.*
+!.env.example
+data/cache/github.json
+data/cache/icon-errors.json
+data/cache/deployment-scan.json
+public/data/icons/
+npm-debug.log*

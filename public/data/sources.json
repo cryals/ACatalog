@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-10-14T19:33:00.265Z",
+  "sourceCount": 6,
+  "sources": [
+    {
+      "repoName": "awesome-compose",
+      "repoUrl": "https://github.com/docker/awesome-compose.git",
+      "commitSha": "30f4b7f6a6c3b0c0ecf4d4efb0de203c48d11562",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:50:20.378Z",
+      "directories": 188,
+      "readmes": 53,
+      "composeFiles": 39
+    },
+    {
+      "repoName": "awesome-compose1",
+      "repoUrl": "https://github.com/jetsung/awesome-compose.git",
+      "commitSha": "96107decfec42ad61ee7bc02084a5be4a2b5a9f1",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:48:33.517Z",
+      "directories": 113,
+      "readmes": 97,
+      "composeFiles": 195
+    },
+    {
+      "repoName": "awesome-docker",
+      "repoUrl": "https://github.com/veggiemonk/awesome-docker.git",
+      "commitSha": "83cf001f32514ad310bae06483e6dd4522abd329",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:49:05.180Z",
+      "directories": 20,
+      "readmes": 1,
+      "composeFiles": 0
+    },
+    {
+      "repoName": "awesome-selfhost-docker",
+      "repoUrl": "https://github.com/hotheadhacker/awesome-selfhost-docker.git",
+      "commitSha": "561c9d044ef82a7e9efe83ab2bf05ca6a08c4dfe",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:48:22.280Z",
+      "directories": 6,
+      "readmes": 1,
+      "composeFiles": 0
+    },
+    {
+      "repoName": "awesome-selfhosted",
+      "repoUrl": "https://github.com/awesome-selfhosted/awesome-selfhosted.git",
+      "commitSha": "b8a940520736dea7e0cfceb5120779dd290e0368",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:48:52.780Z",
+      "directories": 3,
+      "readmes": 1,
+      "composeFiles": 0
+    },
+    {
+      "repoName": "Compose-Examples",
+      "repoUrl": "https://github.com/Haxxnet/Compose-Examples.git",
+      "commitSha": "f56dde06aa19f5968684a1cd6c51b1f94ee895a5",
+      "sourcePath": ".",
+      "importedAt": "2026-10-14T19:33:00.265Z",
+      "clonedAt": "2026-10-14T15:48:46.205Z",
+      "directories": 175,
+      "readmes": 161,
+      "composeFiles": 168
+    }
+  ]
+}

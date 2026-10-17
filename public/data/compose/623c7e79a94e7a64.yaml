@@ -1,0 +1,82 @@
+services:
+
+  # Isso server should always reflect production image
+  isso-server:
+    image: isso:latest
+    container_name: isso-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # No need to set command/entrypoint, image already provides both
+    # For reference:
+    #command: /isso/bin/isso run  # standalone
+    # Using both ENTRYPOINT and CMD:
+    #entrypoint: /isso/bin/gunicorn -b 0.0.0.0:8080 -w 4 --preload --worker-tmp-dir /dev/shm
+    #command: isso.run
+    environment:
+      ISSO_SETTINGS: "/config/isso-dev.cfg"
+      ISSO_ENDPOINT: "http://isso-dev.local:8080"
+    healthcheck:
+      # Double $$ for parsing vars inside CMD: https://stackoverflow.com/a/54989793
+      # Debug with 'docker inspect --format "{{json .State.Health }}" isso-server | jq'
+      test: wget --no-verbose --tries=1 --spider $$ISSO_ENDPOINT/info || exit 1
+      interval: 1s  # time before first check and between subsequent checks
+      retries: 10
+      start_period: 10s
+      timeout: 10s
+    # If needed, production docker image can also be exposed to host for
+    # non-docker unit/integration testing
+    ports:
+      - 127.0.0.1:8080:8080
+    # Expose port 8080 to other containerized services, not to host machine:
+    expose:
+      - 8080
+    networks:
+      test-net:
+        # Also make available under http://isso-dev.local and localhost:
+        aliases:
+        - isso-dev.local
+        - localhost
+    volumes:
+      - ./db:/db/  # unused by default isso-dev.cfg
+      - type: bind
+        source: ./contrib/isso-dev.cfg
+        target: /config/isso-dev.cfg
+        read_only: true
+
+  # Jest and puppeteer end-to-end integration test runner
+  isso-client:
+    image: isso-js-testbed
+    container_name: isso-client
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-js-testbed
+    environment:
+      ISSO_ENDPOINT: "http://isso-dev.local:8080"
+    healthcheck:
+      disable: true
+    # Command may also run from outside docker compose, e.g.:
+    # $ docker run isso-js-testbed [mount, networks, ...] npm run test-integration
+    #command: npm run test-integration
+    networks:
+      - test-net
+    # Bind-mounts, see:
+    # https://docs.docker.com/compose/compose-file/compose-file-v3/#long-syntax-3
+    volumes:
+      - type: bind
+        source: ./package.json
+        target: /src/package.json
+        read_only: true
+      - type: bind
+        source: ./isso/js/
+        target: /src/isso/js/
+        read_only: true
+      - type: bind
+        source: ./isso/js/tests/screenshots/reference/
+        target: /src/isso/js/tests/screenshots/reference/
+        read_only: false  # needed for generating screenshots during e2e tests
+    depends_on:
+      - isso-server
+
+networks:
+  test-net:

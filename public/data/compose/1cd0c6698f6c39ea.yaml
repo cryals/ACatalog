@@ -1,0 +1,39 @@
+services:
+   para:
+     image: erudikaltd/para:latest_stable
+     ports:
+       - "8080:8080"
+     volumes:
+       - type: volume
+         source: paraData
+         target: /para/data
+       - type: volume
+         source: paraLib
+         target: /para/lib
+       - type: bind
+         source: ./para-application.conf
+         target: /para/application.conf
+     restart: always
+     environment:
+       - JAVA_OPTS=-Dconfig.file=/para/application.conf -Dloader.path=/para/lib
+
+   scoold:
+     depends_on:
+       - para
+     image: erudikaltd/scoold:latest_stable
+     ports:
+       - "8000:8000"
+     volumes:
+       - type: bind
+         source: ./scoold-application.conf
+         target: /scoold/application.conf
+       - type: bind
+         source: ./para-application.conf
+         target: /scoold/para-application.conf
+     restart: always
+     environment:
+       - JAVA_OPTS=-Dconfig.file=/scoold/application.conf -Dscoold.autoinit.para_config_file=/scoold/para-application.conf -Dscoold.para_endpoint=http://para:8080
+       - BOOT_SLEEP=5
+volumes:
+  paraData:
+  paraLib:

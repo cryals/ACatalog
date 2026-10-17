@@ -1,0 +1,58 @@
+services:
+  retrom-db:
+    image: postgres
+    container_name: retrom-db
+    hostname: retrom-db
+    env_file: ./.env
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    ports:
+      - 5432:5432
+    environment:
+      TZ: "America/Los_Angeles"
+      PGTZ: "America/Los_Angeles"
+      POSTGRES_PASSWORD: ${DB_PASS:-password}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_DB: ${DB_NAME:-retrom-dev}
+    volumes:
+      - ./psql:/var/lib/postgresql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  retrom:
+    build:
+      context: ../
+      dockerfile: docker/service.Dockerfile
+    container_name: retrom
+    hostname: retrom
+    ulimits:
+      nofile:
+        hard: 65536
+        soft: 65536
+    env_file: ./.env
+    # environment:
+    # RUST_LOG: DEBUG
+    # RUST_BACKTRACE: 1
+    ports:
+      - 5111:5101
+      - 3010:3000
+    volumes:
+      - ${CONTENT_DIR1:-./mock_content/}/:/lib1
+      - ${CONTENT_DIR2:-./mock_content_single}:/lib2
+      - ${CONFIG_DIR:-./config_dev/}:/app/config
+    depends_on:
+      - retrom-db
+
+  jaeger:
+    image: jaegertracing/jaeger:2.2.0
+    ports:
+      - 16686:16686 # web client
+      - 4317:4317
+      - 4318:4318
+      - 5778:5778
+      - 9411:9411

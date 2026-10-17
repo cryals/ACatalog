@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: .dev/docker/php8-apache
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 3000:80
+
+  mariadb:
+    image: docker.io/library/mariadb
+    ports:
+      - 3002:3306
+    environment:
+      - MARIADB_DATABASE=traq
+      - MARIADB_USER=traq
+      - MARIADB_PASSWORD=dev
+      - MARIADB_ROOT_PASSWORD=secret
+    volumes:
+      - ./.dev/data/db:/var/lib/mysql
+
+  phpmyadmin:
+    image: docker.io/library/phpmyadmin:latest
+    ports:
+      - 3003:80
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=secret

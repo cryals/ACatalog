@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+    open-archiver:
+        image: logiclabshq/open-archiver:latest
+        container_name: open-archiver
+        restart: unless-stopped
+        ports:
+            - '3000:${PORT_FRONTEND:-3000}' # Frontend
+        env_file:
+            - .env
+        volumes:
+            - 'archiver-data:${STORAGE_LOCAL_ROOT_PATH}'
+        depends_on:
+            - postgres
+            - valkey
+            - meilisearch
+        networks:
+            - open-archiver-net
+
+    postgres:
+        image: postgres:17-alpine
+        container_name: postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB:-open_archive}
+            POSTGRES_USER: ${POSTGRES_USER:-admin}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - open-archiver-net
+
+    valkey:
+        image: valkey/valkey:8-alpine
+        container_name: valkey
+        restart: unless-stopped
+        # Defaulted like POSTGRES_PASSWORD below. Unset, this expanded to a bare `--requirepass`
+        # with no value, and Valkey refuses to start on it: "FATAL CONFIG FILE ERROR ...
+        # 'requirepass' wrong number of arguments". The app then failed against a cache that had
+        # never come up, which reads as an application fault rather than a missing variable.
+        command: valkey-server --requirepass ${REDIS_PASSWORD:-defaultredispassword}
+        volumes:
+            - valkeydata:/data
+        networks:
+            - open-archiver-net
+
+    meilisearch:
+        image: getmeili/meilisearch:v1.38
+        container_name: meilisearch
+        restart: unless-stopped
+        environment:
+            MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-aSampleMasterKey}
+            MEILI_SCHEDULE_SNAPSHOT: ${MEILI_SCHEDULE_SNAPSHOT:-86400}
+        volumes:
+            - meilidata:/meili_data
+        networks:
+            - open-archiver-net
+
+    tika:
+        image: apache/tika:3.2.2.0-full
+        container_name: tika
+        restart: always
+        networks:
+            - open-archiver-net
+
+volumes:
+    pgdata:
+        driver: local
+    valkeydata:
+        driver: local
+    meilidata:
+        driver: local
+    archiver-data:
+        driver: local
+
+networks:
+    open-archiver-net:
+        driver: bridge

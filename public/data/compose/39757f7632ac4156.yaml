@@ -1,0 +1,12 @@
+---
+# https://ghcr.io/thilojaeggi/wingetty
+services:
+  wingetty:
+    container_name: wingetty
+    env_file:
+      - path: ./.env
+        required: false
+    image: ghcr.io/thilojaeggi/wingetty:latest
+    ports:
+      - 8080:8080
+    restart: unless-stopped

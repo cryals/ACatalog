@@ -1,0 +1,64 @@
+# Fred Brooker <git@gscloud.cz>
+name: ${NAME}
+
+x-limits: &ram-limit
+  deploy:
+    resources:
+      limits:
+        memory: 2G
+
+services:
+  wp:
+    <<: *ram-limit
+    image: wordpress:php8.4
+    container_name: ${WORDPRESS_CONTAINER_NAME}
+    depends_on:
+      - db
+    volumes:
+      - ./www:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./wp:/usr/local/bin/wp
+      - ./wp-completion.bash:/root/completion.bash
+      - ./bashrc:/root/.bashrc
+    ports:
+      - ${WORDPRESS_PORT}:80
+    restart: unless-stopped
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - WORDPRESS_DB_PORT=${WORDPRESS_DB_PORT}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WP_CLI_ALLOW_ROOT=true
+      - WORDPRESS_CONFIG_EXTRA=
+          define('DISABLE_WP_CRON', false);
+          define('DISALLOW_FILE_EDIT', true);
+          define('FORCE_SSL_ADMIN', false);
+          define('XMLRPC_ENABLED', false);
+          define('WP_MEMORY_LIMIT', '256M');
+  db:
+    <<: *ram-limit
+    image: mariadb:latest
+    container_name: ${WORDPRESS_DB_CONTAINER_NAME}
+    ports:
+      - ${WORDPRESS_DB_PORT}:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+  phpmyadmin:
+    <<: *ram-limit
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: ${PMA_CONTAINER_NAME}
+    depends_on:
+      - db
+    volumes:
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    ports:
+      - ${PMA_PORT}:80
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}

@@ -1,0 +1,183 @@
+x-transcoder: &transcoder-base
+  build: ./transcoder
+  image: ghcr.io/zoriya/kyoo_transcoder:edge
+  networks:
+    default:
+      aliases:
+        - transcoder
+  restart: unless-stopped
+  environment:
+    - JWKS_URL=http://auth:4568/.well-known/jwks.json
+  env_file:
+    - ./.env
+  volumes:
+    - ${LIBRARY_ROOT}:/video:ro
+    - ${CACHE_ROOT}:/cache
+    - transcoder_metadata:/metadata
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.transcoder.rule=PathPrefix(`/video`)"
+    - "traefik.http.routers.transcoder.middlewares=cors,phantom-token"
+    - "traefik.http.middlewares.phantom-token.forwardauth.address=http://auth:4568/auth/jwt"
+    - "traefik.http.middlewares.phantom-token.forwardauth.authRequestHeaders=Authorization,Cookie,X-Api-Key,Sec-WebSocket-Protocol"
+    - "traefik.http.middlewares.phantom-token.forwardauth.authResponseHeaders=Authorization"
+    - "traefik.http.middlewares.cors.headers.accessControlAllowOriginList=*"
+    - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,OPTIONS"
+    - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Authorization,Content-Type,Range,X-Api-Key"
+    - "traefik.http.middlewares.cors.headers.addVaryHeader=true"
+
+services:
+  front:
+    build: ./front
+    image: ghcr.io/zoriya/kyoo_front:edge
+    restart: unless-stopped
+    environment:
+      - KYOO_URL=${KYOO_URL:-http://api:5000/api}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.front.rule=PathPrefix(`/`)"
+      - "traefik.http.services.front.loadbalancer.server.port=8901"
+
+  auth:
+    build: ./auth
+    image: ghcr.io/zoriya/kyoo_auth:edge
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Always allow the kyoo app scheme, on top of any user-provided targets.
+      - EXTRA_OIDC_REDIRECT_URLS=kyoo,${EXTRA_OIDC_REDIRECT_URLS:-}
+    env_file:
+      - ./.env
+    volumes:
+      - profile_pictures:/profile_pictures
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=PathPrefix(`/auth/`) || PathPrefix(`/.well-known/`)"
+      # presigns are checked against those, only traefik's forwardauth may set them
+      - "traefik.http.routers.auth.middlewares=strip-forwarded"
+      - "traefik.http.middlewares.strip-forwarded.headers.customrequestheaders.X-Forwarded-Uri="
+      - "traefik.http.middlewares.strip-forwarded.headers.customrequestheaders.X-Forwarded-Method="
+
+  api:
+    build: ./api
+    image: ghcr.io/zoriya/kyoo_api:edge
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - JWT_ISSUER=${PUBLIC_URL}
+      - IMAGES_PATH=/images
+    env_file:
+      - ./.env
+    volumes:
+      - images:/images
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.swagger.rule=PathPrefix(`/swagger`)"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api/`)"
+      - "traefik.http.routers.api.middlewares=cors,phantom-token"
+      - "traefik.http.middlewares.phantom-token.forwardauth.address=http://auth:4568/auth/jwt"
+      - "traefik.http.middlewares.phantom-token.forwardauth.authRequestHeaders=Authorization,Cookie,X-Api-Key,Sec-WebSocket-Protocol"
+      - "traefik.http.middlewares.phantom-token.forwardauth.authResponseHeaders=Authorization"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowOriginList=*"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowMethods=GET,OPTIONS"
+      - "traefik.http.middlewares.cors.headers.accessControlAllowHeaders=Authorization,Content-Type,Range,X-Api-Key"
+      - "traefik.http.middlewares.cors.headers.addVaryHeader=true"
+
+  scanner:
+    build: ./scanner
+    image: ghcr.io/zoriya/kyoo_scanner:edge
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      # Use this env var once we use mTLS for auth
+      # - KYOO_URL=${KYOO_URL:-http://api:3567/api}
+      - KYOO_URL=${KYOO_URL:-http://traefik:8901/api}
+      - KYOO_APIKEY=$KEIBI_APIKEY_SCANNER
+      - JWKS_URL=http://auth:4568/.well-known/jwks.json
+      - JWT_ISSUER=${PUBLIC_URL}
+    volumes:
+      - ${LIBRARY_ROOT}:/video:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scanner.rule=PathPrefix(`/scanner/`)"
+      - "traefik.http.routers.scanner.middlewares=phantom-token"
+      - "traefik.http.middlewares.phantom-token.forwardauth.address=http://auth:4568/auth/jwt"
+      - "traefik.http.middlewares.phantom-token.forwardauth.authRequestHeaders=Authorization,Cookie,X-Api-Key,Sec-WebSocket-Protocol"
+      - "traefik.http.middlewares.phantom-token.forwardauth.authResponseHeaders=Authorization"
+
+  transcoder:
+    <<: *transcoder-base
+    profiles: ["", "cpu"]
+  transcoder-nvidia:
+    <<: *transcoder-base
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+              driver: cdi
+              device_ids:
+                - nvidia.com/gpu=all
+    environment:
+      - GOCODER_HWACCEL=nvidia
+    profiles: ["nvidia"]
+  transcoder-vaapi:
+    <<: *transcoder-base
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - GOCODER_HWACCEL=vaapi
+      - GOCODER_VAAPI_RENDERER=${GOCODER_VAAPI_RENDERER:-/dev/dri/renderD128}
+    profiles: ["vaapi"]
+  # qsv is the same setup as vaapi but with the hwaccel env var different
+  transcoder-qsv:
+    <<: *transcoder-base
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - GOCODER_HWACCEL=qsv
+      - GOCODER_VAAPI_RENDERER=${GOCODER_VAAPI_RENDERER:-/dev/dri/renderD128}
+    profiles: ["qsv"]
+
+  traefik:
+    image: traefik:v3.7
+    restart: unless-stopped
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:8901"
+      - "--accesslog=true"
+      - "--accesslog.fields.queryparameters.defaultmode=drop"
+    ports:
+      - "8901:8901"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    volumes:
+      - db:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=$PGUSER
+      - POSTGRES_PASSWORD=$PGPASSWORD
+      - POSTGRES_DB=$PGDATABASE
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER} -d ${PGDATABASE}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db:
+  images:
+  profile_pictures:
+  transcoder_metadata:

@@ -1,0 +1,32 @@
+services:
+  hister:
+    image: ${HISTER_IMAGE:-ghcr.io/asciimoo/hister:latest}
+    # Prefer the published image for `compose up`; `compose build` still uses
+    # the source below and can reuse layers from the published image.
+    pull_policy: missing
+    build:
+      context: .
+      target: release
+      cache_from:
+        - ${HISTER_IMAGE:-ghcr.io/asciimoo/hister:latest}
+        - type=registry,ref=${HISTER_CACHE_IMAGE:-ghcr.io/asciimoo/hister:buildcache}
+    container_name: hister
+    init: true
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    ports:
+      - '4433:4433'
+    volumes:
+      - hister_data:/hister/data
+    tmpfs:
+      - /tmp:noexec,nosuid,size=64m
+    environment:
+      HISTER__SERVER__ADDRESS: 0.0.0.0:4433
+      HISTER__SERVER__BASE_URL: http://localhost:4433
+
+volumes:
+  hister_data:

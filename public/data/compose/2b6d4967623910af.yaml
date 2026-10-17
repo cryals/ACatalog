@@ -1,0 +1,21 @@
+services:
+  immich-kiosk:
+    image: ghcr.io/damongolding/immich-kiosk:latest
+    container_name: immich-kiosk
+    tty: true
+    environment:
+      LANG: "en_GB"
+      TZ: "Europe/London"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config:/config
+      # - ./custom.css:/custom.css
+      # - ./offline-assets:/offline-assets
+    restart: always
+    healthcheck:
+      test: ["CMD", "/kiosk", "--healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

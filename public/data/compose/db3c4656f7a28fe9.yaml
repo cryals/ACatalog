@@ -1,0 +1,13 @@
+---
+# https://github.com/forkdo/simple-http-server/pkgs/container/simple-http-server
+services:
+  simple-http-server:
+    command: ["--index"]
+    container_name: simple-http-server
+    env_file:
+      - path: ./.env
+        required: false
+    image: ghcr.io/forkdo/simple-http-server:latest
+    ports:
+      - 8000:8000
+    restart: unless-stopped

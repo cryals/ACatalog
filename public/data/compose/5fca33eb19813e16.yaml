@@ -1,0 +1,24 @@
+# This compose file is used for the hosted version of Donetick.
+# For self-hosting instructions, refer to the README
+# (https://github.com/donetick/donetick/blob/main/README.md).
+---
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: donetick-core
+    restart: unless-stopped
+
+    volumes:
+      # sqlite database:
+      - ./data:/usr/src/app/data
+
+    ports:
+      - "8085:8000"
+    environment:
+      - DT_ENV=prod
+    hostname: donetick-core
+    command: ["/donetick-core"]  # Command to execute your binary inside the container
+networks:
+  default:

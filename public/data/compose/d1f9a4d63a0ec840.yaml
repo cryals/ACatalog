@@ -1,0 +1,15 @@
+---
+# https://hub.docker.com/r/johngong/qbittorrent
+# https://github.com/gshang2017/docker/tree/master/qBittorrent
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    env_file:
+      - path: ./.env
+        required: false
+    image: johngong/qbittorrent:latest
+    ports:
+      - 8989:8989
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped

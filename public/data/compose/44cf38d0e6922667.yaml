@@ -1,0 +1,51 @@
+version: '3'
+services:
+  limbas_pgsql:
+    image: postgres
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: limbasuser
+      POSTGRES_PASSWORD: limbaspass
+      POSTGRES_DB: openlimbas
+      POSTGRES_INITDB_ARGS: '--locale=C --encoding=UTF8'
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U limbasuser -d openlimbas' ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  limbas_web:
+    
+    depends_on:
+      limbas_pgsql:
+        condition: service_healthy
+    build: .
+    ports:
+      - "8001:80"
+    restart: always
+    volumes:
+      - extensions:/var/www/html/openlimbas/dependent/EXTENSIONS
+      - upload:/var/www/html/openlimbas/dependent/UPLOAD
+      - user:/var/www/html/openlimbas/dependent/USER
+      - temp:/var/www/html/openlimbas/dependent/TEMP
+      - inc:/var/www/html/openlimbas/dependent/inc
+      - backup:/var/www/html/openlimbas/dependent/BACKUP
+      - localassets:/var/www/html/openlimbas/public/localassets
+    environment:
+        LIMBAS_DB_HOST: limbas_pgsql
+        LIMBAS_AUTO_INSTALL: 1
+        LIMBAS_USERNAME: admin
+        LIMBAS_PASSWORD: limbas
+        LIMBAS_PACKAGE: 'demo.tar.gz'
+
+volumes:
+  extensions:
+  upload:
+  user:
+  temp:
+  inc:
+  backup:
+  localassets:
+  postgres-data:

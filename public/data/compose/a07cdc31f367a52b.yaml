@@ -1,0 +1,49 @@
+services:
+
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    hostname: gitea
+    ports:
+      - 3000:3000 #webgui
+      - 2222:22 #ssh
+    expose:
+      - 3000
+      - 22
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/gitea/data:/data
+    #networks:
+    #  - proxy
+    #  - runner-network
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.http.routers.gitea.rule=Host(`git.example.com`)
+    #  - traefik.http.services.gitea.loadbalancer.server.port=3000
+    #  - traefik.docker.network=proxy
+    #  # Part for local lan services only
+    #  - traefik.http.routers.gitea.middlewares=local-ipwhitelist@file
+
+  #runner:
+  #  image: docker.io/gitea/act_runner:nightly
+  #  environment:
+  #    #CONFIG_FILE: /config.yaml
+  #    GITEA_INSTANCE_URL: "http://gitea:3000"
+  #    GITEA_RUNNER_REGISTRATION_TOKEN: "<TOKEN>"
+  #    GITEA_RUNNER_NAME: "gitea-runner-1"
+  #    GITEA_RUNNER_LABELS: "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest,node:docker://node:20-bullseye,python:docker://python:3.12-slim,golang:docker://golang:1.22-bullseye,alpine:docker://alpine:3.19"
+  #  volumes:
+  #    #- ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/gitea/runners/config.yaml:/config.yaml
+  #    - /var/run/docker.sock:/var/run/docker.sock # better use a docker socket proxy
+  #    - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/gitea/runners/data:/data
+  #  networks:
+  #    - runner-network
+
+#networks:
+#  proxy:
+#    external: true
+#  runner-network:
+#    external: true

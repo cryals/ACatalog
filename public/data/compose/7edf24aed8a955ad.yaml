@@ -1,0 +1,155 @@
+services:
+## MariaDB and Redis (optional)
+  db:
+    image: mysql:9
+    container_name: pixelfed-db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - ./mysql-9-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - pixelfed-network
+
+  redis:
+    image: redis:8-alpine
+    container_name: pixelfed-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pixelfed-network
+
+## Pixelfed containers - App (Web/API), Horizon Queue, Scheduled task.
+  pixelfed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pixelfed-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      # SSL Configuration (handled by reverse proxy)
+      SSL_MODE: "off"
+      LOG_OUTPUT_LEVEL: "error"
+      # TODO: Once the new webui is completed, we will try to handle the service worker cache on that side.
+      CADDY_SERVER_EXTRA_DIRECTIVES: |
+        @service_worker path /sw.js
+        header @service_worker Cache-Control "no-cache"
+
+      # PHP Configuration
+      PHP_POST_MAX_SIZE: "500M"
+      PHP_UPLOAD_MAX_FILE_SIZE: "500M"
+      PHP_OPCACHE_ENABLE: "1"
+      
+      # Laravel Auto-run Configuration
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVEL_MIGRATION: "true"
+      AUTORUN_LARAVEL_MIGRATION_ISOLATION: "true"
+      AUTORUN_LARAVEL_STORAGE_LINK: "true"
+      AUTORUN_LARAVEL_EVENT_CACHE: "true"
+      AUTORUN_LARAVEL_ROUTE_CACHE: "true"
+      AUTORUN_LARAVEL_VIEW_CACHE: "true"
+      AUTORUN_LARAVEL_CONFIG_CACHE: "true"
+
+    volumes:
+      - ./storage:/var/www/html/storage
+    depends_on:
+      - db
+      - redis
+    networks:
+      - pixelfed-network
+
+  horizon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pixelfed-horizon
+    restart: unless-stopped
+    command: ["php", "artisan", "horizon"]
+    env_file:
+      - .env
+    environment:
+      # Laravel Auto-run Configuration
+      AUTORUN_ENABLED: "false"
+      AUTORUN_LARAVEL_MIGRATION: "false"
+      AUTORUN_LARAVEL_MIGRATION_ISOLATION: "false"
+      AUTORUN_LARAVEL_STORAGE_LINK: "true"
+      AUTORUN_LARAVEL_EVENT_CACHE: "false"
+      AUTORUN_LARAVEL_ROUTE_CACHE: "false"
+      AUTORUN_LARAVEL_VIEW_CACHE: "false"
+      AUTORUN_LARAVEL_CONFIG_CACHE: "true"
+      PHP_POST_MAX_SIZE: "500M"
+      PHP_UPLOAD_MAX_FILE_SIZE: "500M"
+      PHP_OPCACHE_ENABLE: "1"
+    volumes:
+      - ./storage:/var/www/html/storage
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "php", "artisan", "horizon:status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - pixelfed-network
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pixelfed-scheduler
+    restart: unless-stopped
+    command: ["php", "artisan", "schedule:work"]
+    stop_signal: SIGTERM
+    env_file:
+      - .env
+    environment:
+      # Laravel Auto-run Configuration
+      AUTORUN_ENABLED: "false"
+      AUTORUN_LARAVEL_MIGRATION: "false"
+      AUTORUN_LARAVEL_MIGRATION_ISOLATION: "false"
+      AUTORUN_LARAVEL_STORAGE_LINK: "true"
+      AUTORUN_LARAVEL_EVENT_CACHE: "false"
+      AUTORUN_LARAVEL_ROUTE_CACHE: "false"
+      AUTORUN_LARAVEL_VIEW_CACHE: "false"
+      AUTORUN_LARAVEL_CONFIG_CACHE: "true"
+      PHP_POST_MAX_SIZE: "500M"
+      PHP_UPLOAD_MAX_FILE_SIZE: "500M"
+      PHP_OPCACHE_ENABLE: "1"
+    volumes:
+      - ./storage:/var/www/html/storage
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "healthcheck-schedule"]
+      start_period: 10s
+    networks:
+      - pixelfed-network
+
+networks:
+  pixelfed-network:
+    driver: bridge

@@ -1,0 +1,18 @@
+---
+# https://hub.docker.com/r/emqx/emqx
+services:
+  emqx:
+    container_name: emqx
+    env_file:
+      - path: ./.env
+        required: false
+    image: emqx/emqx:latest
+    ports:
+      - 1883:1883
+      - 8883:8883
+      - 8083:8083
+      - 8084:8084
+      - 18083:18083
+      - 18084:18084
+    restart: unless-stopped
+    user: ${EMQX_UID:-0}:${EMQX_GID:-0}

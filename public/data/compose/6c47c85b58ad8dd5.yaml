@@ -1,0 +1,51 @@
+services:
+
+  leantime_db:
+    image: mysql:8.4
+    container_name: leantime-mysql
+    expose:
+      - 3306
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/leantime/mysql:/var/lib/mysql
+    restart: unless-stopped
+    env_file: ./.env
+    command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
+    #networks:
+    #  - internal
+
+  leantime:
+    image: leantime/leantime:latest
+    container_name: leantime
+    restart: unless-stopped
+    env_file: ./.env
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/leantime/public_data:/var/www/html/public/userfiles
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/leantime/data:/var/www/html/userfiles
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/leantime/plugins:/var/www/html/app/Plugins
+    ports:
+      - "8080:80" # The port to expose and access Leantime
+    expose:
+      - 80
+    depends_on:
+      - leantime_db
+    #networks:
+    #  - proxy
+    #  - internal    
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy    
+    #  - traefik.http.routers.leantime.rule=Host(`leantime.example.com`)
+    #  - traefik.http.services.leantime.loadbalancer.server.port=80
+    #  # Optional part for file upload max sizes
+    #  - traefik.http.middlewares.limit-leantime.buffering.maxRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-leantime.buffering.maxResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-leantime.buffering.memRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-leantime.buffering.memResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads    
+    #  # Part for optional traefik middlewares
+    #  - traefik.http.routers.leantime.middlewares=limit-leantime
+
+#networks:
+#  proxy:
+#    external: true
+#  internal:
+#    internal: true

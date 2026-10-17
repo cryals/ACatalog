@@ -1,0 +1,39 @@
+services:
+
+  snipe-it:
+    image: lscr.io/linuxserver/snipe-it:latest
+    container_name: snipeit
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=http://localhost:8080
+      - MYSQL_PORT_3306_TCP_ADDR=mariadb
+      - MYSQL_PORT_3306_TCP_PORT=3306
+      - MYSQL_DATABASE=snipeitdb
+      - MYSQL_USER=snipeit
+      - MYSQL_PASSWORD=VeryStrongDatabasePassword
+      - TZ=Europe/Berlin
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/snipeit/config:/config
+    ports:
+      - 8080:80
+    expose:
+      - 80
+    restart: unless-stopped
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: snipeit-mariadb
+    expose:
+      - 3306
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - MYSQL_ROOT_PASSWORD=MyVeryStrongDatabaseRootPassword # change this
+      - MYSQL_DATABASE=snipeitdb
+      - MYSQL_USER=snipeit
+      - MYSQL_PASSWORD=VeryStrongDatabasePassword # change this
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/snipeit/mariadb:/config
+    restart: unless-stopped

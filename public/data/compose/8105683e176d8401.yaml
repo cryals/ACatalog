@@ -1,0 +1,35 @@
+services:
+  youtube-dl-nas:
+    image: modenaf360/youtube-dl-nas:latest
+    container_name: youtube-dl-nas
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    environment:
+      MY_ID: "${MY_ID:-}"
+      MY_ID_FILE: "${MY_ID_FILE:-}"
+      MY_PW: "${MY_PW:-}"
+      MY_PW_FILE: "${MY_PW_FILE:-}"
+      TZ: "${TZ:-UTC}"
+      DOWNLOAD_DIR: "/downfolder"
+      STATE_DIR: "/usr/src/app/metadata"
+      PUID: "${PUID:-0}"
+      PGID: "${PGID:-0}"
+      UMASK: "${UMASK:-022}"
+      YTDLP_AUTO_UPDATE: "${YTDLP_AUTO_UPDATE:-true}"
+      YTDLP_UPDATE_INTERVAL: "${YTDLP_UPDATE_INTERVAL:-3600}"
+      NLPTUTTI_AUTO_UPDATE: "${NLPTUTTI_AUTO_UPDATE:-true}"
+      NLPTUTTI_UPDATE_TIMEOUT: "${NLPTUTTI_UPDATE_TIMEOUT:-180}"
+      YTDLP_COOKIES_FILE: "${YTDLP_COOKIES_FILE:-}"
+      YTDLP_EXTRA_ARGS: "${YTDLP_EXTRA_ARGS:-}"
+      YDLNAS_ALLOW_PRIVATE_SOURCES: "${YDLNAS_ALLOW_PRIVATE_SOURCES:-false}"
+      YDLNAS_STORAGE_WARNING_GB: "${YDLNAS_STORAGE_WARNING_GB:-10}"
+      YDLNAS_STORAGE_CRITICAL_GB: "${YDLNAS_STORAGE_CRITICAL_GB:-2}"
+      YDLNAS_MCP_BATCH_LIMIT: "${YDLNAS_MCP_BATCH_LIMIT:-25}"
+      YDLNAS_API_TOKEN: "${YDLNAS_API_TOKEN:-}"
+      YDLNAS_API_TOKEN_FILE: "${YDLNAS_API_TOKEN_FILE:-}"
+      COOKIE_SECURE: "${COOKIE_SECURE:-false}"
+      PROXY: "${PROXY:-}"
+    volumes:
+      - "${DOWNLOAD_DIR:-./downloads}:/downfolder"
+      - "${CONFIG_DIR:-./config}:/usr/src/app/metadata"

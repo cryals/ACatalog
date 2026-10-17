@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+    deleterr:
+        build: .
+        container_name: deleterr
+        environment:
+            LOG_LEVEL: DEBUG
+        volumes:
+            - ./config:/config
+            - ./logs:/config/logs

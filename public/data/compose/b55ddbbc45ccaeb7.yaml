@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: ratelog-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ratelog}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  ratelog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ratelog
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    environment:
+      PORT: ${PORT:-8080}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-ratelog}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  pgdata:

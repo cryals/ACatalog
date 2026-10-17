@@ -1,0 +1,42 @@
+services:
+  app:
+    # For zero-downtime scale_out self-updates, omit container_name and host
+    # ports. The auto strategy can use applier instead, with a brief restart.
+    container_name: doco-cd
+    # You can also pin to a specific tag (version)
+    # Available tags can be found here: https://github.com/kimdre/doco-cd/pkgs/container/doco-cd
+    image: ghcr.io/kimdre/doco-cd:latest
+    restart: unless-stopped
+    # Polling needs no published ports. For webhooks, publish HTTP_PORT only
+    # to a trusted HTTPS reverse proxy. This loopback example assumes the proxy
+    # runs on the Docker host. Keep metrics private if publishing them.
+    # ports:
+    #   - "127.0.0.1:8080:80"
+    #   - "127.0.0.1:9120:9120"
+    # For all available environment variables and explanations, see https://doco.cd/latest/App-Settings/
+    environment:
+      # Use an IANA time zone, for example Etc/UTC or Europe/Berlin.
+      TZ: Europe/Berlin
+      GIT_ACCESS_TOKEN: ${GIT_ACCESS_TOKEN:-}
+      # Add WEBHOOK_SECRET to .env and uncomment to enable webhooks:
+      # WEBHOOK_SECRET: ${WEBHOOK_SECRET:?Set WEBHOOK_SECRET in .env}
+      # Uncomment and replace the URL to enable polling:
+      # POLL_CONFIG: |
+      #   - url: https://github.com/your-user/your-deploy-repo.git
+      #     reference: main
+      #     interval: 180
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # The data volume (left side) can also be replaced with a bind mount to a local directory, for example:
+      # - ./data:/data
+      - data:/data
+    cap_drop:
+      - ALL
+    healthcheck: # runs the image's built-in /healthcheck command
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  data:

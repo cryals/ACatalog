@@ -1,0 +1,60 @@
+services:
+
+  changedetection:
+    image: lscr.io/linuxserver/changedetection.io:latest
+    container_name: changedetection
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - HIDE_REFERER=true
+      - PLAYWRIGHT_DRIVER_URL=ws://playwright-chrome:3000
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/changedetection/config:/config
+    ports:
+      - 5000:5000
+    expose:
+      - 5000
+    restart: unless-stopped
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.http.routers.changedetection.rule=Host(`changedetection.example.com`)
+    #  - traefik.http.services.changedetection.loadbalancer.server.port=5000
+    #  - traefik.docker.network=proxy
+    #  # Part for local lan services only; disable to expose externally
+    #  - traefik.http.routers.changedetection.middlewares=local-ipwhitelist@file,basic-auth@file
+
+  playwright-chrome:
+    image: dgtlmoon/sockpuppetbrowser:latest
+    container_name: playwright-chrome
+    restart: unless-stopped
+    expose:
+      - 3000
+    tmpfs:
+      - /tmp    # This just keeps tmp data from being written to disk
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1024
+      - SCREEN_DEPTH=16
+      - MAX_CONCURRENT_CHROME_PROCESSES=10
+      - STATS_REFRESH_SECONDS=120 # Default is 3 seconds which is way too much
+    #networks:
+    #  - proxy
+
+  #proxy:
+    #image: zhaowde/rotating-tor-http-proxy:latest
+    #container_name: torproxy
+    #environment:
+      #- TOR_INSTANCES=4
+      #- TOR_REBUILD_INTERVAL=36000
+    #expose:
+      #- 3128 # http proxy round-robin 
+    #restart: unless-stopped
+  #  #networks:
+  #  #  - proxy  
+
+#networks:
+#  proxy:
+#    external: true

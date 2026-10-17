@@ -1,0 +1,13 @@
+---
+# https://hub.docker.com/r/valkey/valkey
+# https://github.com/valkey-io/valkey-container
+services:
+  valkey:
+    container_name: valkey
+    env_file:
+      - path: ./.env
+        required: false
+    image: valkey/valkey:latest
+    ports:
+      - 6379:6379
+    restart: unless-stopped

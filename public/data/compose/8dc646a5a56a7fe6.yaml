@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    working_dir: /server
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/server
+    command: ["mise", "run", "dev"]
+
+  ui:
+    depends_on:
+      - server
+    build: ./ui
+    working_dir: /ui
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./ui:/ui
+      - exclude:/ui/node_modules
+    command: ["npm", "run", "dev"]
+
+volumes:
+  exclude:

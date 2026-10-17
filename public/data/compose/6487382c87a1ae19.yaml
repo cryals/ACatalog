@@ -1,0 +1,94 @@
+#  Copyright 2020-2021 - Offen Authors <hioffen@posteo.de>
+#  SPDX-License-Identifier: Apache-2.0
+
+services:
+  proxy:
+    image: nginx:1.17-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8080:80
+    depends_on:
+      - server
+      - auditorium
+      - vault
+      - script
+
+  server:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.golang
+    working_dir: /offen/server
+    volumes:
+      - serverdata:/var/opt/offen
+      - .:/offen
+      - serverdeps:/go/pkg
+      - servercache:/data
+      - ./locales:/offen/server/public/static/locales
+    environment:
+      OFFEN_APP_LOCALE: ${LOCALE:-en}
+      OFFEN_APP_DEVELOPMENT: '1'
+      OFFEN_SERVER_REVERSEPROXY: '1'
+      OFFEN_SERVER_PORT: 8080
+      OFFEN_SECRET: imLcp0dS4OaR6Lvl+z9tbg==
+      OFFEN_APP_ROOTACCOUNT: 3c8e3495-17c5-4be3-836c-e56fc562ace0
+    command: refresh run
+
+  vault: &budo_app
+    build:
+      context: '.'
+      dockerfile: Dockerfile.node
+    command: npm start
+    restart: on-failure
+    working_dir: /offen/vault
+    environment:
+      LOCALE: ${LOCALE:-en}
+      PORT: 9977
+      npm_config_store_dir: /pnpm-store
+    volumes:
+      - .:/offen
+      - ./locales:/offen/vault/locales
+      - pnpmstore:/pnpm-store
+      - vaultdeps:/offen/vault/node_modules
+
+  script:
+    <<: *budo_app
+    working_dir: /offen/script
+    environment:
+      LOCALE: ${LOCALE:-en}
+      PORT: 9966
+      npm_config_store_dir: /pnpm-store
+    volumes:
+      - .:/offen
+      - ./locales:/offen/script/locales
+      - pnpmstore:/pnpm-store
+      - scriptdeps:/offen/script/node_modules
+
+  auditorium:
+    <<: *budo_app
+    working_dir: /offen/auditorium
+    environment:
+      LOCALE: ${LOCALE:-en}
+      PORT: 9955
+      npm_config_store_dir: /pnpm-store
+    volumes:
+      - .:/offen
+      - ./locales:/offen/auditorium/locales
+      - pnpmstore:/pnpm-store
+      - auditoriumdeps:/offen/auditorium/node_modules
+
+  test_site:
+    image: nginx:1.17-alpine
+    ports:
+      - 8081:80
+    volumes:
+      - ./test-site:/usr/share/nginx/html
+
+volumes:
+  serverdata:
+  serverdeps:
+  servercache:
+  scriptdeps:
+  auditoriumdeps:
+  vaultdeps:
+  pnpmstore:

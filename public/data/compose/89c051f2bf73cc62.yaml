@@ -1,0 +1,12 @@
+---
+# https://github.com/orgs/static-web-server/packages/container/package/static-web-server
+services:
+  static-web-server:
+    container_name: static-web-server
+    env_file:
+      - path: ./.env
+        required: false
+    image: ghcr.io/static-web-server/static-web-server:latest
+    ports:
+      - 80:80
+    restart: unless-stopped

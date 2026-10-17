@@ -1,0 +1,121 @@
+# docker compose for production
+# (minimal version: Docker Compose version 2.30.0)
+#
+# minimal application (for single user) only needs fittrackee and fittrackee-db containers.
+#
+# for multi-users application, uncomment the following containers:
+# - fittrackee-workers for user data export, archive uploads and email sending (EMAIL_URL must be set in .env to enable emails)
+# - fittrackee-redis container for API rate limits, user data export, archive uploads and email sending
+
+services:
+  fittrackee-db:
+    container_name: fittrackee-db
+    # Always backup the database before FitTrackee upgrade when the new version
+    # includes database migrations.
+    #
+    # Please refer to the PostgreSQL and PostGIS documentation before upgrading
+    # image version.
+    # Warning: Starting with version 18, PGDATA has changed, see:
+    # https://hub.docker.com/_/postgres#pgdata
+    #
+    # Warning: there is no official image for PostGIS on ARM platforms yet, see:
+    # https://github.com/postgis/docker-postgis/issues/216
+    # The workaround is to build PostGIS image locally.
+    image: postgis/postgis:18-3.6-alpine
+    env_file:
+      - .env
+    volumes:
+      - ${HOST_DATABASE_DIR:-./data/db}:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 15s
+      retries: 3
+    networks:
+      - internal_network
+    restart: unless-stopped
+
+  fittrackee:
+    container_name: fittrackee
+    env_file:
+      - .env
+# Image from Docker Hub
+    image: fittrackee/fittrackee:v1.3.6
+# Uncomment following line to build image instead of using pre-built image
+#    build: .
+    volumes:
+      - ${HOST_UPLOAD_DIR:-./data/uploads}:/usr/src/app/uploads
+      - ${HOST_STATICMAP_CACHE_DIR:-./data/staticmap_cache}:/usr/src/app/.staticmap_cache
+# Comment the following line when logging to stdout
+      - ${HOST_LOG_DIR:-./data/logs}:/usr/src/app/logs
+    post_start:
+# Remove '/usr/src/app/logs' directory when logging to stdout
+      - command: chown -R fittrackee:fittrackee /usr/src/app/uploads /usr/src/app/.staticmap_cache /usr/src/app/logs
+        user: root
+    ports:
+      - "${HOST_APP_PORT:-5000}:5000"
+    command: 'sh docker-entrypoint.sh'
+    depends_on:
+      fittrackee-db:
+        condition: service_healthy
+# Uncomment the following lines for API rate limit, user data export, archive uploads and email sending
+#      fittrackee-redis:
+#        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider http://127.0.0.1:5000/api/check-db || exit 1"]
+      interval: 5s
+      timeout: 15s
+      retries: 3
+    networks:
+      - external_network
+      - internal_network
+    restart: unless-stopped
+
+# Uncomment the following lines for user data export, archive uploads and email sending
+#  fittrackee-workers:
+#    container_name: fittrackee-workers
+#    env_file:
+#      - .env
+## Image from Docker Hub
+#    image: fittrackee/fittrackee:v1.3.6
+## Uncomment following line to build image instead of using pre-built image
+##    build: .
+#    volumes:
+#      - ${HOST_UPLOAD_DIR:-./data/uploads}:/usr/src/app/uploads
+#      - ${HOST_STATICMAP_CACHE_DIR:-./data/staticmap_cache}:/usr/src/app/.staticmap_cache
+## Comment the following line when logging to stdout
+#      - ${HOST_LOG_DIR:-./data/logs}:/usr/src/app/logs
+#    post_start:
+## Remove '/usr/src/app/logs' directory when logging to stdout
+#      - command: chown -R fittrackee:fittrackee /usr/src/app/uploads /usr/src/app/.staticmap_cache /usr/src/app/logs
+#        user: root
+## Adjust CLI options if needed, see https://dramatiq.io/guide.html#workers
+## Remove --log-file option when logging to stdout
+#    command: "dramatiq fittrackee.tasks:broker --processes=2 --log-file=/usr/src/app/logs/dramatiq.log"
+#    depends_on:
+#      fittrackee:
+#        condition: service_healthy
+#      fittrackee-redis:
+#        condition: service_healthy
+#    networks:
+#      - internal_network
+#      - external_network
+#    restart: unless-stopped
+
+# Uncomment the following lines for API rate limit, user data export, archive uploads and email sending
+#  fittrackee-redis:
+#    image: "redis:8.0"
+#    container_name: fittrackee-redis
+#    hostname: redis
+#    volumes:
+#      - ${HOST_REDIS_DIR:-./data/redis}:/data
+#    healthcheck:
+#      test: ['CMD', 'redis-cli', 'ping']
+#    networks:
+#      - internal_network
+#    restart: unless-stopped
+
+networks:
+  external_network:
+  internal_network:
+    internal: true

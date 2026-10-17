@@ -1,0 +1,83 @@
+include:
+  - ./docker-compose.infra.yml
+
+services:
+  api:
+    container_name: api
+    image: ghcr.io/ever-co/gauzy-api:latest
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      DB_HOST: db
+
+    env_file:
+      - .env.compose
+    entrypoint: './entrypoint.compose.sh'
+    command: ['node', 'main.js']
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      zipkin:
+        condition: service_started
+      redis:
+        condition: service_started
+      minio:
+        condition: service_healthy
+      minio_create_buckets:
+        condition: service_started
+      opensearch:
+        condition: service_started
+      cube:
+        condition: service_started
+    links:
+      - db:${DB_HOST:-db}
+      - cube:${CUBE_HOST:-cube}
+      - redis:${REDIS_HOST:-redis}
+      - minio:${MINIO_HOST:-minio}
+      - opensearch:${ES_HOST:-opensearch}
+    # volumes:
+    # - webapp_node_modules:/srv/gauzy/node_modules
+    # - api_node_modules:/srv/gauzy/apps/api/node_modules
+    ports:
+      - '3000:${API_PORT:-3000}'
+    networks:
+      - overlay
+
+  webapp:
+    container_name: webapp
+    image: ghcr.io/ever-co/gauzy-webapp:latest
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      SENTRY_PROFILE_SAMPLE_RATE: ${SENTRY_PROFILE_SAMPLE_RATE:-1}
+      DEMO: ${DEMO:-false}
+    entrypoint: './entrypoint.compose.sh'
+    command: ['nginx', '-g', 'daemon off;']
+    env_file:
+      - .env.compose
+    restart: on-failure
+    links:
+      - db:${DB_HOST:-db}
+      - api:${API_HOST:-api}
+      - cube:${CUBE_HOST:-cube}
+      - redis:${REDIS_HOST:-redis}
+      - minio:${MINIO_HOST:-minio}
+      - opensearch:${ES_HOST:-opensearch}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_healthy
+      minio_create_buckets:
+        condition: service_started
+      opensearch:
+        condition: service_started
+      api:
+        condition: service_started
+    # volumes:
+    # - webapp_node_modules:/srv/gauzy/node_modules
+    ports:
+      - '4200:${UI_PORT:-4200}'
+    networks:
+      - overlay

@@ -1,0 +1,60 @@
+version: "3.1"
+services:
+  ydl_api_ng:
+    container_name: ydl_api_ng
+    image: totonyus/ydl_api_ng
+    restart: unless-stopped
+    depends_on:
+      - ydl_api_ng_redis
+    ports:
+      - 5011:80
+    volumes:
+      - ./downloads:/app/downloads
+      - ./params:/app/params
+      - ./logs:/app/logs
+      - ./cookies/:/app/persistant_cookies
+      - ./data:/app/data # For the programmations database
+      - /etc/localtime:/etc/localtime:ro
+    # environment:
+    #   # Host user and group ID
+    #   - UID=1000
+    #   - GID=1000
+    #   # Number of parallel downloads you want, you can also skip this parameter and use the worker.ini file instead
+    #   - NB_WORKERS=5
+    #   - LOG_LEVEL=error
+    #   # Redis will be disabled if this value is not false, remember to also change the setting in params.ini file
+    #   - DISABLE_REDIS=false
+    #   # HIGHLY DISCOURAGED but may be useful when there is a blocking bug in new yt-dlp release
+    #   - FORCE_YTDLP_VERSION=2022.11.11
+    networks:
+      - ydl_api_ng
+
+  ydl_api_ng_redis:
+    container_name: ydl_api_ng_redis
+    image: redis
+    restart: unless-stopped
+    networks:
+      - ydl_api_ng
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+#  ydl_api_ng_gluetun:
+#    image: qmcgaw/gluetun
+#    container_name: ydl_api_ng_gluetun
+#    cap_add:
+#      - NET_ADMIN
+#    devices:
+#      - /dev/net/tun:/dev/net/tun
+#    volumes:
+#      - ./data_gluetun:/gluetun
+#    networks:
+#      - ydl_api_ng
+#    environment:
+#      - HTTPPROXY=on # Important
+#      - HTTPPROXY_LISTENING_ADDRESS=:8888 # the proxy to provide to yt-dlp is http://ydl_api_ng_gluetun:8888
+#      # Add here all the information for your provider
+#      # https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers
+
+networks:
+  ydl_api_ng:
+

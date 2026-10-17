@@ -1,0 +1,18 @@
+services:
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - 80 # http
+      - 443 # https
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/caddy/CaddyFile:/etc/caddy/Caddyfile
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/caddy/data:/data
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/caddy/config:/config

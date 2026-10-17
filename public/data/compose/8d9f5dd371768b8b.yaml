@@ -1,0 +1,21 @@
+---
+# https://hub.docker.com/u/swaggerapi
+services:
+  swagger-ui:
+    container_name: swagger-ui
+    env_file:
+      - path: ./.env
+        required: false
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+  swagger-editor:
+    container_name: swagger-editor
+    env_file:
+      - path: ./.env
+        required: false
+    image: swaggerapi/swagger-editor:latest
+    ports:
+      - 80:80
+    restart: unless-stopped

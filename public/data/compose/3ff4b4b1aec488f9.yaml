@@ -1,0 +1,185 @@
+services:
+  redis:
+    image: redis:8-alpine
+    ports:
+      - 6379:6379
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - ./docker/redis:/data
+
+  ldap:
+    image: docker.pkg.github.com/modoboa/docker-openldap/docker-openldap
+    ports:
+      - 389/tcp
+    environment:
+      LDAP_DOMAIN: example.com
+      LDAP_ADMIN_PASSWORD: test
+    profiles: [ldap]
+
+  mariadb:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: Password1000
+      MARIADB_DATABASE: amavis
+
+    volumes:
+      - ./docker/mariadb:/var/lib/mysql
+    profiles: [amavis]
+
+  rq:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    environment:
+      DB: "SQLITE"
+      DEBUG: 1
+      REDIS_HOST: redis
+      PYTHONPATH: ".."
+      PYTHONUNBUFFERED: 1
+    command: >
+      sh -c "cd test_project; python3 manage.py rqworker dkim modoboa dovecot"
+    volumes:
+      - .:/code
+      - ./docker/radicale_config:/etc/radicale
+
+  rq-scheduler:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    environment:
+      DB: "SQLITE"
+      DEBUG: 1
+      REDIS_HOST: redis
+      PYTHONPATH: ".."
+      PYTHONUNBUFFERED: 1
+    command: >
+      sh -c "cd test_project; python3 manage.py rqcron test_project/cron_config.py"
+    volumes:
+      - .:/code
+
+  api:
+    container_name: modoboa_api
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - 8000:8000
+    env_file:
+      - test_project/oidc_key
+      - test_project/envfile
+    environment:
+      DB: "SQLITE"
+      DEBUG: 1
+      REDIS_HOST: redis
+      PYTHONPATH: ".."
+      PYTHONUNBUFFERED: 1
+    command: >
+      sh -c "cd test_project
+             python3 manage.py migrate
+             python3 manage.py load_initial_data --dev
+             python3 manage.py set_default_site --name localhost --domain localhost
+             django-admin compilemessages
+             python3 manage.py runserver_plus 0.0.0.0:8000 --cert-file cert.crt"
+    depends_on:
+      - radicale
+      - redis
+    volumes:
+      - .:/code
+
+  api-unsecured:
+    container_name: modoboa_api_unsecured
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - 8001:8001
+    env_file:
+      - test_project/oidc_key
+    environment:
+      DB: "SQLITE"
+      DEBUG: 0
+      REDIS_HOST: redis
+      PYTHONPATH: ".."
+      PYTHONUNBUFFERED: 1
+    command: >
+      sh -c "cd test_project
+             python3 manage.py runserver_plus 0.0.0.0:8001"
+    depends_on:
+      - radicale
+    volumes:
+      - .:/code
+
+  front:
+    container_name: modoboa_front
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.front.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/:/home/node/
+    command: >
+        sh -c "yarn install
+               yarn dev --host --force"
+    environment:
+      DOCKER: "yes"
+    depends_on:
+      - api
+
+  amavis:
+    container_name: modoboa_amavis
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.amavis.dev
+    profiles: [amavis]
+    ports:
+      - 9998:9998
+    volumes:
+      - ./docker/amavis_config/amavisd.conf:/etc/amavisd.conf
+    command: amavisd debug
+
+  dovecot:
+    container_name: modoboa_dovecot
+    restart: unless-stopped
+    image: dovecot/dovecot:2.3-latest
+    depends_on:
+      - api
+    volumes:
+      - ./docker/dovecot_config:/etc/dovecot/conf.d
+
+  radicale:
+    container_name: modoboa_radicale
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.radicale.dev
+    volumes:
+      - ./docker/radicale_config:/etc/radicale
+      - ./docker/collections:/collections
+
+  policyd:
+    container_name: modoboa_policyd
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - 9999:9999
+    env_file:
+      - test_project/oidc_key
+    environment:
+      DB: "SQLITE"
+      DEBUG: 1
+      REDIS_HOST: redis
+      PYTHONPATH: ".."
+      PYTHONUNBUFFERED: 1
+    command: >
+      sh -c "cd test_project
+             python3 manage.py policy_daemon --host 0.0.0.0 --port 9999 --debug"
+    volumes:
+      - .:/code

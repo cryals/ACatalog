@@ -1,0 +1,37 @@
+---
+# https://codeberg.org/forgejo/forgejo
+services:
+  forgejo:
+    container_name: forgejo
+    depends_on:
+      - db
+    env_file:
+      - path: ./.env
+        required: false
+    image: codeberg.org/forgejo/forgejo:14
+    ports:
+      - 3000:3000
+      - 22:22
+    restart: unless-stopped
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+  runner:
+    container_name: forgejo-runner
+    env_file:
+      - path: ./.env
+        required: false
+    image: code.forgejo.org/forgejo/runner:12
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config.yaml:/config.yaml
+
+  db:
+    container_name: forgejo-db
+    env_file:
+      - path: ./.env
+        required: false
+    image: postgres:18
+    restart: unless-stopped

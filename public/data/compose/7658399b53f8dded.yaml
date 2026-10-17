@@ -1,0 +1,64 @@
+services:
+
+  bookstack:
+    image: linuxserver/bookstack:latest
+    container_name: bookstack
+    hostname: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=http://127.0.0.1:8099 # change this to your prod url with https
+      # you should generate a new app key using:
+      # docker run -it --rm --entrypoint /bin/bash lscr.io/linuxserver/bookstack:latest appkey
+      - APP_KEY=base64:Npczl7vKB0Y3AlNboNTD5f71bYVaAuVB8ay4UhZ3My0=
+      - DB_HOST=bookstack_db
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=USERPW1
+      - DB_DATABASE=bookstackapp
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/bookstack/config:/config
+    restart: unless-stopped
+    ports:
+      - 8099:80
+    expose:
+      - 80
+    depends_on:
+      - bookstack_db
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.bookstack.rule=Host(`bookstack.example.com`)
+    #  - traefik.http.services.bookstack.loadbalancer.server.port=80
+    #  # Optional part for file upload max sizes
+    #  - traefik.http.middlewares.limit-bookstack.buffering.maxRequestBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-bookstack.buffering.maxResponseBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-bookstack.buffering.memRequestBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-bookstack.buffering.memResponseBodyBytes=50000000
+    #  # Optional part for traefik middlewares
+    #  - traefik.http.routers.bookstack.middlewares=limit-bookstack
+
+  bookstack_db:
+    image: linuxserver/mariadb:latest
+    container_name: bookstack_db
+    hostname: bookstack_db
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=ROOTPW
+      - TZ=Europe/Berlin
+      - MYSQL_DATABASE=bookstackapp
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=USERPW1
+    expose:
+      - 3306
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/bookstack/mariadb-config:/config
+    restart: unless-stopped
+    #networks:
+    #  - proxy
+
+#networks:
+#  proxy:
+#    external: true  

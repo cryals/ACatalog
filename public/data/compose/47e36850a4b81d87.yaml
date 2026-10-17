@@ -1,0 +1,595 @@
+########################################################################################
+#
+# READ ME FIRST!
+#
+# Use the much simpler `docker-compose.all-in-one.yml` instead of this file
+# unless you are an advanced user!
+#
+# This compose file runs every service separately using a Caddy reverse proxy to route
+# requests to the backend or web-frontend, handle websockets and to serve uploaded files
+# . Even if you have your own http proxy we recommend to simply forward requests to it
+# as it is already properly configured for Baserow.
+#
+# If you wish to continue with this more advanced compose file, it is recommended that
+# you set environment variables using the .env.example file by:
+# 1. `cp .env.example .env`
+# 2. Edit .env and fill in the first 3 variables.
+# 3. Set further environment variables as you wish.
+#
+# More documentation can be found in:
+# https://baserow.io/docs/installation%2Finstall-with-docker-compose
+#
+########################################################################################
+
+# See https://baserow.io/docs/installation%2Fconfiguration for more details on these
+# backend environment variables, their defaults if left blank etc.
+x-backend-variables:
+  &backend-variables # Most users should only need to set these first four variables.
+  SECRET_KEY: ${SECRET_KEY:?}
+  BASEROW_JWT_SIGNING_KEY: ${BASEROW_JWT_SIGNING_KEY:-}
+  DATABASE_PASSWORD: ${DATABASE_PASSWORD:?}
+  REDIS_PASSWORD: ${REDIS_PASSWORD:?}
+  # If you manually change this line make sure you also change the duplicate line in
+  # the web-frontend service.
+  BASEROW_PUBLIC_URL: ${BASEROW_PUBLIC_URL-http://localhost}
+  BASEROW_EXTRA_PUBLIC_URLS:
+
+  # Set these if you want to use an external postgres instead of the db service below.
+  DATABASE_USER: ${DATABASE_USER:-baserow}
+  DATABASE_NAME: ${DATABASE_NAME:-baserow}
+  DATABASE_HOST:
+  DATABASE_PORT:
+  DATABASE_OPTIONS:
+  DATABASE_URL:
+  BASEROW_CONN_MAX_AGE:
+
+  DATABASE_READ_1_USER:
+  DATABASE_READ_1_NAME:
+  DATABASE_READ_1_HOST:
+  DATABASE_READ_1_PORT:
+  DATABASE_READ_1_PASSWORD:
+  DATABASE_READ_1_OPTIONS:
+  DATABASE_READ_1_URL:
+
+  DATABASE_READ_2_USER:
+  DATABASE_READ_2_NAME:
+  DATABASE_READ_2_HOST:
+  DATABASE_READ_2_PORT:
+  DATABASE_READ_2_PASSWORD:
+  DATABASE_READ_2_OPTIONS:
+  DATABASE_READ_2_URL:
+
+  # Set these if you want to use an external redis instead of the redis service below.
+  REDIS_HOST:
+  REDIS_PORT:
+  REDIS_PROTOCOL:
+  REDIS_URL:
+  REDIS_USER:
+  REDIS_SSL_CERT_REQS:
+  REDIS_SSL_CA_CERTS:
+
+  # Set these to enable Baserow to send emails.
+  EMAIL_SMTP:
+  EMAIL_SMTP_HOST:
+  EMAIL_SMTP_PORT:
+  EMAIL_SMTP_USE_TLS:
+  EMAIL_SMTP_USE_SSL:
+  EMAIL_SMTP_USER:
+  EMAIL_SMTP_PASSWORD:
+  EMAIL_SMTP_SSL_CERTFILE_PATH:
+  EMAIL_SMTP_SSL_KEYFILE_PATH:
+  FROM_EMAIL:
+
+  # Set these to use AWS S3 bucket to store user files.
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_STORAGE_BUCKET_NAME:
+  AWS_S3_REGION_NAME:
+  AWS_S3_ENDPOINT_URL:
+  AWS_S3_CUSTOM_DOMAIN:
+
+  # Misc settings see https://baserow.io/docs/installation%2Fconfiguration for info
+  BASEROW_AMOUNT_OF_WORKERS:
+  BASEROW_ROW_PAGE_SIZE_LIMIT:
+  BASEROW_DEPENDANT_ROWS_REALTIME_UPDATE_LIMIT:
+  BASEROW_INTEGRATION_LOCAL_BASEROW_PAGE_SIZE_LIMIT:
+  BASEROW_FORMULA_RANGE_MAX_ITEMS:
+  BASEROW_INTEGRATION_LOCAL_BASEROW_BATCH_OPERATION_SIZE_LIMIT:
+  BASEROW_INTEGRATION_ALLOW_SMTP_SERVICE_TO_USE_INSTANCE_SETTINGS:
+  BASEROW_INBOUND_EMAIL_DOMAIN:
+  BASEROW_INBOUND_EMAIL_WEBHOOK_SECRET:
+  BASEROW_INBOUND_EMAIL_RECEIVER_URL: ${BASEROW_INBOUND_EMAIL_RECEIVER_URL:-http://email-receiver:8880}
+  BASEROW_INBOUND_EMAIL_RECEIVER_PASSWORD:
+  BASEROW_INBOUND_EMAIL_MAX_MESSAGE_SIZE_MB:
+  BATCH_ROWS_SIZE_LIMIT:
+  INITIAL_TABLE_DATA_LIMIT:
+  BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB:
+  BASEROW_REQUEST_BODY_SIZE_LIMIT_MB:
+  BASEROW_FILE_UPLOAD_ACTIVE_CONTENT_POLICY:
+  BASEROW_OPENAI_UPLOADED_FILE_SIZE_LIMIT_MB:
+  BASEROW_UNIQUE_ROW_VALUES_SIZE_LIMIT:
+  BASEROW_MAX_FIELD_TEXT_LENGTH:
+  BASEROW_REALTIME_REPLAY_MAX_EVENTS:
+  BASEROW_REALTIME_REPLAY_RETENTION_HOURS:
+
+  BASEROW_AUTOMATION_HISTORY_PAGE_SIZE_LIMIT:
+  BASEROW_AUTOMATION_WORKFLOW_RESPONSE_TIMEOUT_MAX_SECONDS:
+  BASEROW_AUTOMATION_WORKFLOW_RATE_LIMIT_MAX_RUNS:
+  BASEROW_AUTOMATION_WORKFLOW_RATE_LIMITS:
+  BASEROW_AUTOMATION_WORKFLOW_RATE_LIMIT_CACHE_EXPIRY_SECONDS:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_RATE_LIMIT_CACHE_EXPIRY_SECONDS:
+  BASEROW_AUTOMATION_WORKFLOW_ERROR_LIMITS:
+  BASEROW_AUTOMATION_WORKFLOW_MAX_CONSECUTIVE_ERRORS:
+  BASEROW_AUTOMATION_WORKFLOW_TIMEOUT_HOURS:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_DAYS:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_AUTOMATION_MAX_NODE_DISPATCHES_PER_RUN:
+
+  BASEROW_EXTRA_ALLOWED_HOSTS:
+  ADDITIONAL_APPS:
+  BASEROW_PLUGIN_GIT_REPOS:
+  BASEROW_PLUGIN_URLS:
+
+  BASEROW_ENABLE_SECURE_PROXY_SSL_HEADER:
+  MIGRATE_ON_STARTUP: ${MIGRATE_ON_STARTUP:-true}
+  SYNC_TEMPLATES_ON_STARTUP: ${SYNC_TEMPLATES_ON_STARTUP:-true}
+  BASEROW_SYNC_TEMPLATES_PATTERN:
+  DONT_UPDATE_FORMULAS_AFTER_MIGRATION:
+  BASEROW_TRIGGER_SYNC_TEMPLATES_AFTER_MIGRATION:
+  BASEROW_SYNC_TEMPLATES_TIME_LIMIT:
+
+  BASEROW_BACKEND_DEBUG:
+  BASEROW_BACKEND_LOG_LEVEL:
+  BASEROW_DJANGO_REQUEST_LOG_LEVEL:
+  FEATURE_FLAGS:
+  BASEROW_PRESENCE_VISIBLE_USERS:
+  BASEROW_ENABLE_OTEL:
+  BASEROW_OTEL_LOG_LEVEL:
+  BASEROW_OTEL_SLOW_REQUEST_THRESHOLD_SECONDS:
+  BASEROW_OTEL_SLOW_CELERY_TASK_THRESHOLD_SECONDS:
+  BASEROW_DEPLOYMENT_ENV:
+  OTEL_EXPORTER_OTLP_ENDPOINT:
+  OTEL_RESOURCE_ATTRIBUTES:
+  OTEL_SEMCONV_STABILITY_OPT_IN: ${OTEL_SEMCONV_STABILITY_OPT_IN:-http}
+  POSTHOG_PROJECT_API_KEY:
+  POSTHOG_HOST:
+
+  PRIVATE_BACKEND_URL: ${PRIVATE_BACKEND_URL:-http://backend:8000}
+  PUBLIC_BACKEND_URL:
+  PUBLIC_WEB_FRONTEND_URL:
+  BASEROW_BUILDER_PREVIEW_URL:
+  BASEROW_BUILDER_PREVIEW_GRANT_TTL_SECONDS:
+  BASEROW_EMBEDDED_SHARE_URL:
+  BASEROW_FRONTEND_COOKIE_PREFIX:
+  MEDIA_URL:
+  MEDIA_ROOT:
+
+  BASEROW_AIRTABLE_IMPORT_SOFT_TIME_LIMIT:
+  HOURS_UNTIL_TRASH_PERMANENTLY_DELETED:
+  OLD_ACTION_CLEANUP_INTERVAL_MINUTES:
+  MINUTES_UNTIL_ACTION_CLEANED_UP:
+  BASEROW_GROUP_STORAGE_USAGE_QUEUE:
+  DISABLE_ANONYMOUS_PUBLIC_VIEW_WS_CONNECTIONS:
+  BASEROW_WAIT_INSTEAD_OF_409_CONFLICT_ERROR:
+  BASEROW_DISABLE_MODEL_CACHE:
+  BASEROW_PLUGIN_DIR:
+  BASEROW_JOB_EXPIRATION_TIME_LIMIT:
+  BASEROW_JOB_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_ROW_HISTORY_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_ROW_HISTORY_RETENTION_DAYS:
+  BASEROW_LAST_VIEWED_DEBOUNCE_SECONDS:
+  BASEROW_LAST_VIEWED_UPDATE_INTERVAL_SECONDS:
+  BASEROW_LAST_VIEWED_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_USER_LOG_ENTRY_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_USER_LOG_ENTRY_RETENTION_DAYS:
+  BASEROW_IMPORT_EXPORT_RESOURCE_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_IMPORT_EXPORT_RESOURCE_REMOVAL_AFTER_DAYS:
+  BASEROW_IMPORT_EXPORT_TABLE_ROWS_COUNT_LIMIT:
+  BASEROW_MAX_ROW_REPORT_ERROR_COUNT:
+  BASEROW_JOB_SOFT_TIME_LIMIT:
+  BASEROW_FRONTEND_JOBS_POLLING_TIMEOUT_MS:
+  BASEROW_INITIAL_CREATE_SYNC_TABLE_DATA_LIMIT:
+  BASEROW_MAX_SNAPSHOTS_PER_GROUP:
+  BASEROW_SNAPSHOT_EXPIRATION_TIME_DAYS:
+  BASEROW_WEBHOOKS_ALLOW_PRIVATE_ADDRESS:
+  BASEROW_WEBHOOKS_IP_BLACKLIST:
+  BASEROW_WEBHOOKS_IP_WHITELIST:
+  BASEROW_WEBHOOKS_URL_REGEX_BLACKLIST:
+  BASEROW_WEBHOOKS_URL_CHECK_TIMEOUT_SECS:
+  BASEROW_WEBHOOKS_MAX_CONSECUTIVE_TRIGGER_FAILURES:
+  BASEROW_WEBHOOKS_MAX_RETRIES_PER_CALL:
+  BASEROW_WEBHOOKS_MAX_PER_TABLE:
+  BASEROW_WEBHOOKS_MAX_CALL_LOG_ENTRIES:
+  BASEROW_WEBHOOKS_REQUEST_TIMEOUT_SECONDS:
+  BASEROW_INTEGRATIONS_ALLOW_PRIVATE_ADDRESS:
+  BASEROW_INTEGRATIONS_HTTP_MAX_RESPONSE_BYTES:
+  BASEROW_INTEGRATIONS_SLACK_API_URL:
+  BASEROW_INTEGRATIONS_PERIODIC_MINUTE_MIN:
+  BASEROW_DATA_SYNC_ALLOW_PRIVATE_ADDRESS:
+  BASEROW_SSO_ALLOW_PRIVATE_ADDRESS:
+  BASEROW_ENTERPRISE_AUDIT_LOG_CLEANUP_INTERVAL_MINUTES:
+  BASEROW_ENTERPRISE_AUDIT_LOG_RETENTION_DAYS:
+  BASEROW_ALLOW_MULTIPLE_SSO_PROVIDERS_FOR_SAME_ACCOUNT:
+  BASEROW_SEAT_USAGE_JOB_CRONTAB:
+  BASEROW_PERIODIC_FIELD_UPDATE_CRONTAB:
+  BASEROW_PERIODIC_FIELD_UPDATE_UNUSED_WORKSPACE_INTERVAL_MIN:
+  BASEROW_PERIODIC_FIELD_UPDATE_TIMEOUT_MINUTES:
+  BASEROW_PERIODIC_FIELD_UPDATE_QUEUE_NAME:
+  BASEROW_PERIODIC_FIELD_UPDATE_BATCH_COUNT:
+  BASEROW_MAX_CONCURRENT_USER_REQUESTS:
+  BASEROW_CONCURRENT_USER_REQUESTS_THROTTLE_TIMEOUT:
+  BASEROW_THROTTLE_BLACKLIST_TTL_SECONDS:
+  BASEROW_CACHE_TTL_SECONDS:
+  BASEROW_THROTTLE_IP_ENABLED:
+  BASEROW_ABUSE_REPORT_THROTTLE_RATE:
+  BASEROW_ABUSE_REPORT_NOTIFICATION_COOLDOWN_SECONDS:
+  BASEROW_SEND_VERIFY_EMAIL_RATE_LIMIT:
+  BASEROW_WORKSPACE_INVITATION_RATE_LIMITS:
+  BASEROW_LOGIN_ACTION_LOG_LIMIT:
+  BASEROW_OSS_ONLY:
+  OTEL_TRACES_SAMPLER:
+  OTEL_TRACES_SAMPLER_ARG:
+  BASEROW_CACHALOT_ENABLED:
+  BASEROW_CACHALOT_MODE:
+  BASEROW_CACHALOT_ONLY_CACHABLE_TABLES:
+  BASEROW_CACHALOT_UNCACHABLE_TABLES:
+  BASEROW_CACHALOT_TIMEOUT:
+  BASEROW_BUILDER_PUBLICLY_USED_PROPERTIES_CACHE_TTL_SECONDS:
+  BASEROW_BUILDER_DISPATCH_ACTION_CACHE_TTL_SECONDS:
+  BASEROW_DATABASE_BUTTON_DISPATCH_LOCK_TTL_SECONDS:
+  BASEROW_DATABASE_BUTTON_SAMPLE_DATA_MAX_BYTES:
+  BASEROW_DATABASE_BUTTON_DISPATCH_USER_RATE_LIMITS:
+  BASEROW_DATABASE_BUTTON_DISPATCH_WORKSPACE_RATE_LIMITS:
+  BASEROW_AUTO_INDEX_VIEW_ENABLED:
+  BASEROW_APPLICATION_USER_LIMIT_GRACE_PERIOD_HOURS:
+  BASEROW_PERSONAL_VIEW_LOWEST_ROLE_ALLOWED:
+  BASEROW_DISABLE_LOCKED_MIGRATIONS:
+  BASEROW_USE_PG_FULLTEXT_SEARCH:
+  BASEROW_PG_FULLTEXT_SEARCH_UPDATE_DATA_THROTTLE_SECONDS:
+  BASEROW_BUILDER_DOMAINS:
+  SENTRY_DSN:
+  SENTRY_BACKEND_DSN:
+  SENTRY_TRACES_SAMPLE_RATE:
+  SENTRY_MONITOR_BEAT_TASKS:
+  SENTRY_EXCLUDE_BEAT_TASKS:
+  OPENAI_API_KEY:
+  GROQ_API_KEY:
+  GOOGLE_API_KEY:
+  # Deprecated: imported into Admin tools > AI providers on upgrade, then ignored for providers configured there.
+  BASEROW_OPENAI_API_KEY:
+  BASEROW_OPENAI_ORGANIZATION:
+  BASEROW_OPENAI_MODELS:
+  BASEROW_OPENAI_BASE_URL:
+  BASEROW_OPENROUTER_API_KEY:
+  BASEROW_OPENROUTER_ORGANIZATION:
+  BASEROW_OPENROUTER_MODELS:
+  BASEROW_ANTHROPIC_API_KEY:
+  BASEROW_ANTHROPIC_MODELS:
+  BASEROW_MISTRAL_API_KEY:
+  BASEROW_MISTRAL_MODELS:
+  BASEROW_OLLAMA_HOST:
+  BASEROW_OLLAMA_MODELS:
+  # Supported AI Field runtime limit.
+  BASEROW_AI_FIELD_MAX_CONCURRENT_GENERATIONS:
+  BASEROW_SERVE_FILES_THROUGH_BACKEND:
+  BASEROW_SERVE_FILES_THROUGH_BACKEND_PERMISSION:
+  BASEROW_SERVE_FILES_THROUGH_BACKEND_EXPIRE_SECONDS:
+  BASEROW_ICAL_VIEW_MAX_EVENTS: ${BASEROW_ICAL_VIEW_MAX_EVENTS:-}
+  BASEROW_ACCESS_TOKEN_LIFETIME_MINUTES:
+  BASEROW_REFRESH_TOKEN_LIFETIME_HOURS:
+  BASEROW_PREVENT_POSTGRESQL_DATA_SYNC_CONNECTION_TO_DATABASE:
+  BASEROW_POSTGRESQL_DATA_SYNC_BLACKLIST:
+  BASEROW_POSTGRESQL_DATA_SYNC_STATEMENT_TIMEOUT:
+  BASEROW_TWO_WAY_SYNC_MAX_CONSECUTIVE_FAILURES:
+  BASEROW_TWO_WAY_SYNC_MAX_RETRIES:
+  BASEROW_ASGI_HTTP_MAX_CONCURRENCY: ${BASEROW_ASGI_HTTP_MAX_CONCURRENCY:-}
+  BASEROW_MAX_WEBHOOK_CALLS_IN_QUEUE_PER_WEBHOOK:
+  BASEROW_MAX_HEALTHY_CELERY_QUEUE_SIZE:
+  BASEROW_ENTERPRISE_PERIODIC_DATA_SYNC_CHECK_INTERVAL_MINUTES:
+  BASEROW_ENTERPRISE_MAX_PERIODIC_DATA_SYNC_CONSECUTIVE_ERRORS:
+  BASEROW_USE_LOCAL_CACHE:
+  BASEROW_WEBHOOKS_BATCH_LIMIT:
+  BASEROW_WEBHOOK_ROWS_ENTER_VIEW_BATCH_SIZE:
+  BASEROW_DEADLOCK_INITIAL_BACKOFF:
+  BASEROW_DEADLOCK_MAX_RETRIES:
+  BASEROW_PREMIUM_GROUPED_AGGREGATE_SERVICE_MAX_SERIES:
+  BASEROW_PREMIUM_GROUPED_AGGREGATE_SERVICE_MAX_AGG_BUCKETS:
+  BASEROW_ENTERPRISE_CODE_RUNNER_DEFAULT_TYPE:
+  BASEROW_ENTERPRISE_CODE_RUNNER_WASMTIME_EXECUTABLE:
+  BASEROW_ENTERPRISE_CODE_RUNNER_QUICKJS_WASM_PATH:
+  BASEROW_ENTERPRISE_CODE_RUNNER_TIMEOUT_SECONDS:
+  BASEROW_ENTERPRISE_CODE_RUNNER_MEMORY_LIMIT_BYTES:
+  BASEROW_ENTERPRISE_CODE_RUNNER_FUEL_LIMIT:
+  # Deprecated model selection; choose Kuma under Admin tools > AI providers > AI features.
+  BASEROW_ENTERPRISE_ASSISTANT_LLM_MODEL:
+  BASEROW_ENTERPRISE_ASSISTANT_LLM_TEMPERATURE:
+  BASEROW_EMBEDDINGS_API_URL:
+  BASEROW_OAUTH_BACKEND_URL:
+  BASEROW_TOTP_ISSUER_NAME:
+  BASEROW_ENABLE_CAPTCHA:
+  BASEROW_CAPTCHA_PROVIDER:
+  BASEROW_CLOUDFLARE_TURNSTILE_SITE_KEY:
+  BASEROW_CLOUDFLARE_TURNSTILE_SECRET_KEY:
+
+services:
+  # A caddy reverse proxy sitting in-front of all the services. Responsible for routing
+  # requests to either the backend or web-frontend and also serving user uploaded files
+  # from the media volume.
+  caddy:
+    image: caddy:2.11.7
+    restart: unless-stopped
+    environment:
+      # Controls what port the Caddy server binds to inside its container.
+      BASEROW_CADDY_ADDRESSES: ${BASEROW_CADDY_ADDRESSES:-:80}
+      PRIVATE_WEB_FRONTEND_URL: ${PRIVATE_WEB_FRONTEND_URL:-http://web-frontend:3000}
+      PRIVATE_BACKEND_URL: ${PRIVATE_BACKEND_URL:-http://backend:8000}
+      BASEROW_PUBLIC_URL: ${BASEROW_PUBLIC_URL:-}
+      MEDIA_URL: ${MEDIA_URL:-}
+    ports:
+      - "${HOST_PUBLISH_IP:-0.0.0.0}:${WEB_FRONTEND_PORT:-80}:80"
+      - "${HOST_PUBLISH_IP:-0.0.0.0}:${WEB_FRONTEND_SSL_PORT:-443}:443"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - media:/baserow/media
+      - caddy_config:/config
+      - caddy_data:/data
+    networks:
+      local:
+
+  backend:
+    image: baserow/backend:${BASEROW_VERSION:-2.4.1}
+    restart: unless-stopped
+
+    environment:
+      <<: *backend-variables
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - media:/baserow/media
+    networks:
+      local:
+
+  web-frontend:
+    image: baserow/web-frontend:${BASEROW_VERSION:-2.4.1}
+    restart: unless-stopped
+    environment:
+      BASEROW_PUBLIC_URL: ${BASEROW_PUBLIC_URL-http://localhost}
+      MEDIA_URL:
+      BASEROW_EXTRA_PUBLIC_URLS:
+      PRIVATE_BACKEND_URL: ${PRIVATE_BACKEND_URL:-http://backend:8000}
+      PUBLIC_BACKEND_URL:
+      PUBLIC_WEB_FRONTEND_URL:
+      BASEROW_BUILDER_PREVIEW_URL:
+      BASEROW_EMBEDDED_SHARE_URL:
+      BASEROW_DISABLE_PUBLIC_URL_CHECK:
+      INITIAL_TABLE_DATA_LIMIT:
+      DOWNLOAD_FILE_VIA_XHR:
+      BASEROW_DISABLE_GOOGLE_DOCS_FILE_PREVIEW:
+      BASEROW_DISABLE_SUPPORT:
+      BASEROW_EXTRA_CLIENT_SCRIPT_URLS:
+      HOURS_UNTIL_TRASH_PERMANENTLY_DELETED:
+      DISABLE_ANONYMOUS_PUBLIC_VIEW_WS_CONNECTIONS:
+      FEATURE_FLAGS:
+      BASEROW_PRESENCE_VISIBLE_USERS:
+      ADDITIONAL_MODULES:
+      BASEROW_MAX_IMPORT_FILE_SIZE_MB:
+      BASEROW_MAX_SNAPSHOTS_PER_GROUP:
+      BASEROW_ENABLE_OTEL:
+      BASEROW_DEPLOYMENT_ENV:
+      BASEROW_OSS_ONLY:
+      BASEROW_USE_PG_FULLTEXT_SEARCH:
+      BASEROW_PG_FULLTEXT_SEARCH_UPDATE_DATA_THROTTLE_SECONDS:
+      POSTHOG_PROJECT_API_KEY:
+      POSTHOG_HOST:
+      BASEROW_UNIQUE_ROW_VALUES_SIZE_LIMIT:
+      BASEROW_MAX_FIELD_TEXT_LENGTH:
+      BASEROW_ROW_PAGE_SIZE_LIMIT:
+      BASEROW_DEPENDANT_ROWS_REALTIME_UPDATE_LIMIT:
+      BASEROW_INTEGRATION_LOCAL_BASEROW_PAGE_SIZE_LIMIT:
+      BASEROW_AUTOMATION_WORKFLOW_RESPONSE_TIMEOUT_MAX_SECONDS:
+      BASEROW_REALTIME_REPLAY_MAX_EVENTS:
+      BASEROW_FORMULA_RANGE_MAX_ITEMS:
+      BASEROW_INTEGRATION_LOCAL_BASEROW_BATCH_OPERATION_SIZE_LIMIT:
+      BASEROW_INTEGRATION_ALLOW_SMTP_SERVICE_TO_USE_INSTANCE_SETTINGS:
+      BASEROW_BUILDER_DOMAINS:
+      BASEROW_FRONTEND_SAME_SITE_COOKIE:
+      BASEROW_FRONTEND_COOKIE_PREFIX:
+      BASEROW_DASHBOARD_DATA_SOURCE_DISPATCH_CONCURRENCY:
+      SENTRY_DSN:
+      SENTRY_TRACES_SAMPLE_RATE:
+      SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE:
+      BASEROW_PREMIUM_GROUPED_AGGREGATE_SERVICE_MAX_SERIES:
+      BASEROW_PREMIUM_GROUPED_AGGREGATE_SERVICE_MAX_AGG_BUCKETS:
+      BASEROW_AUTOMATION_HISTORY_PAGE_SIZE_LIMIT:
+      BASEROW_AUTOMATION_WORKFLOW_RATE_LIMIT_MAX_RUNS:
+      BASEROW_AUTOMATION_WORKFLOW_RATE_LIMITS:
+      BASEROW_AUTOMATION_WORKFLOW_RATE_LIMIT_CACHE_EXPIRY_SECONDS:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_RATE_LIMIT_CACHE_EXPIRY_SECONDS:
+      BASEROW_AUTOMATION_WORKFLOW_ERROR_LIMITS:
+      BASEROW_AUTOMATION_WORKFLOW_MAX_CONSECUTIVE_ERRORS:
+      BASEROW_AUTOMATION_WORKFLOW_TIMEOUT_HOURS:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_DAYS:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES:
+      BASEROW_INTEGRATIONS_PERIODIC_MINUTE_MIN:
+      BASEROW_ENTERPRISE_CODE_RUNNER_DEFAULT_TYPE:
+      # Deprecated model selection; choose Kuma under Admin tools > AI providers > AI features.
+      BASEROW_ENTERPRISE_ASSISTANT_LLM_MODEL:
+    depends_on:
+      - backend
+    networks:
+      local:
+
+  celery:
+    image: baserow/backend:${BASEROW_VERSION:-2.4.1}
+    restart: unless-stopped
+    environment:
+      <<: *backend-variables
+    command: celery-worker
+    # The backend image's baked in healthcheck defaults to the django healthcheck
+    # override it to the celery one here.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/baserow/backend/docker/docker-entrypoint.sh celery-worker-healthcheck",
+        ]
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - media:/baserow/media
+    networks:
+      local:
+
+  celery-export-worker:
+    image: baserow/backend:${BASEROW_VERSION:-2.4.1}
+    restart: unless-stopped
+    command: celery-exportworker
+    environment:
+      <<: *backend-variables
+    # The backend image's baked in healthcheck defaults to the django healthcheck
+    # override it to the celery one here.
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/baserow/backend/docker/docker-entrypoint.sh celery-exportworker-healthcheck",
+        ]
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - media:/baserow/media
+    networks:
+      local:
+
+  celery-beat-worker:
+    image: baserow/backend:${BASEROW_VERSION:-2.4.1}
+    restart: unless-stopped
+    command: celery-beat
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/baserow/backend/docker/docker-entrypoint.sh celery-beat-healthcheck",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      <<: *backend-variables
+    # See https://github.com/sibson/redbeat/issues/129#issuecomment-1057478237
+    stop_signal: SIGQUIT
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - media:/baserow/media
+    networks:
+      local:
+
+  # Receives inbound email for the "Start workflow by email" automation trigger
+  # and forwards it to the backend. Opt-in through the "inbound-email" Compose
+  # profile (COMPOSE_PROFILES=inbound-email): Compose cannot publish a port
+  # conditionally, so without the profile the SMTP port below would be bound on
+  # the host of every installation, including the ones that never use the
+  # trigger. Also set BASEROW_INBOUND_EMAIL_DOMAIN and
+  # BASEROW_INBOUND_EMAIL_WEBHOOK_SECRET; the service idles until both are
+  # present. Runs as root because mox binds its sockets as root and then drops
+  # privileges itself.
+  email-receiver:
+    image: baserow/backend:${BASEROW_VERSION:-2.4.1}
+    profiles: ["inbound-email"]
+    restart: unless-stopped
+    user: root
+    command: email-receiver
+    ports:
+      - "${BASEROW_INBOUND_EMAIL_HOST_PUBLISH_IP:-${HOST_PUBLISH_IP:-0.0.0.0}}:${BASEROW_INBOUND_EMAIL_HOST_SMTP_PORT:-25}:25"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/baserow/backend/docker/docker-entrypoint.sh email-receiver-healthcheck",
+        ]
+    environment:
+      BASEROW_INBOUND_EMAIL_DOMAIN:
+      BASEROW_INBOUND_EMAIL_WEBHOOK_SECRET:
+      BASEROW_INBOUND_EMAIL_WEBHOOK_URL:
+      BASEROW_INBOUND_EMAIL_SMTP_HOSTNAME:
+      BASEROW_INBOUND_EMAIL_SMTP_PORT:
+      BASEROW_INBOUND_EMAIL_TLS_MODE:
+      BASEROW_INBOUND_EMAIL_TLS_CERT_FILE:
+      BASEROW_INBOUND_EMAIL_TLS_KEY_FILE:
+      BASEROW_INBOUND_EMAIL_MAX_MESSAGE_SIZE_MB:
+      BASEROW_INBOUND_EMAIL_WEBAPI_PORT:
+      BASEROW_INBOUND_EMAIL_WEBAPI_BIND_IP:
+      BASEROW_INBOUND_EMAIL_RECEIVER_PASSWORD:
+      PRIVATE_BACKEND_URL: ${PRIVATE_BACKEND_URL:-http://backend:8000}
+      BASEROW_DEPLOYMENT_ENV:
+      OTEL_RESOURCE_ATTRIBUTES:
+    depends_on:
+      - backend
+    volumes:
+      - mox_data:/baserow/data/mox
+    networks:
+      local:
+
+  db:
+    image: pgvector/pgvector:pg15
+    # If you were using a previous version, perform the update by uncommenting the
+    # following line. See: https://baserow.io/docs/installation%2Finstall-with-docker#upgrading-postgresql-database-from-a-previous-version
+    # for more information.
+    # image: pgautoupgrade/pgautoupgrade:15-alpine3.8
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DATABASE_USER:-baserow}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:?}
+      - POSTGRES_DB=${DATABASE_NAME:-baserow}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'su postgres -c "pg_isready -U ${DATABASE_USER:-baserow}"',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      local:
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:?}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+    networks:
+      local:
+
+  # By default, the media volume will be owned by root on startup. Ensure it is owned by
+  # the same user that django is running as, so it can write user files.
+  volume-permissions-fixer:
+    image: bash:4.4
+    command: chown 9999:9999 -R /baserow/media
+    volumes:
+      - media:/baserow/media
+    networks:
+      local:
+
+volumes:
+  pgdata:
+  media:
+  mox_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  local:
+    driver: bridge

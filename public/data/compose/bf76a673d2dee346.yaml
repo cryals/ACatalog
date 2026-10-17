@@ -1,0 +1,17 @@
+---
+# https://hub.docker.com/_/postgres
+services:
+  postgres:
+    container_name: postgres
+    env_file:
+      - path: ./.env
+        required: false
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    restart: unless-stopped

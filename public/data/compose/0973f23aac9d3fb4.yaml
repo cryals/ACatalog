@@ -1,0 +1,19 @@
+name: daily-stars
+services:
+  daily-stars-explorer:
+    build: .
+    image: ghcr.io/emanuelef/daily-stars-explorer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "wget", "-q", "http://127.0.0.1:8080/health", "-O", "-"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    expose:
+      - "8080"

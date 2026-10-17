@@ -1,0 +1,58 @@
+services:
+
+  wikijs:
+    image: linuxserver/wikijs:latest
+    container_name: wikijs
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - DB_TYPE=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=wikijs
+      - DB_USER=wikijs
+      - DB_PASS=MySecureDatabasePassword
+    expose:
+      - 3000
+    ports:
+      - 8888:3000 # WEB UI
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/wikijs/config:/config
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/wikijs/data:/data
+    links:
+      - db
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.wikijs.rule=Host(`wikijs.example.com`)
+    #  - traefik.http.services.wikijs.loadbalancer.server.port=3000
+    #  # Optional part for file upload max sizes
+    #  - traefik.http.middlewares.limit-wikijs.buffering.maxRequestBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-wikijs.buffering.maxResponseBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-wikijs.buffering.memRequestBodyBytes=50000000
+    #  - traefik.http.middlewares.limit-wikijs.buffering.memResponseBodyBytes=50000000
+    #  # Optional part for traefik middlewares
+    #  - traefik.http.routers.wikijs.middlewares=limit-wikijs
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgresql
+    environment:
+      - POSTGRES_PASSWORD=MySecureDatabasePassword
+      - POSTGRES_USER=wikijs
+      - POSTGRES_DB=wikijs
+    expose:
+      - 5432
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/wikijs/database:/var/lib/postgresql/data
+    #networks:
+    #  - proxy
+
+#networks:
+#  proxy:
+#    external: true  

@@ -1,0 +1,32 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+    volumes:
+      - /path/to/media:/media # <-- same mount point
+      - /path/to/sonarr/config:/config
+      - /path/to/mkvpriority/config:/mkvpriority
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  mkvpriority:
+    image: ghcr.io/kennethsible/mkvpriority
+    container_name: mkvpriority
+    user: ${PUID:-1000}:${PGID:-1000}
+    environment:
+      WEBHOOK_PORT: "8080"
+      MKVPRIORITY_ARGS: >
+        --archive /config/archive.db
+      # TZ: "America/New_York"
+      # CRON_SCHEDULE: "0 0 * * *"
+      # CRON_TARGET_PATH: /media
+    volumes:
+      - /path/to/media:/media # <-- same mount point
+      - /path/to/mkvpriority/config:/config
+    ports:
+      - 8080:8080
+    restart: unless-stopped

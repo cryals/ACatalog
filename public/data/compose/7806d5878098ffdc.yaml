@@ -1,0 +1,24 @@
+services:
+  clickhouse:
+    image: "clickhouse/clickhouse-server:25.8.1.5101-alpine"
+    ports:
+      - 8123:8123 # HTTP interface
+      - 9000:9000 # Native interface
+    ulimits:
+      nofile: 262144
+    # healthcheck:
+    #   test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+    volumes:
+      - "clickhouse_data:/var/lib/clickhouse"
+    environment:
+      CLICKHOUSE_USER: "clickhouse"
+      CLICKHOUSE_PASSWORD: "password"
+      CLICKHOUSE_DB: "${PRISME_CLICKHOUSE_DB:-prisme}"
+    networks:
+      default:
+        aliases:
+          - "clickhouse.localhost"
+
+volumes:
+  clickhouse_data:
+  grafana_data:

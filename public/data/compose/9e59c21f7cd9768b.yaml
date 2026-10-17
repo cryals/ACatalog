@@ -1,0 +1,22 @@
+﻿services:
+  openresty-manager:
+    image: uusec/openresty-manager:latest
+    #ulimits:
+      #nproc: 65535
+      #nofile:
+      #soft: 102400
+      #hard: 102400
+    #environment:
+      #- NGINX_RESOLVER=resolver 127.0.0.11 valid=30s ipv6=off local=on;
+      #- OM_LANGUAGE=zh
+    container_name: openresty-manager
+    restart: always
+    network_mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./om_acme:/opt/om/acme
+      - ./om_data:/opt/om/data
+      - ./om_conf:/opt/om/nginx/conf
+      - ./om_logs:/opt/om/nginx/logs

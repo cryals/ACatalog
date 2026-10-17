@@ -1,0 +1,115 @@
+name: shellhub
+
+services:
+  server:
+    image: shellhubio/server:${SHELLHUB_VERSION}
+    restart: unless-stopped
+    environment:
+      - SHELLHUB_VERSION=${SHELLHUB_VERSION}
+      - PRIVATE_KEY=/run/secrets/api_private_key
+      - PUBLIC_KEY=/run/secrets/api_public_key
+      - SSH_HOST_KEY_FILE=/run/secrets/ssh_private_key
+      - SHELLHUB_AUTO_SSL=${SHELLHUB_AUTO_SSL}
+      - ALLOW_PUBLIC_KEY_ACCESS_BELLOW_0_6_0=${SHELLHUB_ALLOW_PUBLIC_KEY_ACCESS_BELLOW_0_6_0}
+      - SHELLHUB_EDITION=${SHELLHUB_EDITION}
+      - SHELLHUB_CHATWOOT_IDENTITY_KEY=${SHELLHUB_CHATWOOT_IDENTITY_KEY-}
+      - POSTGRES_HOST=${SHELLHUB_POSTGRES_HOST}
+      - POSTGRES_PORT=${SHELLHUB_POSTGRES_PORT}
+      - POSTGRES_USERNAME=${SHELLHUB_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${SHELLHUB_POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${SHELLHUB_POSTGRES_DATABASE}
+      - POSTGRES_LOG_LEVEL=${SHELLHUB_POSTGRES_LOG_LEVEL}
+      - POSTGRES_LOG_VERBOSE=${SHELLHUB_POSTGRES_LOG_VERBOSE}
+      - SHELLHUB_LOG_LEVEL=${SHELLHUB_LOG_LEVEL}
+      - SHELLHUB_LOG_FORMAT=${SHELLHUB_LOG_FORMAT}
+      - SENTRY_DSN=${SHELLHUB_SENTRY_DSN}
+      - SHELLHUB_SSH_PORT=${SHELLHUB_SSH_PORT}
+      - SHELLHUB_DOMAIN=${SHELLHUB_DOMAIN}
+      - ASYNQ_UNIQUENESS_TIMEOUT=${SHELLHUB_ASYNQ_UNIQUENESS_TIMEOUT}
+      - REDIS_CACHE_POOL_SIZE=${SHELLHUB_REDIS_CACHE_POOL_SIZE}
+      - MAXIMUM_ACCOUNT_LOCKOUT=${SHELLHUB_MAXIMUM_ACCOUNT_LOCKOUT}
+      - METRICS=${SHELLHUB_METRICS}
+      - SHELLHUB_PROVISIONING_KEY_WEBHOOK_ALLOWED_CIDRS=${SHELLHUB_PROVISIONING_KEY_WEBHOOK_ALLOWED_CIDRS-}
+      - SHELLHUB_SESSION_KEEPALIVE_TIMEOUT=${SHELLHUB_SESSION_KEEPALIVE_TIMEOUT:-5m}
+      - SHELLHUB_REQUIRE_VERIFIED_DEVICE_KEY=${SHELLHUB_REQUIRE_VERIFIED_DEVICE_KEY:-false}
+    depends_on:
+      - redis
+    links:
+      - redis
+    ports:
+      - "${SHELLHUB_SSH_PORT}:2222"
+    secrets:
+      - api_private_key
+      - api_public_key
+      - ssh_private_key
+    networks:
+      shellhub:
+        aliases:
+          - api
+          - ssh
+    healthcheck:
+      test: "curl -f http://server:8080/api/healthcheck || exit 1"
+      interval: 30s
+      start_period: 10s
+  ui:
+    image: shellhubio/ui:${SHELLHUB_VERSION}
+    restart: unless-stopped
+    environment:
+      - SHELLHUB_EDITION=${SHELLHUB_EDITION}
+      - SHELLHUB_VERSION=${SHELLHUB_VERSION}
+      - SHELLHUB_ONBOARDING_URL=${SHELLHUB_ONBOARDING_URL}
+      - SHELLHUB_CHATWOOT_BASEURL=${SHELLHUB_CHATWOOT_BASEURL-}
+      - SHELLHUB_CHATWOOT_WEBSITE_TOKEN=${SHELLHUB_CHATWOOT_WEBSITE_TOKEN-}
+    networks:
+      - shellhub
+    healthcheck:
+      test: "wget -q --spider -T 5 http://ui:8080/health || exit 1"
+      interval: 30s
+      start_period: 10s
+  gateway:
+    image: shellhubio/gateway:${SHELLHUB_VERSION}
+    restart: unless-stopped
+    environment:
+      - SHELLHUB_LOG_LEVEL=${SHELLHUB_LOG_LEVEL}
+      - SHELLHUB_LOG_FORMAT=${SHELLHUB_LOG_FORMAT}
+      - SHELLHUB_DOMAIN=${SHELLHUB_DOMAIN}
+      - SHELLHUB_PROXY=${SHELLHUB_PROXY}
+      - SHELLHUB_PROXY_TRUSTED_IPS=${SHELLHUB_PROXY_TRUSTED_IPS}
+      - SHELLHUB_EDITION=${SHELLHUB_EDITION}
+      - SHELLHUB_AUTO_SSL=${SHELLHUB_AUTO_SSL}
+      - SHELLHUB_ACME_CA_SERVER=${SHELLHUB_ACME_CA_SERVER}
+      - SHELLHUB_TLS_CERT_FILE=${SHELLHUB_TLS_CERT_FILE}
+      - SHELLHUB_TLS_KEY_FILE=${SHELLHUB_TLS_KEY_FILE}
+      - SHELLHUB_GATEWAY_ACCESS_LOGS=${SHELLHUB_GATEWAY_ACCESS_LOGS}
+    depends_on:
+      - server
+      - ui
+    ports:
+      - ${SHELLHUB_BIND_ADDRESS}:${SHELLHUB_HTTP_PORT}:80
+    networks:
+      - shellhub
+    extra_hosts:
+      - "healthcheck.internal:127.0.0.1"
+    healthcheck:
+      test: wget -q --spider -T 5 http://healthcheck.internal/healthz || exit 1
+      interval: 30s
+      start_period: 10s
+  redis:
+    image: valkey/valkey:9.1-alpine
+    restart: unless-stopped
+    command: ["valkey-server", "--appendonly", "no", "--save", "\"\""]
+    networks:
+      - shellhub
+
+secrets:
+  ssh_private_key:
+    file: ./ssh_private_key
+  api_private_key:
+    file: ./api_private_key
+  api_public_key:
+    file: ./api_public_key
+
+networks:
+  shellhub:
+    name: ${SHELLHUB_NETWORK}
+    external: ${SHELLHUB_NETWORK_EXTERNAL:-false}

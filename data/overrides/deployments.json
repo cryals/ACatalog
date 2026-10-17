@@ -1,0 +1,3994 @@
+{
+  "dc5203d4aa40fe9d": {
+    "appId": "dc5203d4aa40fe9d",
+    "repositoryUrl": "https://github.com/keven1024/015",
+    "sourceDir": "keven1024--015",
+    "commitSha": "411d7dbed640c198636eff6277b0c17fdd3ba204",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/keven1024/015#readme"
+  },
+  "253d477a48c9af0f": {
+    "appId": "253d477a48c9af0f",
+    "repositoryUrl": "https://github.com/shingrus/1time.io",
+    "sourceDir": "shingrus--1time-io",
+    "commitSha": "26e28f7019e6403d6d89ef557205613c1b40e307",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/shingrus/1time.io#readme"
+  },
+  "ff452e85e9f397e3": {
+    "appId": "ff452e85e9f397e3",
+    "repositoryUrl": "https://github.com/Bubka/2FAuth",
+    "sourceDir": "bubka--2fauth",
+    "commitSha": "2023d6873eafa89d50cc331ca02c4d46acd60913",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Bubka/2FAuth#readme"
+  },
+  "cd08151eceb1a64b": {
+    "appId": "cd08151eceb1a64b",
+    "repositoryUrl": "https://github.com/RARgames/4gaBoards",
+    "sourceDir": "rargames--4gaboards",
+    "commitSha": "4cb5550c90b5139bd9bd32886a764830819bbc39",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/RARgames/4gaBoards#readme"
+  },
+  "4790b59dfd2b2546": {
+    "appId": "4790b59dfd2b2546",
+    "repositoryUrl": "https://github.com/mirego/accent",
+    "sourceDir": "mirego--accent",
+    "commitSha": "50d6eadec93c9425bdaeae212a176b48925e4db1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mirego/accent#readme"
+  },
+  "cd0fe26b2441e038": {
+    "appId": "cd0fe26b2441e038",
+    "repositoryUrl": "https://github.com/electerious/Ackee",
+    "sourceDir": "electerious--ackee",
+    "commitSha": "e38661b62ec325fb963839a002d13c15a0e3ff90",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/electerious/Ackee#readme"
+  },
+  "5471379ee4ff0490": {
+    "appId": "5471379ee4ff0490",
+    "repositoryUrl": "https://github.com/activepieces/activepieces",
+    "sourceDir": "activepieces--activepieces",
+    "commitSha": "8d8a1b466efacce86e13423e04ed09083d6c37e1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/activepieces/activepieces#readme"
+  },
+  "5b81e5e31f4804c8": {
+    "appId": "5b81e5e31f4804c8",
+    "repositoryUrl": "https://github.com/actualbudget/actual",
+    "sourceDir": "actualbudget--actual",
+    "commitSha": "4f28d63ec27a584abd7dd20202551b8c8d192164",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/actualbudget/actual#readme"
+  },
+  "0c20d5e2d1c1a577": {
+    "appId": "0c20d5e2d1c1a577",
+    "repositoryUrl": "https://github.com/seanmorley15/AdventureLog",
+    "sourceDir": "seanmorley15--adventurelog",
+    "commitSha": "5673ef5bb5aaa96081bc250ef1d16da8b45977e3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/seanmorley15/AdventureLog#readme"
+  },
+  "a59cf1473b27beec": {
+    "appId": "a59cf1473b27beec",
+    "repositoryUrl": "https://github.com/aimeos/aimeos",
+    "sourceDir": "aimeos--aimeos",
+    "commitSha": "2661caac199d48609b184d5ac285e86f28db430b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/aimeos/aimeos#readme"
+  },
+  "4624e189953c9629": {
+    "appId": "4624e189953c9629",
+    "repositoryUrl": "https://github.com/alephdata/aleph",
+    "sourceDir": "alephdata--aleph",
+    "commitSha": "fafcc8dfa4384f5d73ab47f84c03e469a91741c2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/alephdata/aleph#readme"
+  },
+  "8818aa5288b5cd48": {
+    "appId": "8818aa5288b5cd48",
+    "repositoryUrl": "https://github.com/alfio-event/alf.io",
+    "sourceDir": "alfio-event--alf-io",
+    "commitSha": "841c7a1fa40a5e287ff7429155debfe6b3e81da8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/alfio-event/alf.io#readme"
+  },
+  "e1a13e1dde944b6a": {
+    "appId": "e1a13e1dde944b6a",
+    "repositoryUrl": "https://github.com/aliasvault/aliasvault",
+    "sourceDir": "aliasvault--aliasvault",
+    "commitSha": "d3fb00dcbf90c891a5f9b07b5711d9cdea66896e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/aliasvault/aliasvault#readme"
+  },
+  "b486f80f83f1b77d": {
+    "appId": "b486f80f83f1b77d",
+    "repositoryUrl": "https://github.com/ampache/ampache",
+    "sourceDir": "ampache--ampache",
+    "commitSha": "29b37664827d55b26bb479fc98291f249cb0b70b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ampache/ampache#readme"
+  },
+  "9eec708ab8c3efc4": {
+    "appId": "9eec708ab8c3efc4",
+    "repositoryUrl": "https://github.com/muety/anchr",
+    "sourceDir": "muety--anchr",
+    "commitSha": "d1f21e9213e4b33806c6da0da38253015a9c89ed",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/muety/anchr#readme"
+  },
+  "4ac065e40a545866": {
+    "appId": "4ac065e40a545866",
+    "repositoryUrl": "https://github.com/apache/answer",
+    "sourceDir": "apache--answer",
+    "commitSha": "6744295fa888e0621fc9f9a8ace04f1a4daf8554",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/apache/answer#readme"
+  },
+  "85b23a6c94bb0832": {
+    "appId": "85b23a6c94bb0832",
+    "repositoryUrl": "https://github.com/Mintplex-Labs/anything-llm",
+    "sourceDir": "mintplex-labs--anything-llm",
+    "commitSha": "efcfe0314f55a52676b383d99c2895d8e5e8e34c",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Mintplex-Labs/anything-llm#readme"
+  },
+  "42fc54cc9cd8caba": {
+    "appId": "42fc54cc9cd8caba",
+    "repositoryUrl": "https://github.com/oupala/apaxy",
+    "sourceDir": "oupala--apaxy",
+    "commitSha": "5b76e32d662fa1b0d96ebba2f559b1d3d5ee17d2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/oupala/apaxy#readme"
+  },
+  "43156e18c0b0b3cb": {
+    "appId": "43156e18c0b0b3cb",
+    "repositoryUrl": "https://github.com/caronc/apprise-api",
+    "sourceDir": "caronc--apprise-api",
+    "commitSha": "9fc79aff1bea587f69311a6dfa5069087a418961",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/caronc/apprise-api#readme"
+  },
+  "6968183a54d90120": {
+    "appId": "6968183a54d90120",
+    "repositoryUrl": "https://github.com/appwrite/appwrite",
+    "sourceDir": "appwrite--appwrite",
+    "commitSha": "939fa5e8ccc82fede27a4632bf5c60501eb5109e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/appwrite/appwrite#readme"
+  },
+  "a026a9bd82270384": {
+    "appId": "a026a9bd82270384",
+    "repositoryUrl": "https://github.com/aptabase/aptabase",
+    "sourceDir": "aptabase--aptabase",
+    "commitSha": "4cca4bb394819c3591c019f758ce09c2844e544e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/aptabase/aptabase#readme"
+  },
+  "4577682fcbdba3a5": {
+    "appId": "4577682fcbdba3a5",
+    "repositoryUrl": "https://github.com/archivesspace/archivesspace",
+    "sourceDir": "archivesspace--archivesspace",
+    "commitSha": "c79e44af8be01e73dbbbea2ed8cd54c2d86d9adb",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/archivesspace/archivesspace#readme"
+  },
+  "6ca912f843a7222d": {
+    "appId": "6ca912f843a7222d",
+    "repositoryUrl": "https://github.com/ArtalkJS/Artalk",
+    "sourceDir": "artalkjs--artalk",
+    "commitSha": "796ee2d7ca9bbfc643ee4131abe6f78ab00200c6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ArtalkJS/Artalk#readme"
+  },
+  "2f63f5a0c4da9dbe": {
+    "appId": "2f63f5a0c4da9dbe",
+    "repositoryUrl": "https://github.com/ontola/atomic-server",
+    "sourceDir": "ontola--atomic-server",
+    "commitSha": "a803e305e2a668617ee99935783772a44419e552",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ontola/atomic-server#readme"
+  },
+  "0016f8187c985c60": {
+    "appId": "0016f8187c985c60",
+    "repositoryUrl": "https://github.com/advplyr/audiobookshelf",
+    "sourceDir": "advplyr--audiobookshelf",
+    "commitSha": "743d9152208507a1dbf7c95c94290071338f44bd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/advplyr/audiobookshelf#readme"
+  },
+  "6c834f5b2c3d18fc": {
+    "appId": "6c834f5b2c3d18fc",
+    "repositoryUrl": "https://github.com/macarooni-man/auto-mcs",
+    "sourceDir": "macarooni-man--auto-mcs",
+    "commitSha": "4e77bc262ce64097e77883cbdd384c7fa6b288b2",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/macarooni-man/auto-mcs#readme"
+  },
+  "b5af821c185ec6e7": {
+    "appId": "b5af821c185ec6e7",
+    "repositoryUrl": "https://github.com/automatisch/automatisch",
+    "sourceDir": "automatisch--automatisch",
+    "commitSha": "41f3c56a163103cae761bb44f03638cb84e859ee",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/automatisch/automatisch#readme"
+  },
+  "21546cf758678372": {
+    "appId": "21546cf758678372",
+    "repositoryUrl": "https://github.com/azimuttapp/azimutt",
+    "sourceDir": "azimuttapp--azimutt",
+    "commitSha": "3f79c2971a8a3be62ccf6003eb17a7ded7640897",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/azimuttapp/azimutt#readme"
+  },
+  "fe1de963d35c05ae": {
+    "appId": "fe1de963d35c05ae",
+    "repositoryUrl": "https://github.com/bagisto/bagisto",
+    "sourceDir": "bagisto--bagisto",
+    "commitSha": "e3ba5b00b3df35390175b77b59826fa24f8183c4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bagisto/bagisto#readme"
+  },
+  "0e67b5878c3c133c": {
+    "appId": "0e67b5878c3c133c",
+    "repositoryUrl": "https://github.com/karlomikus/bar-assistant",
+    "sourceDir": "karlomikus--bar-assistant",
+    "commitSha": "c0915f5542bd33ab1fbec761c35f9de8fef28328",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/karlomikus/bar-assistant#readme"
+  },
+  "47e36850a4b81d87": {
+    "appId": "47e36850a4b81d87",
+    "repositoryUrl": "https://github.com/baserow/baserow",
+    "sourceDir": "baserow--baserow",
+    "commitSha": "8ba73684d8ede6d0f32d87965cb8131c999dc5a6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/baserow/baserow#readme"
+  },
+  "113eb8c39e3d23d3": {
+    "appId": "113eb8c39e3d23d3",
+    "repositoryUrl": "https://github.com/beelzebub-labs/beelzebub",
+    "sourceDir": "beelzebub-labs--beelzebub",
+    "commitSha": "a04ff846802e39ecd18156347fd7939e67fac017",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/beelzebub-labs/beelzebub#readme"
+  },
+  "c578e1d091ced0c7": {
+    "appId": "c578e1d091ced0c7",
+    "repositoryUrl": "https://github.com/bencherdev/bencher",
+    "sourceDir": "bencherdev--bencher",
+    "commitSha": "f5e5b73ca9bfd42a4f7ebf99607581cfe596dd2f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bencherdev/bencher#readme"
+  },
+  "cf164b130ab29772": {
+    "appId": "cf164b130ab29772",
+    "repositoryUrl": "https://github.com/bewcloud/bewcloud",
+    "sourceDir": "bewcloud--bewcloud",
+    "commitSha": "8cd7638b2cbd9824a9c8543e4d19cdd8932e1f29",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bewcloud/bewcloud#readme"
+  },
+  "76c3fa617f4c9804": {
+    "appId": "76c3fa617f4c9804",
+    "repositoryUrl": "https://github.com/Eljaja/BibaVPN",
+    "sourceDir": "eljaja--bibavpn",
+    "commitSha": "f850ace79529d7b755bccdb206fb67770f5971c6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Eljaja/BibaVPN#readme"
+  },
+  "02fcda436a2bde3f": {
+    "appId": "02fcda436a2bde3f",
+    "repositoryUrl": "https://github.com/bigcapitalhq/bigcapital",
+    "sourceDir": "bigcapitalhq--bigcapital",
+    "commitSha": "dd1c5a7629b726d413f9bfa07e30046d6376d84e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bigcapitalhq/bigcapital#readme"
+  },
+  "f60d659adf1a3481": {
+    "appId": "f60d659adf1a3481",
+    "repositoryUrl": "https://github.com/jarynclouatre/bindery",
+    "sourceDir": "jarynclouatre--bindery",
+    "commitSha": "730dd980ce404bb3181bc0cafd7ce0802dc2e9a1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jarynclouatre/bindery#readme"
+  },
+  "065e9108bdf6e91e": {
+    "appId": "065e9108bdf6e91e",
+    "repositoryUrl": "https://github.com/sjdonado/bit",
+    "sourceDir": "sjdonado--bit",
+    "commitSha": "9e5ec75cf4bea29ec4756380468d55c434cb553a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sjdonado/bit#readme"
+  },
+  "c9445846c3499dec": {
+    "appId": "c9445846c3499dec",
+    "repositoryUrl": "https://github.com/bitmagnet-io/bitmagnet",
+    "sourceDir": "bitmagnet-io--bitmagnet",
+    "commitSha": "e31b30d7351c269dc801876f92ebc59d31fee545",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bitmagnet-io/bitmagnet#readme"
+  },
+  "cdd3584559c5b469": {
+    "appId": "cdd3584559c5b469",
+    "repositoryUrl": "https://github.com/fsinfuhh/Bitpoll",
+    "sourceDir": "fsinfuhh--bitpoll",
+    "commitSha": "c5c692e2d6dd0f6b61c4efd9a0aa9e5f9f58b697",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/fsinfuhh/Bitpoll#readme"
+  },
+  "75e8c48437d95ba9": {
+    "appId": "75e8c48437d95ba9",
+    "repositoryUrl": "https://github.com/bolt/core",
+    "sourceDir": "bolt--core",
+    "commitSha": "de01e94853d7c6d1fb6018cc852d8257a720d3c4",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/bolt/core#readme"
+  },
+  "a52dbd8193f0a299": {
+    "appId": "a52dbd8193f0a299",
+    "repositoryUrl": "https://github.com/Mozzo1000/booklogr",
+    "sourceDir": "mozzo1000--booklogr",
+    "commitSha": "af82e44c220f02ba6d7bfb89b8c4b040ea554550",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Mozzo1000/booklogr#readme"
+  },
+  "3d98ea1fab3487d2": {
+    "appId": "3d98ea1fab3487d2",
+    "repositoryUrl": "https://github.com/BookStackApp/BookStack",
+    "sourceDir": "bookstackapp--bookstack",
+    "commitSha": "f46270450603c94cee958a850ace98d01a03e565",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/BookStackApp/BookStack#readme"
+  },
+  "a9e2e1f03cf7e8ed": {
+    "appId": "a9e2e1f03cf7e8ed",
+    "repositoryUrl": "https://github.com/evroon/bracket",
+    "sourceDir": "evroon--bracket",
+    "commitSha": "ca56430c3ca96281c27128628c4d31b0d0431ce4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/evroon/bracket#readme"
+  },
+  "21d02ee0865426b7": {
+    "appId": "21d02ee0865426b7",
+    "repositoryUrl": "https://github.com/teelur/budget-board",
+    "sourceDir": "teelur--budget-board",
+    "commitSha": "3ec6ff45d373734de04df1fb44c381e4baca650b",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/teelur/budget-board#readme"
+  },
+  "53c5373488822ac6": {
+    "appId": "53c5373488822ac6",
+    "repositoryUrl": "https://github.com/aranticlabs/bugpin",
+    "sourceDir": "aranticlabs--bugpin",
+    "commitSha": "7d37bab1c99963e8a92f609e2dd8cf87f6da4b14",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/aranticlabs/bugpin#readme"
+  },
+  "757727d50ea86d3a": {
+    "appId": "757727d50ea86d3a",
+    "repositoryUrl": "https://github.com/bugzilla/bugzilla",
+    "sourceDir": "bugzilla--bugzilla",
+    "commitSha": "852cd06ef751cb5a5f87e100466e71e46e3cfc0e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bugzilla/bugzilla#readme"
+  },
+  "fea2d268cbcfe896": {
+    "appId": "fea2d268cbcfe896",
+    "repositoryUrl": "https://github.com/dash14/buildcage",
+    "sourceDir": "dash14--buildcage",
+    "commitSha": "4b12b4454eadd6fab663ed68e73fee6fb59ae3b4",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/dash14/buildcage#readme"
+  },
+  "0595e0ef90ff66e4": {
+    "appId": "0595e0ef90ff66e4",
+    "repositoryUrl": "https://github.com/jordan-dalby/ByteStash",
+    "sourceDir": "jordan-dalby--bytestash",
+    "commitSha": "350295e203d3cb0b3fd8edf1466d74915ec88238",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/jordan-dalby/ByteStash#readme"
+  },
+  "b8af23360c372176": {
+    "appId": "b8af23360c372176",
+    "repositoryUrl": "https://github.com/Cacti/cacti",
+    "sourceDir": "cacti--cacti",
+    "commitSha": "2fdc8747af0917d276e7b646a803462d42600ad7",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Cacti/cacti#readme"
+  },
+  "62dd270bed5d0f57": {
+    "appId": "62dd270bed5d0f57",
+    "repositoryUrl": "https://github.com/calcom/cal.diy",
+    "sourceDir": "calcom--cal-diy",
+    "commitSha": "54343aa685ae8f33159d2f485ec4a57bad5c574a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/calcom/cal.diy#readme"
+  },
+  "6c139a3b6879552c": {
+    "appId": "6c139a3b6879552c",
+    "repositoryUrl": "https://github.com/calagopus/panel",
+    "sourceDir": "calagopus--panel",
+    "commitSha": "ca22932d0161d38b52b78927c302584c538f39f1",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/calagopus/panel#readme"
+  },
+  "160c749746611cbd": {
+    "appId": "160c749746611cbd",
+    "repositoryUrl": "https://github.com/crocodilestick/Calibre-Web-Automated",
+    "sourceDir": "crocodilestick--calibre-web-automated",
+    "commitSha": "4fc2c4459965efb1b8ff43ea7849c2f47a755d9c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/crocodilestick/Calibre-Web-Automated#readme"
+  },
+  "b6ef8a986494080e": {
+    "appId": "b6ef8a986494080e",
+    "repositoryUrl": "https://github.com/thinkst/opencanary",
+    "sourceDir": "thinkst--opencanary",
+    "commitSha": "fb12e4fefbdb1b9acd1e5561a2614f827ab639ff",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/thinkst/opencanary#readme"
+  },
+  "624896edab0ba064": {
+    "appId": "624896edab0ba064",
+    "repositoryUrl": "https://github.com/instructure/canvas-lms",
+    "sourceDir": "instructure--canvas-lms",
+    "commitSha": "1c9f0bb8013ed69c4f2efe11fd483025469b7e6c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/instructure/canvas-lms#readme"
+  },
+  "daf852f2f27047c4": {
+    "appId": "daf852f2f27047c4",
+    "repositoryUrl": "https://github.com/hectorm/cardea",
+    "sourceDir": "hectorm--cardea",
+    "commitSha": "8e08d3083bd681f96003139001315f72331fa27d",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/hectorm/cardea#readme"
+  },
+  "ca8771a8434ee6f2": {
+    "appId": "ca8771a8434ee6f2",
+    "repositoryUrl": "https://github.com/centrifugal/centrifugo",
+    "sourceDir": "centrifugal--centrifugo",
+    "commitSha": "9bfa696f2f82cf97af0849983e2f48d46cf654b6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/centrifugal/centrifugo#readme"
+  },
+  "3bdb15a8c14404a4": {
+    "appId": "3bdb15a8c14404a4",
+    "repositoryUrl": "https://github.com/dgtlmoon/changedetection.io",
+    "sourceDir": "dgtlmoon--changedetection-io",
+    "commitSha": "7d2b263f51f31e65d7608360c986bacb90c2b1a4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/dgtlmoon/changedetection.io#readme"
+  },
+  "d42c2fdc04dc0e20": {
+    "appId": "d42c2fdc04dc0e20",
+    "repositoryUrl": "https://github.com/chartbrew/chartbrew",
+    "sourceDir": "chartbrew--chartbrew",
+    "commitSha": "7e943fcf9a8f685df8c8787f35ec45ffa69494d2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/chartbrew/chartbrew#readme"
+  },
+  "6ea562cffa653c96": {
+    "appId": "6ea562cffa653c96",
+    "repositoryUrl": "https://github.com/chatwoot/chatwoot",
+    "sourceDir": "chatwoot--chatwoot",
+    "commitSha": "a9edf195736d0fab0f6f6468b19347e849a95cf6",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/chatwoot/chatwoot#readme"
+  },
+  "c6c97c779eab958a": {
+    "appId": "c6c97c779eab958a",
+    "repositoryUrl": "https://github.com/bluewave-labs/Checkmate",
+    "sourceDir": "bluewave-labs--checkmate",
+    "commitSha": "607f719f1e6c42e0fae6284b253534c625474d5f",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/bluewave-labs/Checkmate#readme"
+  },
+  "1c95deee38e67156": {
+    "appId": "1c95deee38e67156",
+    "repositoryUrl": "https://github.com/SinTan1729/chhoto-url",
+    "sourceDir": "sintan1729--chhoto-url",
+    "commitSha": "ad378c0482d3793127ed29684616002ccc12d944",
+    "composePath": "deploy/compose.yaml",
+    "guideUrl": "https://github.com/SinTan1729/chhoto-url#readme"
+  },
+  "e5a0c79d766f7ba6": {
+    "appId": "e5a0c79d766f7ba6",
+    "repositoryUrl": "https://github.com/chiefonboarding/ChiefOnboarding",
+    "sourceDir": "chiefonboarding--chiefonboarding",
+    "commitSha": "df9468e15a244fd8543a6dcda8e6ad9df924fab5",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/chiefonboarding/ChiefOnboarding#readme"
+  },
+  "7aaac8658416161a": {
+    "appId": "7aaac8658416161a",
+    "repositoryUrl": "https://github.com/rhee876527/chiyogami",
+    "sourceDir": "rhee876527--chiyogami",
+    "commitSha": "0e4eab89461726d9abb64fa49db17dcb90ff9747",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rhee876527/chiyogami#readme"
+  },
+  "be2c513c2ce7cfc9": {
+    "appId": "be2c513c2ce7cfc9",
+    "repositoryUrl": "https://github.com/Wingysam/Christmas-Community",
+    "sourceDir": "wingysam--christmas-community",
+    "commitSha": "5699e6776c94af257828ce0b8afd6bd25a42e28f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Wingysam/Christmas-Community#readme"
+  },
+  "16923315b5d4a299": {
+    "appId": "16923315b5d4a299",
+    "repositoryUrl": "https://github.com/HoshinoSuzumi/chronoframe",
+    "sourceDir": "hoshinosuzumi--chronoframe",
+    "commitSha": "4e614ae6914dd7c70c8da0398860fe17099b902e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/HoshinoSuzumi/chronoframe#readme"
+  },
+  "daf4be7084afb912": {
+    "appId": "daf4be7084afb912",
+    "repositoryUrl": "https://github.com/xenocrat/chyrp-lite",
+    "sourceDir": "xenocrat--chyrp-lite",
+    "commitSha": "3f5e0b1e4295496bfaa8fab616deeb655c7e5bf4",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/xenocrat/chyrp-lite#readme"
+  },
+  "7dae86871604c83b": {
+    "appId": "7dae86871604c83b",
+    "repositoryUrl": "https://github.com/quay/clair",
+    "sourceDir": "quay--clair",
+    "commitSha": "4cec58a01bc3b91bd448e1f8ca3d9a5166701807",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/quay/clair#readme"
+  },
+  "2fd62e3fbacfcb3c": {
+    "appId": "2fd62e3fbacfcb3c",
+    "repositoryUrl": "https://github.com/ClaperCo/Claper",
+    "sourceDir": "claperco--claper",
+    "commitSha": "d71627e858fe529dec53ff83dd5778efa83c55e3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ClaperCo/Claper#readme"
+  },
+  "2bf0cd2b0628fc94": {
+    "appId": "2bf0cd2b0628fc94",
+    "repositoryUrl": "https://github.com/MacWarrior/clipbucket-v5",
+    "sourceDir": "macwarrior--clipbucket-v5",
+    "commitSha": "01990c0fa7baf925d2a4cf6ec1b75b1341b7a486",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/MacWarrior/clipbucket-v5#readme"
+  },
+  "af7334736c5655ca": {
+    "appId": "af7334736c5655ca",
+    "repositoryUrl": "https://github.com/magicbug/cloudlog",
+    "sourceDir": "magicbug--cloudlog",
+    "commitSha": "1676e1123e34988e29a759d1381a3b485c68d2aa",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/magicbug/cloudlog#readme"
+  },
+  "b775951b576eead9": {
+    "appId": "b775951b576eead9",
+    "repositoryUrl": "https://github.com/cloudreve/cloudreve",
+    "sourceDir": "cloudreve--cloudreve",
+    "commitSha": "9f1e0b8333f5c7304a09e1dcb3f9c170dddd63f3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/cloudreve/cloudreve#readme"
+  },
+  "73b7e92d1b039b14": {
+    "appId": "73b7e92d1b039b14",
+    "repositoryUrl": "https://github.com/coder/coder",
+    "sourceDir": "coder--coder",
+    "commitSha": "11f1ee7d9f7c10d0fc20c48eb977187dc0253d7c",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/coder/coder#readme"
+  },
+  "d87c9e7eb3c83d23": {
+    "appId": "d87c9e7eb3c83d23",
+    "repositoryUrl": "https://github.com/concourse/concourse",
+    "sourceDir": "concourse--concourse",
+    "commitSha": "41fa304dc0e0b0926528d2ede13124b4fbde6722",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/concourse/concourse#readme"
+  },
+  "cf641c2b869fbc52": {
+    "appId": "cf641c2b869fbc52",
+    "repositoryUrl": "https://github.com/wrfly/container-web-tty",
+    "sourceDir": "wrfly--container-web-tty",
+    "commitSha": "094ff3276fadd2ce95954940ab5f1f20b906d4b9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/wrfly/container-web-tty#readme"
+  },
+  "c6c3ef8b94972f6e": {
+    "appId": "c6c3ef8b94972f6e",
+    "repositoryUrl": "https://github.com/C4illin/ConvertX",
+    "sourceDir": "c4illin--convertx",
+    "commitSha": "aabd0ccb3d76a8b86926d952975c6ed4a5a4d743",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/C4illin/ConvertX#readme"
+  },
+  "5c5f70711f940b6f": {
+    "appId": "5c5f70711f940b6f",
+    "repositoryUrl": "https://github.com/cooklang/CookCLI",
+    "sourceDir": "cooklang--cookcli",
+    "commitSha": "6a58bc45568d74ec89b38d290222905b757fc67a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/cooklang/CookCLI#readme"
+  },
+  "d9575f3020769f3b": {
+    "appId": "d9575f3020769f3b",
+    "repositoryUrl": "https://github.com/coollabsio/coolify",
+    "sourceDir": "coollabsio--coolify",
+    "commitSha": "23a22e79708043e53ef2de5816d29ec0812312f2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/coollabsio/coolify#readme"
+  },
+  "9209e9a7f579c454": {
+    "appId": "9209e9a7f579c454",
+    "repositoryUrl": "https://github.com/coralproject/talk",
+    "sourceDir": "coralproject--talk",
+    "commitSha": "8bf2ad784d65ae23a277be045819af04642ed8ce",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/coralproject/talk#readme"
+  },
+  "ee3a3b8b9183ef97": {
+    "appId": "ee3a3b8b9183ef97",
+    "repositoryUrl": "https://github.com/Countly/countly-server",
+    "sourceDir": "countly--countly-server",
+    "commitSha": "19f8f8def6363af7dfdd8fceb1334bd304b959eb",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Countly/countly-server#readme"
+  },
+  "4466e9dfb4e347fb": {
+    "appId": "4466e9dfb4e347fb",
+    "repositoryUrl": "https://github.com/fccview/cronmaster",
+    "sourceDir": "fccview--cronmaster",
+    "commitSha": "dc4d3c09317e85ea559d1ae8452ef310133e0a06",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/fccview/cronmaster#readme"
+  },
+  "9fe54758b697e18f": {
+    "appId": "9fe54758b697e18f",
+    "repositoryUrl": "https://github.com/cryptpad/cryptpad",
+    "sourceDir": "cryptpad--cryptpad",
+    "commitSha": "839a5b884c0bd581b25bcb998df953563a7eb235",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/cryptpad/cryptpad#readme"
+  },
+  "d050b6b87a3e76f2": {
+    "appId": "d050b6b87a3e76f2",
+    "repositoryUrl": "https://github.com/ctk-hq/ctk",
+    "sourceDir": "ctk-hq--ctk",
+    "commitSha": "3a21715643638f37a732e7722fbce17efbd7afd8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ctk-hq/ctk#readme"
+  },
+  "e3558f3fab355299": {
+    "appId": "e3558f3fab355299",
+    "repositoryUrl": "https://github.com/OpenPrinting/cups",
+    "sourceDir": "openprinting--cups",
+    "commitSha": "b778346ed69815358a2f1231883ff5cb33db0e77",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/OpenPrinting/cups#readme"
+  },
+  "f9e7dfe44276ffdd": {
+    "appId": "f9e7dfe44276ffdd",
+    "repositoryUrl": "https://github.com/cypht-org/cypht",
+    "sourceDir": "cypht-org--cypht",
+    "commitSha": "42341f6e624c1550c2e7c5544c66aeb06a263e6b",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/cypht-org/cypht#readme"
+  },
+  "2c410cbef3b97e26": {
+    "appId": "2c410cbef3b97e26",
+    "repositoryUrl": "https://github.com/LaWebcapsule/d9",
+    "sourceDir": "lawebcapsule--d9",
+    "commitSha": "036b0b0822edb6d670ef2cdc40b32e1c3c39f880",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LaWebcapsule/d9#readme"
+  },
+  "0973f23aac9d3fb4": {
+    "appId": "0973f23aac9d3fb4",
+    "repositoryUrl": "https://github.com/emanuelef/daily-stars-explorer",
+    "sourceDir": "emanuelef--daily-stars-explorer",
+    "commitSha": "118f0e260d3b28d2e1e66888f8ed8f3bd3a2add3",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/emanuelef/daily-stars-explorer#readme"
+  },
+  "f49ab6d81e09ff67": {
+    "appId": "f49ab6d81e09ff67",
+    "repositoryUrl": "https://github.com/PhiTux/DailyTxT",
+    "sourceDir": "phitux--dailytxt",
+    "commitSha": "4f9657c33f07b9383c72c841b6a4c0a684494f7f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/PhiTux/DailyTxT#readme"
+  },
+  "eccd364514d90a8f": {
+    "appId": "eccd364514d90a8f",
+    "repositoryUrl": "https://github.com/webreaper/damselfly",
+    "sourceDir": "webreaper--damselfly",
+    "commitSha": "e110926104cc93d3c87a9617ba7ab4ae70dbb216",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/webreaper/damselfly#readme"
+  },
+  "27ef989181b2e369": {
+    "appId": "27ef989181b2e369",
+    "repositoryUrl": "https://github.com/balzack/databag",
+    "sourceDir": "balzack--databag",
+    "commitSha": "45343338582b394f4f5fdb4b7e271ea1dc8dd5fd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/balzack/databag#readme"
+  },
+  "39403c7975ea607a": {
+    "appId": "39403c7975ea607a",
+    "repositoryUrl": "https://github.com/tchapi/davis",
+    "sourceDir": "tchapi--davis",
+    "commitSha": "42ad401a14ad9175a382595f48ac7250924cdde1",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/tchapi/davis#readme"
+  },
+  "addb58bc65b66cac": {
+    "appId": "addb58bc65b66cac",
+    "repositoryUrl": "https://github.com/Freika/dawarich",
+    "sourceDir": "freika--dawarich",
+    "commitSha": "e32b70701b2467b862d4b5bc27ac428999997c1b",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Freika/dawarich#readme"
+  },
+  "3fc54d8b15009a24": {
+    "appId": "3fc54d8b15009a24",
+    "repositoryUrl": "https://github.com/krelltunez/dayGLANCE",
+    "sourceDir": "krelltunez--dayglance",
+    "commitSha": "8ce7658b0b554274d86ee0d8da99b319056d2faf",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/krelltunez/dayGLANCE#readme"
+  },
+  "675198fc18989ac2": {
+    "appId": "675198fc18989ac2",
+    "repositoryUrl": "https://github.com/DefectDojo/django-DefectDojo",
+    "sourceDir": "defectdojo--django-defectdojo",
+    "commitSha": "10453d6c62d68eee6d6b0ecc0acde5d61d1dd02d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DefectDojo/django-DefectDojo#readme"
+  },
+  "dc1befc05345bd8c": {
+    "appId": "dc1befc05345bd8c",
+    "repositoryUrl": "https://github.com/rfsbraz/deleterr",
+    "sourceDir": "rfsbraz--deleterr",
+    "commitSha": "3c9d3d7f98de5ba5632a7cb00012d12f857ca967",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rfsbraz/deleterr#readme"
+  },
+  "5be13816bcfb9c95": {
+    "appId": "5be13816bcfb9c95",
+    "repositoryUrl": "https://github.com/bibendi/dip",
+    "sourceDir": "bibendi--dip",
+    "commitSha": "9e2cafbcb163fbc8ead4152868908e9241a20648",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/bibendi/dip#readme"
+  },
+  "3beeaeea54d81882": {
+    "appId": "3beeaeea54d81882",
+    "repositoryUrl": "https://github.com/DirectoryLister/DirectoryLister",
+    "sourceDir": "directorylister--directorylister",
+    "commitSha": "06d758e901f9ff6159c28b89bc6bc7ad5d13dfbd",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/DirectoryLister/DirectoryLister#readme"
+  },
+  "63882c7b88e0d98f": {
+    "appId": "63882c7b88e0d98f",
+    "repositoryUrl": "https://github.com/Cybrarist/Discount-Bandit",
+    "sourceDir": "cybrarist--discount-bandit",
+    "commitSha": "fb9caebee58f8e0785cdd697c728e6094d5457f7",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/Cybrarist/Discount-Bandit#readme"
+  },
+  "80f62f002bc7940c": {
+    "appId": "80f62f002bc7940c",
+    "repositoryUrl": "https://github.com/dittofeed/dittofeed",
+    "sourceDir": "dittofeed--dittofeed",
+    "commitSha": "91277939a9afcee797ab2562025f6b02d823b00c",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/dittofeed/dittofeed#readme"
+  },
+  "1183cda137108a75": {
+    "appId": "1183cda137108a75",
+    "repositoryUrl": "https://github.com/zorak1103/dlia",
+    "sourceDir": "zorak1103--dlia",
+    "commitSha": "08b7507d8a12bf059153393b71307f66f253c3c2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/zorak1103/dlia#readme"
+  },
+  "c7d1ff69159adea3": {
+    "appId": "c7d1ff69159adea3",
+    "repositoryUrl": "https://github.com/deckrun/dockadvisor",
+    "sourceDir": "deckrun--dockadvisor",
+    "commitSha": "e8a898e7996c04fd6d3b0e6c34373b0b2f171f1b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/deckrun/dockadvisor#readme"
+  },
+  "382564c16f011df3": {
+    "appId": "382564c16f011df3",
+    "repositoryUrl": "https://github.com/klausmeyer/docker-registry-browser",
+    "sourceDir": "klausmeyer--docker-registry-browser",
+    "commitSha": "6c20971ced34825f936bb5aa7a0c4d710831e0d2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/klausmeyer/docker-registry-browser#readme"
+  },
+  "8a1de614518a5506": {
+    "appId": "8a1de614518a5506",
+    "repositoryUrl": "https://github.com/docker/docker-bench-security",
+    "sourceDir": "docker--docker-bench-security",
+    "commitSha": "154869da6418089decf7e1ab0cfca0e1cdfc5c49",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/docker/docker-bench-security#readme"
+  },
+  "854c7f5fae96c472": {
+    "appId": "854c7f5fae96c472",
+    "repositoryUrl": "https://github.com/dgongut/docker-controller-bot",
+    "sourceDir": "dgongut--docker-controller-bot",
+    "commitSha": "fc55ab13e18f42ea74a2ffa0223a697c43db6e5e",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/dgongut/docker-controller-bot#readme"
+  },
+  "ff0ac36e94d7163c": {
+    "appId": "ff0ac36e94d7163c",
+    "repositoryUrl": "https://github.com/docker-flow/docker-flow-proxy",
+    "sourceDir": "docker-flow--docker-flow-proxy",
+    "commitSha": "f3219564a88ce83649a301a703b7cb31c6b30d49",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/docker-flow/docker-flow-proxy#readme"
+  },
+  "0d810a8abb6c8b0b": {
+    "appId": "0d810a8abb6c8b0b",
+    "repositoryUrl": "https://github.com/docker-mailserver/docker-mailserver",
+    "sourceDir": "docker-mailserver--docker-mailserver",
+    "commitSha": "f8907f13f2715ce55cb9671631d7f4bb607d3f2c",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/docker-mailserver/docker-mailserver#readme"
+  },
+  "47530ff8e2045af2": {
+    "appId": "47530ff8e2045af2",
+    "repositoryUrl": "https://github.com/dockersamples/docker-swarm-visualizer",
+    "sourceDir": "dockersamples--docker-swarm-visualizer",
+    "commitSha": "82bd6635313a8f92e50c3283dc7e2948859f3b5a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/dockersamples/docker-swarm-visualizer#readme"
+  },
+  "4359f6f6ba33127b": {
+    "appId": "4359f6f6ba33127b",
+    "repositoryUrl": "https://github.com/Dockershelf/dockershelf",
+    "sourceDir": "dockershelf--dockershelf",
+    "commitSha": "1f1bdbcc5f24c447f38ba9e5998edc0cff967fbe",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Dockershelf/dockershelf#readme"
+  },
+  "0bc94d22f8e39e58": {
+    "appId": "0bc94d22f8e39e58",
+    "repositoryUrl": "https://github.com/louislam/dockge",
+    "sourceDir": "louislam--dockge",
+    "commitSha": "f809ae192b571944ad773e9866d3e67064ae8043",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/louislam/dockge#readme"
+  },
+  "b1abcbe33d757d57": {
+    "appId": "b1abcbe33d757d57",
+    "repositoryUrl": "https://github.com/deep-on/dockprobe",
+    "sourceDir": "deep-on--dockprobe",
+    "commitSha": "fbc34fbfafa62764fe05a09c907bee500f65702a",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/deep-on/dockprobe#readme"
+  },
+  "034f44bfbeacc424": {
+    "appId": "034f44bfbeacc424",
+    "repositoryUrl": "https://github.com/stefanprodan/dockprom",
+    "sourceDir": "stefanprodan--dockprom",
+    "commitSha": "e7788b4fa60b0ed7b666205fbebdf41ead3cdce9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/stefanprodan/dockprom#readme"
+  },
+  "c9d7563704d8c16d": {
+    "appId": "c9d7563704d8c16d",
+    "repositoryUrl": "https://github.com/docmost/docmost",
+    "sourceDir": "docmost--docmost",
+    "commitSha": "6950a126bd8543176aa05d9bddd161eac442c24f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/docmost/docmost#readme"
+  },
+  "fad68752e030cf3a": {
+    "appId": "fad68752e030cf3a",
+    "repositoryUrl": "https://github.com/kimdre/doco-cd",
+    "sourceDir": "kimdre--doco-cd",
+    "commitSha": "390eefa10dec56a547578967b3ccd022bd658fcf",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/kimdre/doco-cd#readme"
+  },
+  "e07c54b7bd0bafc4": {
+    "appId": "e07c54b7bd0bafc4",
+    "repositoryUrl": "https://github.com/suitenumerique/docs",
+    "sourceDir": "suitenumerique--docs",
+    "commitSha": "040b9f10beed362d0565e2a3285d6c7b3a0cfe4a",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/suitenumerique/docs#readme"
+  },
+  "c5324dde153e2a4c": {
+    "appId": "c5324dde153e2a4c",
+    "repositoryUrl": "https://github.com/documize/community",
+    "sourceDir": "documize--community",
+    "commitSha": "e19bcd02ab20750a904fc2e3815cd453e877fa54",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/documize/community#readme"
+  },
+  "3c0117ddb6ce55a4": {
+    "appId": "3c0117ddb6ce55a4",
+    "repositoryUrl": "https://github.com/lissy93/domain-locker",
+    "sourceDir": "lissy93--domain-locker",
+    "commitSha": "243c94e46a9aa9e17d734c3281582e65f1d9d643",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lissy93/domain-locker#readme"
+  },
+  "65b6573635378891": {
+    "appId": "65b6573635378891",
+    "repositoryUrl": "https://github.com/DOMjudge/domjudge",
+    "sourceDir": "domjudge--domjudge",
+    "commitSha": "d28682f4cd957b7afc2401ffafbcd224e701d3c5",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DOMjudge/domjudge#readme"
+  },
+  "5fca33eb19813e16": {
+    "appId": "5fca33eb19813e16",
+    "repositoryUrl": "https://github.com/donetick/donetick",
+    "sourceDir": "donetick--donetick",
+    "commitSha": "f12c0564b500fff5c4e51c9b9cb3cc85cd3bbc60",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/donetick/donetick#readme"
+  },
+  "74142152824d3ee4": {
+    "appId": "74142152824d3ee4",
+    "repositoryUrl": "https://github.com/henriquesebastiao/downtify",
+    "sourceDir": "henriquesebastiao--downtify",
+    "commitSha": "6d7bebf00d7e41c011645b9ebe1de004c9e31e74",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/henriquesebastiao/downtify#readme"
+  },
+  "587f0c2681c99240": {
+    "appId": "587f0c2681c99240",
+    "repositoryUrl": "https://github.com/amir20/dozzle",
+    "sourceDir": "amir20--dozzle",
+    "commitSha": "a75d5d8bc3cca3136f750c9f51d63d3c52f81cda",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/amir20/dozzle#readme"
+  },
+  "27f39a46514f080c": {
+    "appId": "27f39a46514f080c",
+    "repositoryUrl": "https://github.com/DarrenOfficial/dpaste",
+    "sourceDir": "darrenofficial--dpaste",
+    "commitSha": "64068f7a78158a09babd5880f1384610ffc710c8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DarrenOfficial/dpaste#readme"
+  },
+  "670cc3a60dc2985c": {
+    "appId": "670cc3a60dc2985c",
+    "repositoryUrl": "https://github.com/dreeveapp/dreeve",
+    "sourceDir": "dreeveapp--dreeve",
+    "commitSha": "e3b4e2da48704b8edff3dae9fcbd885864a33765",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/dreeveapp/dreeve#readme"
+  },
+  "9b2c78bcefe6ac17": {
+    "appId": "9b2c78bcefe6ac17",
+    "repositoryUrl": "https://github.com/DSpace/DSpace",
+    "sourceDir": "dspace--dspace",
+    "commitSha": "5f92230e22228888839c48470d7cad92bc984921",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DSpace/DSpace#readme"
+  },
+  "3119103b65632b42": {
+    "appId": "3119103b65632b42",
+    "repositoryUrl": "https://github.com/Kyonew/DVinyl",
+    "sourceDir": "kyonew--dvinyl",
+    "commitSha": "eea3c376daad729feb669f70282b7b1ab787748f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Kyonew/DVinyl#readme"
+  },
+  "d50f31f431eeeebc": {
+    "appId": "d50f31f431eeeebc",
+    "repositoryUrl": "https://github.com/alextselegidis/easyappointments",
+    "sourceDir": "alextselegidis--easyappointments",
+    "commitSha": "10e45691f378773f6b9c32398256e5d1c17ab3db",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/alextselegidis/easyappointments#readme"
+  },
+  "6b30452d63a22cf1": {
+    "appId": "6b30452d63a22cf1",
+    "repositoryUrl": "https://github.com/lin-snow/Ech0",
+    "sourceDir": "lin-snow--ech0",
+    "commitSha": "a564bfb86b4ef9dc17be6c84d596817bb15254bf",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/lin-snow/Ech0#readme"
+  },
+  "60c2cc806e608695": {
+    "appId": "60c2cc806e608695",
+    "repositoryUrl": "https://github.com/econumo/econumo",
+    "sourceDir": "econumo--econumo",
+    "commitSha": "334d1c35655a728c24eee953a173405727a93d06",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/econumo/econumo#readme"
+  },
+  "437b778548e47907": {
+    "appId": "437b778548e47907",
+    "repositoryUrl": "https://github.com/neosy/elengrab",
+    "sourceDir": "neosy--elengrab",
+    "commitSha": "dd4e3e9398f24a6d64b5fa1718ae28b5a58168d2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/neosy/elengrab#readme"
+  },
+  "00edfaacc7fd49ca": {
+    "appId": "00edfaacc7fd49ca",
+    "repositoryUrl": "https://github.com/jonschoning/espial",
+    "sourceDir": "jonschoning--espial",
+    "commitSha": "27f1d4bcdc537c0182886f7fc22c1fcf0befa6e6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jonschoning/espial#readme"
+  },
+  "a38c2a8d7dab4bb9": {
+    "appId": "a38c2a8d7dab4bb9",
+    "repositoryUrl": "https://github.com/ether/etherpad",
+    "sourceDir": "ether--etherpad",
+    "commitSha": "bb0473c650b8253ba5bf14a59a7a6d7b0c16a24e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ether/etherpad#readme"
+  },
+  "1866388603d9b6bc": {
+    "appId": "1866388603d9b6bc",
+    "repositoryUrl": "https://github.com/ever-co/ever-gauzy",
+    "sourceDir": "ever-co--ever-gauzy",
+    "commitSha": "94d2c62ad22be909a29e8e9a2c2736295f3e8664",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ever-co/ever-gauzy#readme"
+  },
+  "313d6082b37cfcd5": {
+    "appId": "313d6082b37cfcd5",
+    "repositoryUrl": "https://github.com/jonashellmann/everydocs-core",
+    "sourceDir": "jonashellmann--everydocs-core",
+    "commitSha": "38dfba8910382e9e76528546fd00db0f1e388e9c",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/jonashellmann/everydocs-core#readme"
+  },
+  "2d2970f07e1a565b": {
+    "appId": "2d2970f07e1a565b",
+    "repositoryUrl": "https://github.com/algirdasc/expensave",
+    "sourceDir": "algirdasc--expensave",
+    "commitSha": "03aa9a7f022a6393c92f773c39aedecd5c43777a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/algirdasc/expensave#readme"
+  },
+  "694e71a906973f25": {
+    "appId": "694e71a906973f25",
+    "repositoryUrl": "https://github.com/nymanjens/facto",
+    "sourceDir": "nymanjens--facto",
+    "commitSha": "3af5868d7d87cf32506f4450be9b371397409a6c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/nymanjens/facto#readme"
+  },
+  "328db5911fcdbfd2": {
+    "appId": "328db5911fcdbfd2",
+    "repositoryUrl": "https://github.com/usefathom/fathom",
+    "sourceDir": "usefathom--fathom",
+    "commitSha": "2d895d8299d31c9957c806aa24720271668f3f09",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/usefathom/fathom#readme"
+  },
+  "f11f6df30b6a2985": {
+    "appId": "f11f6df30b6a2985",
+    "repositoryUrl": "https://github.com/denho/faved",
+    "sourceDir": "denho--faved",
+    "commitSha": "e7a4ddee55f6d23657cfab738c14c4a8b1db369c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/denho/faved#readme"
+  },
+  "d0df4b5062ee93a6": {
+    "appId": "d0df4b5062ee93a6",
+    "repositoryUrl": "https://github.com/featbit/featbit",
+    "sourceDir": "featbit--featbit",
+    "commitSha": "5fa58d8c5afe7974b108e9d2a4e77727048d3203",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/featbit/featbit#readme"
+  },
+  "b9fe0c828d722813": {
+    "appId": "b9fe0c828d722813",
+    "repositoryUrl": "https://github.com/Tiendil/feeds.fun",
+    "sourceDir": "tiendil--feeds-fun",
+    "commitSha": "b820264423aac8a5a1e5d343406c55f91a973b29",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Tiendil/feeds.fun#readme"
+  },
+  "9d400d5ee64b4c20": {
+    "appId": "9d400d5ee64b4c20",
+    "repositoryUrl": "https://github.com/getfider/fider",
+    "sourceDir": "getfider--fider",
+    "commitSha": "d3d1848fb0a78a3f0b19f2813005f855664259ed",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/getfider/fider#readme"
+  },
+  "9ffd1e1478cd22b3": {
+    "appId": "9ffd1e1478cd22b3",
+    "repositoryUrl": "https://github.com/filegator/filegator",
+    "sourceDir": "filegator--filegator",
+    "commitSha": "297e6d2924b154d92b127258b4999267c75e6fbc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/filegator/filegator#readme"
+  },
+  "5059a7e466926464": {
+    "appId": "5059a7e466926464",
+    "repositoryUrl": "https://github.com/error311/FileRise",
+    "sourceDir": "error311--filerise",
+    "commitSha": "ca66af33e1907ce9c53690a3b7317300a63a7cbf",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/error311/FileRise#readme"
+  },
+  "41649a553c9e9c52": {
+    "appId": "41649a553c9e9c52",
+    "repositoryUrl": "https://github.com/mickael-kerjean/filestash",
+    "sourceDir": "mickael-kerjean--filestash",
+    "commitSha": "f17cfa2a9b96d2482dc35c1cd932b2cf252c33a5",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/mickael-kerjean/filestash#readme"
+  },
+  "9d04472e2288838a": {
+    "appId": "9d04472e2288838a",
+    "repositoryUrl": "https://github.com/SamR1/FitTrackee",
+    "sourceDir": "samr1--fittrackee",
+    "commitSha": "9ff0bc0412ea3f687e153d027444a50aedb44a75",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/SamR1/FitTrackee#readme"
+  },
+  "71c4fae4751a3b32": {
+    "appId": "71c4fae4751a3b32",
+    "repositoryUrl": "https://github.com/flagsmith/flagsmith",
+    "sourceDir": "flagsmith--flagsmith",
+    "commitSha": "1def43795442293edc6349366c40bb42fe3b344f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/flagsmith/flagsmith#readme"
+  },
+  "dbc0ffc9baa469c9": {
+    "appId": "dbc0ffc9baa469c9",
+    "repositoryUrl": "https://github.com/FlintSH/Flare",
+    "sourceDir": "flintsh--flare",
+    "commitSha": "9bd3b0a92ff57c94fa0df3e8e0fdf513d6f772b4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/FlintSH/Flare#readme"
+  },
+  "8dc646a5a56a7fe6": {
+    "appId": "8dc646a5a56a7fe6",
+    "repositoryUrl": "https://github.com/flipt-io/flipt",
+    "sourceDir": "flipt-io--flipt",
+    "commitSha": "cdf71add0ae5dfed39bc2ef7d1e5a90ee82fbdad",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/flipt-io/flipt#readme"
+  },
+  "4588c19cd27bdda3": {
+    "appId": "4588c19cd27bdda3",
+    "repositoryUrl": "https://github.com/cvhariharan/flowctl",
+    "sourceDir": "cvhariharan--flowctl",
+    "commitSha": "c675bc5b818d1bccba92ac835f128cbd712f5ecf",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/cvhariharan/flowctl#readme"
+  },
+  "af8be6bd80317fdf": {
+    "appId": "af8be6bd80317fdf",
+    "repositoryUrl": "https://github.com/mattermost-community/focalboard",
+    "sourceDir": "mattermost-community--focalboard",
+    "commitSha": "a84bbb65e32edf972856b329417096ac413518e9",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/mattermost-community/focalboard#readme"
+  },
+  "d376f5868c27c057": {
+    "appId": "d376f5868c27c057",
+    "repositoryUrl": "https://github.com/foodcoopshop/foodcoopshop",
+    "sourceDir": "foodcoopshop--foodcoopshop",
+    "commitSha": "2885a79ab6ce5fa77cc01d0ffa2f2764207260b8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/foodcoopshop/foodcoopshop#readme"
+  },
+  "e6eafe596be3b8a8": {
+    "appId": "e6eafe596be3b8a8",
+    "repositoryUrl": "https://github.com/formbricks/formbricks",
+    "sourceDir": "formbricks--formbricks",
+    "commitSha": "062a49126382f48dfca4ea9c5112c4b8560be612",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/formbricks/formbricks#readme"
+  },
+  "8fca530159767442": {
+    "appId": "8fca530159767442",
+    "repositoryUrl": "https://github.com/frappe/helpdesk",
+    "sourceDir": "frappe--helpdesk",
+    "commitSha": "f101b222885bc0ca2a37be20db57b46822fa33e3",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/frappe/helpdesk#readme"
+  },
+  "433ddbbdbdcf1c6d": {
+    "appId": "433ddbbdbdcf1c6d",
+    "repositoryUrl": "https://github.com/frappe/hrms",
+    "sourceDir": "frappe--hrms",
+    "commitSha": "3ba66ea3530b0e6df91e4614299c4a2fb80a1928",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/frappe/hrms#readme"
+  },
+  "b70314a901825363": {
+    "appId": "b70314a901825363",
+    "repositoryUrl": "https://github.com/orangecoding/fredy",
+    "sourceDir": "orangecoding--fredy",
+    "commitSha": "8b5900920e857b27d5d76db4646a62a04bea695a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/orangecoding/fredy#readme"
+  },
+  "5a821a1673dc8472": {
+    "appId": "5a821a1673dc8472",
+    "repositoryUrl": "https://github.com/blakeblackshear/frigate",
+    "sourceDir": "blakeblackshear--frigate",
+    "commitSha": "b79e0439769ab7f7b03805295d0c12e2f0a89032",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/blakeblackshear/frigate#readme"
+  },
+  "48be27070f8b2c96": {
+    "appId": "48be27070f8b2c96",
+    "repositoryUrl": "https://github.com/galette/galette",
+    "sourceDir": "galette--galette",
+    "commitSha": "55f60b84301fb254e6b176cd484d270f344dd83e",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/galette/galette#readme"
+  },
+  "ea3e28e622d8f25d": {
+    "appId": "ea3e28e622d8f25d",
+    "repositoryUrl": "https://github.com/gameap/gameap",
+    "sourceDir": "gameap--gameap",
+    "commitSha": "e3fff49558b5d8d78c77c135203dd146ec4b2e9e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/gameap/gameap#readme"
+  },
+  "7846269bda038626": {
+    "appId": "7846269bda038626",
+    "repositoryUrl": "https://github.com/Zibbp/ganymede",
+    "sourceDir": "zibbp--ganymede",
+    "commitSha": "39080457cc3fbfb66c386458dd200911817ee376",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Zibbp/ganymede#readme"
+  },
+  "1db6299c7ae658f1": {
+    "appId": "1db6299c7ae658f1",
+    "repositoryUrl": "https://github.com/garlic-signage/garlic-hub",
+    "sourceDir": "garlic-signage--garlic-hub",
+    "commitSha": "ceb0d37ecdad9bf458252d9b8c98a7717bb17223",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/garlic-signage/garlic-hub#readme"
+  },
+  "5d19d7ae6b1cac1e": {
+    "appId": "5d19d7ae6b1cac1e",
+    "repositoryUrl": "https://github.com/lowercasename/gathio",
+    "sourceDir": "lowercasename--gathio",
+    "commitSha": "178cb5dcc438ecb5fddfe57866914ad4c98628a4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lowercasename/gathio#readme"
+  },
+  "de71cea6d1e72fbb": {
+    "appId": "de71cea6d1e72fbb",
+    "repositoryUrl": "https://github.com/MGeurts/genealogy",
+    "sourceDir": "mgeurts--genealogy",
+    "commitSha": "ba35113b3116c51ff129b0ed42f8de769e145a5b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/MGeurts/genealogy#readme"
+  },
+  "cb3f04d176b594f7": {
+    "appId": "cb3f04d176b594f7",
+    "repositoryUrl": "https://github.com/ghostfolio/ghostfolio",
+    "sourceDir": "ghostfolio--ghostfolio",
+    "commitSha": "3d4aa19674d0ecc1050a1b68995f5c189adb632a",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/ghostfolio/ghostfolio#readme"
+  },
+  "54c9cab028ea0d3d": {
+    "appId": "54c9cab028ea0d3d",
+    "repositoryUrl": "https://github.com/GladysAssistant/Gladys",
+    "sourceDir": "gladysassistant--gladys",
+    "commitSha": "ff59ad822cfc28aa53717f73fa70108d37fd042a",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/GladysAssistant/Gladys#readme"
+  },
+  "ab7c2fe148d0cf6a": {
+    "appId": "ab7c2fe148d0cf6a",
+    "repositoryUrl": "https://github.com/globaleaks/globaleaks-whistleblowing-software",
+    "sourceDir": "globaleaks--globaleaks-whistleblowing-software",
+    "commitSha": "41d4ddb596d906b4095240cf4f520d233030b9d3",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/globaleaks/globaleaks-whistleblowing-software#readme"
+  },
+  "d52af5312b0970ec": {
+    "appId": "d52af5312b0970ec",
+    "repositoryUrl": "https://github.com/arp242/goatcounter",
+    "sourceDir": "arp242--goatcounter",
+    "commitSha": "c031008a8d28c85b36708824f23b28957e7ed262",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/arp242/goatcounter#readme"
+  },
+  "d5d0266a30312c81": {
+    "appId": "d5d0266a30312c81",
+    "repositoryUrl": "https://github.com/flohoss/gocron",
+    "sourceDir": "flohoss--gocron",
+    "commitSha": "1d4629f282eec3510e1b041f5d22b8a626ee62f8",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/flohoss/gocron#readme"
+  },
+  "fbad765ae7c0ca2f": {
+    "appId": "fbad765ae7c0ca2f",
+    "repositoryUrl": "https://github.com/ENTERPILOT/GoModel",
+    "sourceDir": "enterpilot--gomodel",
+    "commitSha": "5930e43dea0522c9a7f208470ac83aee0f62c6ac",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ENTERPILOT/GoModel#readme"
+  },
+  "48a56052b3a45a06": {
+    "appId": "48a56052b3a45a06",
+    "repositoryUrl": "https://github.com/majodev/google-webfonts-helper",
+    "sourceDir": "majodev--google-webfonts-helper",
+    "commitSha": "ff245dc87cfcbaeacd4120cf1b4a7443b59db42f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/majodev/google-webfonts-helper#readme"
+  },
+  "b543b83ffb68510f": {
+    "appId": "b543b83ffb68510f",
+    "repositoryUrl": "https://github.com/gotenberg/gotenberg",
+    "sourceDir": "gotenberg--gotenberg",
+    "commitSha": "db150b773322dc5b9c1363eef81d85c27f1e38d0",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/gotenberg/gotenberg#readme"
+  },
+  "a46c26044090c203": {
+    "appId": "a46c26044090c203",
+    "repositoryUrl": "https://github.com/carlnewton/habitat",
+    "sourceDir": "carlnewton--habitat",
+    "commitSha": "a6d22f9c8fde93c54cc67c454c8d1ed53ad011e6",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/carlnewton/habitat#readme"
+  },
+  "40be7811aef57df6": {
+    "appId": "40be7811aef57df6",
+    "repositoryUrl": "https://github.com/HabitRPG/habitica",
+    "sourceDir": "habitrpg--habitica",
+    "commitSha": "6eceb3d7707e1c8049d36e50debb03a119057067",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/HabitRPG/habitica#readme"
+  },
+  "446322f1d97bb264": {
+    "appId": "446322f1d97bb264",
+    "repositoryUrl": "https://github.com/hasura/graphql-engine",
+    "sourceDir": "hasura--graphql-engine",
+    "commitSha": "f78dbddb4a564db77df51a373392982c2d9eac75",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/hasura/graphql-engine#readme"
+  },
+  "4f78c84aade6c1de": {
+    "appId": "4f78c84aade6c1de",
+    "repositoryUrl": "https://github.com/importantimport/hatsu",
+    "sourceDir": "importantimport--hatsu",
+    "commitSha": "08db193d44a8838376d5e3bbae4a8d4feb0264e2",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/importantimport/hatsu#readme"
+  },
+  "8ff7ae1d43b1fbe8": {
+    "appId": "8ff7ae1d43b1fbe8",
+    "repositoryUrl": "https://github.com/havenweb/haven",
+    "sourceDir": "havenweb--haven",
+    "commitSha": "8857d1ac1ecfd7cfafb822ce69176ed68da70b27",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/havenweb/haven#readme"
+  },
+  "e26ae648fa37f24d": {
+    "appId": "e26ae648fa37f24d",
+    "repositoryUrl": "https://github.com/healthchecks/healthchecks",
+    "sourceDir": "healthchecks--healthchecks",
+    "commitSha": "ea65922ae6b3bdf3cf4cb4e3a5ed5f6e660c31ed",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/healthchecks/healthchecks#readme"
+  },
+  "89835fcf5fcf5bf9": {
+    "appId": "89835fcf5fcf5bf9",
+    "repositoryUrl": "https://github.com/HeliumEdu/platform",
+    "sourceDir": "heliumedu--platform",
+    "commitSha": "38b10d803dd8d7e40ec1ca7db22e6a3c157ee5e0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/HeliumEdu/platform#readme"
+  },
+  "70e117d494aa90cf": {
+    "appId": "70e117d494aa90cf",
+    "repositoryUrl": "https://github.com/asciimoo/hister",
+    "sourceDir": "asciimoo--hister",
+    "commitSha": "8465c6fec6f9edc481612737e7b2f592c487bd93",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/asciimoo/hister#readme"
+  },
+  "e53e3d546231fb0d": {
+    "appId": "e53e3d546231fb0d",
+    "repositoryUrl": "https://github.com/pascalebeier/hitkeep",
+    "sourceDir": "pascalebeier--hitkeep",
+    "commitSha": "72e455cfc9538d707f2700c891bd9f73323c7a71",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/pascalebeier/hitkeep#readme"
+  },
+  "064740fd7a62c1be": {
+    "appId": "064740fd7a62c1be",
+    "repositoryUrl": "https://github.com/martinhrvn/hive-pal",
+    "sourceDir": "martinhrvn--hive-pal",
+    "commitSha": "d361f6a1f5fa9a0bfda9f9a7b4c470630548eaf5",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/martinhrvn/hive-pal#readme"
+  },
+  "f6742ccb9e28a369": {
+    "appId": "f6742ccb9e28a369",
+    "repositoryUrl": "https://github.com/sysadminsmedia/homebox",
+    "sourceDir": "sysadminsmedia--homebox",
+    "commitSha": "b31d6d41326fce44b7fce1c3e424b1d1714e8c4a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sysadminsmedia/homebox#readme"
+  },
+  "7f85eef094ec0abf": {
+    "appId": "7f85eef094ec0abf",
+    "repositoryUrl": "https://github.com/xemle/home-gallery",
+    "sourceDir": "xemle--home-gallery",
+    "commitSha": "0272ea7d04133d9c02ad6fa93c41b83db654084d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/xemle/home-gallery#readme"
+  },
+  "bb375f0e4bc417f1": {
+    "appId": "bb375f0e4bc417f1",
+    "repositoryUrl": "https://github.com/danielbrendel/hortusfox-web",
+    "sourceDir": "danielbrendel--hortusfox-web",
+    "commitSha": "10e5c250dc48034178d2707597c7c3cd253276c8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/danielbrendel/hortusfox-web#readme"
+  },
+  "3e74b6506bcb9ede": {
+    "appId": "3e74b6506bcb9ede",
+    "repositoryUrl": "https://github.com/av1155/houndarr",
+    "sourceDir": "av1155--houndarr",
+    "commitSha": "9b39fdbcef714b5562e9326fde7354526955bad8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/av1155/houndarr#readme"
+  },
+  "0c9f3653d938b7f9": {
+    "appId": "0c9f3653d938b7f9",
+    "repositoryUrl": "https://github.com/TeamHypersomnia/Hypersomnia",
+    "sourceDir": "teamhypersomnia--hypersomnia",
+    "commitSha": "1bb93f1bc1cc0e7d876b09956774b417a29dc1c1",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/TeamHypersomnia/Hypersomnia#readme"
+  },
+  "67171ff2b2c225f0": {
+    "appId": "67171ff2b2c225f0",
+    "repositoryUrl": "https://github.com/juspay/hyperswitch",
+    "sourceDir": "juspay--hyperswitch",
+    "commitSha": "7598069c5552ec3a75dc44c5a74df346bdbedcbd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/juspay/hyperswitch#readme"
+  },
+  "5dbdad69e825a9a1": {
+    "appId": "5dbdad69e825a9a1",
+    "repositoryUrl": "https://github.com/3xpyth0n/ideon",
+    "sourceDir": "3xpyth0n--ideon",
+    "commitSha": "8c75296fe72f67c5f89e8d9fb1e06160fc7c795f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/3xpyth0n/ideon#readme"
+  },
+  "81fb70b3b58cb486": {
+    "appId": "81fb70b3b58cb486",
+    "repositoryUrl": "https://github.com/misterunknown/ifm",
+    "sourceDir": "misterunknown--ifm",
+    "commitSha": "a2e96bc053115c0e4f25b6e3cc7ffa3f4465a4a1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/misterunknown/ifm#readme"
+  },
+  "d84463b615f7aaf2": {
+    "appId": "d84463b615f7aaf2",
+    "repositoryUrl": "https://github.com/spiral-project/ihatemoney",
+    "sourceDir": "spiral-project--ihatemoney",
+    "commitSha": "e66a7672e8e5c41549bf53c4a824c72c43ab9079",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/spiral-project/ihatemoney#readme"
+  },
+  "f56be1947ba8a3f4": {
+    "appId": "f56be1947ba8a3f4",
+    "repositoryUrl": "https://github.com/karimz1/imgcompress",
+    "sourceDir": "karimz1--imgcompress",
+    "commitSha": "cb9140d3808350b35780fb285e0cbb3eeb34fe3d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/karimz1/imgcompress#readme"
+  },
+  "2b6d4967623910af": {
+    "appId": "2b6d4967623910af",
+    "repositoryUrl": "https://github.com/damongolding/immich-kiosk",
+    "sourceDir": "damongolding--immich-kiosk",
+    "commitSha": "f99f4118e232da35c5eafcc6f04ebcb03ae4d0ba",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/damongolding/immich-kiosk#readme"
+  },
+  "5ee6f9a3bff2abff": {
+    "appId": "5ee6f9a3bff2abff",
+    "repositoryUrl": "https://github.com/Infisical/infisical",
+    "sourceDir": "infisical--infisical",
+    "commitSha": "0bd21cc0ccbe5ae2907db69ad928c081b8dafcfe",
+    "composePath": "docker-compose.prod.yml",
+    "guideUrl": "https://github.com/Infisical/infisical#readme"
+  },
+  "7494efb99b36596a": {
+    "appId": "7494efb99b36596a",
+    "repositoryUrl": "https://github.com/INGInious/INGInious",
+    "sourceDir": "inginious--inginious",
+    "commitSha": "76ddb145da81de3b0bc27b8530fcef2d6e5cd5a8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/INGInious/INGInious#readme"
+  },
+  "622b49c5eedebede": {
+    "appId": "622b49c5eedebede",
+    "repositoryUrl": "https://github.com/iv-org/invidious",
+    "sourceDir": "iv-org--invidious",
+    "commitSha": "57cc097022ad44a3a4fbd75f25912e7d12a84eb3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/iv-org/invidious#readme"
+  },
+  "6d4359c96fe757ad": {
+    "appId": "6d4359c96fe757ad",
+    "repositoryUrl": "https://github.com/InvoicePlane/InvoicePlane",
+    "sourceDir": "invoiceplane--invoiceplane",
+    "commitSha": "32b92f8105654d9d7cc2c739b9fd9da8eb15a228",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/InvoicePlane/InvoicePlane#readme"
+  },
+  "0138ae21ff3d9962": {
+    "appId": "0138ae21ff3d9962",
+    "repositoryUrl": "https://github.com/dmunozv04/iSponsorBlockTV",
+    "sourceDir": "dmunozv04--isponsorblocktv",
+    "commitSha": "005d248d20dd529bd3e8dca4d17a65ab05135ce8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/dmunozv04/iSponsorBlockTV#readme"
+  },
+  "623c7e79a94e7a64": {
+    "appId": "623c7e79a94e7a64",
+    "repositoryUrl": "https://github.com/isso-comments/isso",
+    "sourceDir": "isso-comments--isso",
+    "commitSha": "413d447a46437d0e9ccf206c8525119355e291d4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/isso-comments/isso#readme"
+  },
+  "b7bf18a12f131c26": {
+    "appId": "b7bf18a12f131c26",
+    "repositoryUrl": "https://github.com/sharevb/it-tools",
+    "sourceDir": "sharevb--it-tools",
+    "commitSha": "de40fc7a980d0cc4015bf675126e5a19fb235b04",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sharevb/it-tools#readme"
+  },
+  "3fbfae4cb533ea1b": {
+    "appId": "3fbfae4cb533ea1b",
+    "repositoryUrl": "https://github.com/jeedom/core",
+    "sourceDir": "jeedom--core",
+    "commitSha": "68b3f27940d8c313a03b69713a8595b340f0a32f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jeedom/core#readme"
+  },
+  "90244d2b5a43efa0": {
+    "appId": "90244d2b5a43efa0",
+    "repositoryUrl": "https://github.com/CyferShepard/Jellystat",
+    "sourceDir": "cyfershepard--jellystat",
+    "commitSha": "e0a38eeeff4c4bbaba60abad5f76e8a54415d1a8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/CyferShepard/Jellystat#readme"
+  },
+  "e9f22bcc898b5c3c": {
+    "appId": "e9f22bcc898b5c3c",
+    "repositoryUrl": "https://github.com/jitsi/docker-jitsi-meet",
+    "sourceDir": "jitsi--docker-jitsi-meet",
+    "commitSha": "93eb3893ab33087b6e39ad1c4133ba4d593d6132",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jitsi/docker-jitsi-meet#readme"
+  },
+  "c0d140a89e7edfad": {
+    "appId": "c0d140a89e7edfad",
+    "repositoryUrl": "https://github.com/fccview/jotty",
+    "sourceDir": "fccview--jotty",
+    "commitSha": "54a3e1122280b7792458aea60d202a99e47aba4d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/fccview/jotty#readme"
+  },
+  "0da2facd0039465e": {
+    "appId": "0da2facd0039465e",
+    "repositoryUrl": "https://github.com/judge0/judge0",
+    "sourceDir": "judge0--judge0",
+    "commitSha": "263519e43cb2c5a8900cdc11a630349d79ab3f02",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/judge0/judge0#readme"
+  },
+  "33b3bb6e4001791c": {
+    "appId": "33b3bb6e4001791c",
+    "repositoryUrl": "https://github.com/kanbn/kan",
+    "sourceDir": "kanbn--kan",
+    "commitSha": "d0809f05422bcc3f1acb98804d44671207e7ed9d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/kanbn/kan#readme"
+  },
+  "bdc40871eb538b69": {
+    "appId": "bdc40871eb538b69",
+    "repositoryUrl": "https://github.com/usekaneo/kaneo",
+    "sourceDir": "usekaneo--kaneo",
+    "commitSha": "4c89504dc4daa633bdfd7dbdc1f13c4338f51d2b",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/usekaneo/kaneo#readme"
+  },
+  "11c4a6e48b5eb1f2": {
+    "appId": "11c4a6e48b5eb1f2",
+    "repositoryUrl": "https://github.com/Casvt/Kapowarr",
+    "sourceDir": "casvt--kapowarr",
+    "commitSha": "c191dda6617929c81292483a8cc07f631111dae2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Casvt/Kapowarr#readme"
+  },
+  "aaea0027bae21ad5": {
+    "appId": "aaea0027bae21ad5",
+    "repositoryUrl": "https://github.com/karakeep-app/karakeep",
+    "sourceDir": "karakeep-app--karakeep",
+    "commitSha": "b783cf6d155d36e8e821e454b83499ed766228af",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/karakeep-app/karakeep#readme"
+  },
+  "80e848e967db549c": {
+    "appId": "80e848e967db549c",
+    "repositoryUrl": "https://github.com/ridafkih/keeper.sh",
+    "sourceDir": "ridafkih--keeper-sh",
+    "commitSha": "108a096c9d34729c1d718a95061e6e3b70e19f2d",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/ridafkih/keeper.sh#readme"
+  },
+  "6fd8d26853d3a3ba": {
+    "appId": "6fd8d26853d3a3ba",
+    "repositoryUrl": "https://github.com/kestra-io/kestra",
+    "sourceDir": "kestra-io--kestra",
+    "commitSha": "0f94a37e800ccf2e2bea2002634b42a72d2565c0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/kestra-io/kestra#readme"
+  },
+  "59c6ac3cb3b9ab92": {
+    "appId": "59c6ac3cb3b9ab92",
+    "repositoryUrl": "https://github.com/khoj-ai/khoj",
+    "sourceDir": "khoj-ai--khoj",
+    "commitSha": "ae229ca894c0b80ad84664afcfdde523b5e87057",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/khoj-ai/khoj#readme"
+  },
+  "204ddc92dae999c6": {
+    "appId": "204ddc92dae999c6",
+    "repositoryUrl": "https://github.com/checkmarx/kics",
+    "sourceDir": "checkmarx--kics",
+    "commitSha": "bbb3c148d13528b49718c8e4999af99bd4a3c950",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/checkmarx/kics#readme"
+  },
+  "d4e354efe25b77c8": {
+    "appId": "d4e354efe25b77c8",
+    "repositoryUrl": "https://github.com/Kinto/kinto",
+    "sourceDir": "kinto--kinto",
+    "commitSha": "8196adc6bea5d1a14af28fcfb6e3f3291a3720b8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Kinto/kinto#readme"
+  },
+  "331bed5a1175fbaf": {
+    "appId": "331bed5a1175fbaf",
+    "repositoryUrl": "https://github.com/idno/idno",
+    "sourceDir": "idno--idno",
+    "commitSha": "e7c79dcf53b10cb34304f1a8affbf324478e181a",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/idno/idno#readme"
+  },
+  "b7d39a0c1af91231": {
+    "appId": "b7d39a0c1af91231",
+    "repositoryUrl": "https://github.com/Kraken-CI/kraken",
+    "sourceDir": "kraken-ci--kraken",
+    "commitSha": "744a0be7358085ad197c2c3e940fa3821a0e9e80",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/Kraken-CI/kraken#readme"
+  },
+  "bd59d1b1c55e604a": {
+    "appId": "bd59d1b1c55e604a",
+    "repositoryUrl": "https://github.com/zoriya/kyoo",
+    "sourceDir": "zoriya--kyoo",
+    "commitSha": "9e37786fdf1093f9e54bcac207f3d6321557f097",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/zoriya/kyoo#readme"
+  },
+  "a654e39fe8fb2e78": {
+    "appId": "a654e39fe8fb2e78",
+    "repositoryUrl": "https://github.com/getlago/lago",
+    "sourceDir": "getlago--lago",
+    "commitSha": "9144b1b638f3c67d954f2f7b7e37f0f77c642443",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/getlago/lago#readme"
+  },
+  "9813825049c75bfe": {
+    "appId": "9813825049c75bfe",
+    "repositoryUrl": "https://github.com/langflow-ai/langflow",
+    "sourceDir": "langflow-ai--langflow",
+    "commitSha": "a21cd0b51bcc0bc9dfe1865465aad6f41c242a9a",
+    "composePath": "deploy/docker-compose.yml",
+    "guideUrl": "https://github.com/langflow-ai/langflow#readme"
+  },
+  "a5d406dab37933d6": {
+    "appId": "a5d406dab37933d6",
+    "repositoryUrl": "https://github.com/langfuse/langfuse",
+    "sourceDir": "langfuse--langfuse",
+    "commitSha": "8d7a8f77c9a318a80d90d67ff338a9e24a349c43",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/langfuse/langfuse#readme"
+  },
+  "f4cf222afb1b1336": {
+    "appId": "f4cf222afb1b1336",
+    "repositoryUrl": "https://github.com/jesseduffield/lazydocker",
+    "sourceDir": "jesseduffield--lazydocker",
+    "commitSha": "7e7aadc2071d58031bf2daafca1fbd4093efc23f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jesseduffield/lazydocker#readme"
+  },
+  "54419782024cf84f": {
+    "appId": "54419782024cf84f",
+    "repositoryUrl": "https://github.com/LemmyNet/lemmy",
+    "sourceDir": "lemmynet--lemmy",
+    "commitSha": "fc640cf86a130bc897d83dbd06d84c3c7d9b16e3",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/LemmyNet/lemmy#readme"
+  },
+  "b9c14782f458d2a7": {
+    "appId": "b9c14782f458d2a7",
+    "repositoryUrl": "https://github.com/LibreTranslate/LibreTranslate",
+    "sourceDir": "libretranslate--libretranslate",
+    "commitSha": "89e8a56b93244cf3803b9a0496a9b51b9fbc6186",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LibreTranslate/LibreTranslate#readme"
+  },
+  "afef75d2fc43212b": {
+    "appId": "afef75d2fc43212b",
+    "repositoryUrl": "https://github.com/LibreChat-AI/LibreChat",
+    "sourceDir": "librechat-ai--librechat",
+    "commitSha": "e1dfc10449ff713faffacd60273fddcfe2c0a698",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LibreChat-AI/LibreChat#readme"
+  },
+  "cb2edc4c28666369": {
+    "appId": "cb2edc4c28666369",
+    "repositoryUrl": "https://github.com/libredb/libredb-studio",
+    "sourceDir": "libredb--libredb-studio",
+    "commitSha": "b400668a850946e5936a6ad40a1638344d52292e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/libredb/libredb-studio#readme"
+  },
+  "8ee5afcb085f541c": {
+    "appId": "8ee5afcb085f541c",
+    "repositoryUrl": "https://github.com/abhinavxd/libredesk",
+    "sourceDir": "abhinavxd--libredesk",
+    "commitSha": "a2c2feaf5d64af6647f4a81a24486c290223c3d0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/abhinavxd/libredesk#readme"
+  },
+  "4337922c30412393": {
+    "appId": "4337922c30412393",
+    "repositoryUrl": "https://github.com/michaelstaake/LibreKB",
+    "sourceDir": "michaelstaake--librekb",
+    "commitSha": "1bc6dfcdf8e42d755293d509592a7697296c95da",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/michaelstaake/LibreKB#readme"
+  },
+  "620a578aa05c610c": {
+    "appId": "620a578aa05c610c",
+    "repositoryUrl": "https://github.com/LibreTime/libretime",
+    "sourceDir": "libretime--libretime",
+    "commitSha": "b03d99db864c50e1b392f625147eee717718fccc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LibreTime/libretime#readme"
+  },
+  "87183ff34da809c2": {
+    "appId": "87183ff34da809c2",
+    "repositoryUrl": "https://github.com/lightdash/lightdash",
+    "sourceDir": "lightdash--lightdash",
+    "commitSha": "65d4f37fbfc43aa76b4f0ff14532e25afc005a7f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lightdash/lightdash#readme"
+  },
+  "44cf38d0e6922667": {
+    "appId": "44cf38d0e6922667",
+    "repositoryUrl": "https://github.com/limbas/limbas",
+    "sourceDir": "limbas--limbas",
+    "commitSha": "fbb2b7df24f860d57d1f59bd1aea2c98df5d6dbb",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/limbas/limbas#readme"
+  },
+  "8fef83eb2b9a4a71": {
+    "appId": "8fef83eb2b9a4a71",
+    "repositoryUrl": "https://github.com/Kovah/LinkAce",
+    "sourceDir": "kovah--linkace",
+    "commitSha": "4e29e7c8d4a31b19ad54322ac9d78a7b3f87111a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Kovah/LinkAce#readme"
+  },
+  "cdc53a20c6959afc": {
+    "appId": "cdc53a20c6959afc",
+    "repositoryUrl": "https://github.com/Litlyx/litlyx",
+    "sourceDir": "litlyx--litlyx",
+    "commitSha": "3881c67b9350ce96f630d69a0e7bf1f49ac95876",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Litlyx/litlyx#readme"
+  },
+  "3ca9106aab571ea9": {
+    "appId": "3ca9106aab571ea9",
+    "repositoryUrl": "https://github.com/sethcottle/littlelink",
+    "sourceDir": "sethcottle--littlelink",
+    "commitSha": "3c9162c9f8324d5e002259ed8b4b3cc377b08486",
+    "composePath": "docker/compose.yaml",
+    "guideUrl": "https://github.com/sethcottle/littlelink#readme"
+  },
+  "53b9ede134d8dac0": {
+    "appId": "53b9ede134d8dac0",
+    "repositoryUrl": "https://github.com/live-codes/livecodes",
+    "sourceDir": "live-codes--livecodes",
+    "commitSha": "7dbefc732db7a1461cb04b29169b517ddc04f502",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/live-codes/livecodes#readme"
+  },
+  "01c580dcfe10f39b": {
+    "appId": "01c580dcfe10f39b",
+    "repositoryUrl": "https://github.com/LearningCircuit/local-deep-research",
+    "sourceDir": "learningcircuit--local-deep-research",
+    "commitSha": "4d30f5205df4eff044ebe2ef508e1c748c11af2a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LearningCircuit/local-deep-research#readme"
+  },
+  "1e8c9128b5ed2b9d": {
+    "appId": "1e8c9128b5ed2b9d",
+    "repositoryUrl": "https://github.com/mudler/LocalAI",
+    "sourceDir": "mudler--localai",
+    "commitSha": "6d185cc2f841320e61031ab3f655f26a20c2c8fc",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/mudler/LocalAI#readme"
+  },
+  "1b77c4b8cdd6e553": {
+    "appId": "1b77c4b8cdd6e553",
+    "repositoryUrl": "https://github.com/loomio/loomio",
+    "sourceDir": "loomio--loomio",
+    "commitSha": "b8804b60285143c55545a1575fade65576e0338a",
+    "composePath": "deploy/docker-compose.yml",
+    "guideUrl": "https://github.com/loomio/loomio#readme"
+  },
+  "f0787f6376a17bb1": {
+    "appId": "f0787f6376a17bb1",
+    "repositoryUrl": "https://github.com/hargata/lubelog",
+    "sourceDir": "hargata--lubelog",
+    "commitSha": "63fa5cd267497ba01c29f4888c65efbbdd4b94bf",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/hargata/lubelog#readme"
+  },
+  "557734d982d9f622": {
+    "appId": "557734d982d9f622",
+    "repositoryUrl": "https://github.com/LycheeOrg/Lychee",
+    "sourceDir": "lycheeorg--lychee",
+    "commitSha": "2634a0540ea70094ff6bf1b2ad16b0d487a91f57",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/LycheeOrg/Lychee#readme"
+  },
+  "a3d631faf5c1bc24": {
+    "appId": "a3d631faf5c1bc24",
+    "repositoryUrl": "https://github.com/s1t5/mail-archiver",
+    "sourceDir": "s1t5--mail-archiver",
+    "commitSha": "0b3016deffca5a49d5a1afbafbd122d10c7a81b2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/s1t5/mail-archiver#readme"
+  },
+  "f9f25a22ad4d5719": {
+    "appId": "f9f25a22ad4d5719",
+    "repositoryUrl": "https://github.com/mailcow/mailcow-dockerized",
+    "sourceDir": "mailcow--mailcow-dockerized",
+    "commitSha": "81f6f7b002f2681b732aed74ae53179377def5e0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mailcow/mailcow-dockerized#readme"
+  },
+  "e5ec3cd817160cfd": {
+    "appId": "e5ec3cd817160cfd",
+    "repositoryUrl": "https://github.com/kolapsis/maintenant",
+    "sourceDir": "kolapsis--maintenant",
+    "commitSha": "00fc8719c6ba388022a61cd00bc3610c3473c3c1",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/kolapsis/maintenant#readme"
+  },
+  "3ebd928b44bcf7bb": {
+    "appId": "3ebd928b44bcf7bb",
+    "repositoryUrl": "https://github.com/managemeals/manage-meals-web",
+    "sourceDir": "managemeals--manage-meals-web",
+    "commitSha": "1437ea45598bcb903a2ec4906d7a25a2cbdcd779",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/managemeals/manage-meals-web#readme"
+  },
+  "b1840382742f3fd7": {
+    "appId": "b1840382742f3fd7",
+    "repositoryUrl": "https://github.com/mnfst/llm-gateway",
+    "sourceDir": "mnfst--llm-gateway",
+    "commitSha": "5dba17aca566c0d4b06f3fdb1f4e5831fc117797",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/mnfst/llm-gateway#readme"
+  },
+  "d4fbbf2fdfff1311": {
+    "appId": "d4fbbf2fdfff1311",
+    "repositoryUrl": "https://github.com/mastodon/mastodon",
+    "sourceDir": "mastodon--mastodon",
+    "commitSha": "d0b3f3263ba59da24c4fa179064a160106b90a81",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mastodon/mastodon#readme"
+  },
+  "d4c7a4afc8232128": {
+    "appId": "d4c7a4afc8232128",
+    "repositoryUrl": "https://github.com/mataroablog/mataroa",
+    "sourceDir": "mataroablog--mataroa",
+    "commitSha": "a035ac08b859d83575352f5bc3d27745065f4104",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mataroablog/mataroa#readme"
+  },
+  "3dff6b9b8ca48af6": {
+    "appId": "3dff6b9b8ca48af6",
+    "repositoryUrl": "https://github.com/mathesar-foundation/mathesar",
+    "sourceDir": "mathesar-foundation--mathesar",
+    "commitSha": "0c05987885c93cdbe5bf9f7fa49b833d02a312cc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mathesar-foundation/mathesar#readme"
+  },
+  "8a60c0e702187ab0": {
+    "appId": "8a60c0e702187ab0",
+    "repositoryUrl": "https://github.com/tanrax/maza-ad-blocking",
+    "sourceDir": "tanrax--maza-ad-blocking",
+    "commitSha": "313491eea917009699976aeccc7db18235001e4d",
+    "composePath": "docker/compose.yaml",
+    "guideUrl": "https://github.com/tanrax/maza-ad-blocking#readme"
+  },
+  "f4f4ca1d13a093d2": {
+    "appId": "f4f4ca1d13a093d2",
+    "repositoryUrl": "https://github.com/mediacms-io/mediacms",
+    "sourceDir": "mediacms-io--mediacms",
+    "commitSha": "874e687d29bfcacb7c4d67f409d6ea0e73ca0365",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/mediacms-io/mediacms#readme"
+  },
+  "11662abf18b0ccff": {
+    "appId": "11662abf18b0ccff",
+    "repositoryUrl": "https://github.com/Arthi-chaud/Meelo",
+    "sourceDir": "arthi-chaud--meelo",
+    "commitSha": "c86e79345b5b1d86365cd49a81a42c95f999d5d8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Arthi-chaud/Meelo#readme"
+  },
+  "d170a29d6deeb453": {
+    "appId": "d170a29d6deeb453",
+    "repositoryUrl": "https://github.com/aaronpk/Meetable",
+    "sourceDir": "aaronpk--meetable",
+    "commitSha": "7113b071a956d080383b1769aab5b89a842cd6e0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/aaronpk/Meetable#readme"
+  },
+  "73dd8de20b559684": {
+    "appId": "73dd8de20b559684",
+    "repositoryUrl": "https://github.com/meme-search/meme-search",
+    "sourceDir": "meme-search--meme-search",
+    "commitSha": "c6da790c37cc6d71f8f2a3e4aaff9073980bcfa8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/meme-search/meme-search#readme"
+  },
+  "a372b7bd77bec7ae": {
+    "appId": "a372b7bd77bec7ae",
+    "repositoryUrl": "https://github.com/cfu288/mere-medical",
+    "sourceDir": "cfu288--mere-medical",
+    "commitSha": "16bbccf458891ff5971f49503d807beefb496059",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/cfu288/mere-medical#readme"
+  },
+  "8fd74573ee990685": {
+    "appId": "8fd74573ee990685",
+    "repositoryUrl": "https://github.com/Ylianst/MeshCentral",
+    "sourceDir": "ylianst--meshcentral",
+    "commitSha": "029b7338ecfeeacc65da3b5a1a4cc069baeb2f65",
+    "composePath": "docker/compose.yaml",
+    "guideUrl": "https://github.com/Ylianst/MeshCentral#readme"
+  },
+  "b738d0dc5904e95b": {
+    "appId": "b738d0dc5904e95b",
+    "repositoryUrl": "https://github.com/middlewarehq/middleware",
+    "sourceDir": "middlewarehq--middleware",
+    "commitSha": "844eb425ff95fcd408e408d78f21b8df860503fc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/middlewarehq/middleware#readme"
+  },
+  "d632bb9756986285": {
+    "appId": "d632bb9756986285",
+    "repositoryUrl": "https://github.com/zer0tonin/Mikochi",
+    "sourceDir": "zer0tonin--mikochi",
+    "commitSha": "cf275e1753314bce35874793755bc9e76357add4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/zer0tonin/Mikochi#readme"
+  },
+  "4dd88d403f3d3731": {
+    "appId": "4dd88d403f3d3731",
+    "repositoryUrl": "https://github.com/b310-digital/mindwendel",
+    "sourceDir": "b310-digital--mindwendel",
+    "commitSha": "c372adaf3552584c110b20295dbf3d3ed1e447dc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/b310-digital/mindwendel#readme"
+  },
+  "aff8ca657ebe6e8f": {
+    "appId": "aff8ca657ebe6e8f",
+    "repositoryUrl": "https://github.com/minthcm/minthcm",
+    "sourceDir": "minthcm--minthcm",
+    "commitSha": "e080d19ccbc407c5d75908c000c5d93144473c78",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/minthcm/minthcm#readme"
+  },
+  "4e07111d1f8a321c": {
+    "appId": "4e07111d1f8a321c",
+    "repositoryUrl": "https://github.com/Accessory/minus_games",
+    "sourceDir": "accessory--minus-games",
+    "commitSha": "74e3d1cd05b292f292fd79dd9feb4f79bd987fa9",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/Accessory/minus_games#readme"
+  },
+  "c67a320ba578d3b5": {
+    "appId": "c67a320ba578d3b5",
+    "repositoryUrl": "https://github.com/rafalp/Misago",
+    "sourceDir": "rafalp--misago",
+    "commitSha": "89f4c70501ebcfd35f40adfd2642504aeba0853e",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/rafalp/Misago#readme"
+  },
+  "a5201c3fd1b23070": {
+    "appId": "a5201c3fd1b23070",
+    "repositoryUrl": "https://github.com/kennethsible/mkvpriority",
+    "sourceDir": "kennethsible--mkvpriority",
+    "commitSha": "76c2eabc18c33708d3eb3169959e7d5da7b8804d",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/kennethsible/mkvpriority#readme"
+  },
+  "3ff4b4b1aec488f9": {
+    "appId": "3ff4b4b1aec488f9",
+    "repositoryUrl": "https://github.com/modoboa/modoboa",
+    "sourceDir": "modoboa--modoboa",
+    "commitSha": "f5e67a11d504e1a59f97991a925f6833f7cc6708",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/modoboa/modoboa#readme"
+  },
+  "0e5a6137d27b85b7": {
+    "appId": "0e5a6137d27b85b7",
+    "repositoryUrl": "https://github.com/monicahq/monica",
+    "sourceDir": "monicahq--monica",
+    "commitSha": "6e6ec217457e946e330ba7cd3b28107f4332c7b1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/monicahq/monica#readme"
+  },
+  "9078ee85c299799d": {
+    "appId": "9078ee85c299799d",
+    "repositoryUrl": "https://github.com/CatoTH/antragsgruen",
+    "sourceDir": "catoth--antragsgruen",
+    "commitSha": "36035bae86326f0e38ff62a7117f6241fe5bbbe3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/CatoTH/antragsgruen#readme"
+  },
+  "884617704278403b": {
+    "appId": "884617704278403b",
+    "repositoryUrl": "https://github.com/motioneye-project/motioneye",
+    "sourceDir": "motioneye-project--motioneye",
+    "commitSha": "b5b3ee560b115aee732a4445e1b500aa8d1110a8",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/motioneye-project/motioneye#readme"
+  },
+  "0649f7b9ed80c78e": {
+    "appId": "0649f7b9ed80c78e",
+    "repositoryUrl": "https://github.com/leepeuker/movary",
+    "sourceDir": "leepeuker--movary",
+    "commitSha": "f8ccffb62177138821beb1ec62baaf5690eb84e6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/leepeuker/movary#readme"
+  },
+  "d1141b923a3d471f": {
+    "appId": "d1141b923a3d471f",
+    "repositoryUrl": "https://github.com/mjl-/mox",
+    "sourceDir": "mjl--mox",
+    "commitSha": "58d0a7788a2e51629e1527dff73167ee6238b100",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/mjl-/mox#readme"
+  },
+  "9ab1933e6341e1f3": {
+    "appId": "9ab1933e6341e1f3",
+    "repositoryUrl": "https://github.com/FoxxMD/multi-scrobbler",
+    "sourceDir": "foxxmd--multi-scrobbler",
+    "commitSha": "9cfda4bbec3183a5530a3db6a2ddbeef6dcad01f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/FoxxMD/multi-scrobbler#readme"
+  },
+  "00173ec3d51384ee": {
+    "appId": "00173ec3d51384ee",
+    "repositoryUrl": "https://github.com/shurco/mycart",
+    "sourceDir": "shurco--mycart",
+    "commitSha": "22535391ae3b34bc0c3c0a2cc10b86d7ac2c8772",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/shurco/mycart#readme"
+  },
+  "8a3b9d3156575822": {
+    "appId": "8a3b9d3156575822",
+    "repositoryUrl": "https://github.com/afaneca/myfin",
+    "sourceDir": "afaneca--myfin",
+    "commitSha": "18377ad3f78057e519cf880a35f13831514821e6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/afaneca/myfin#readme"
+  },
+  "346e65d6ba323916": {
+    "appId": "346e65d6ba323916",
+    "repositoryUrl": "https://github.com/jason5ng32/MyIP",
+    "sourceDir": "jason5ng32--myip",
+    "commitSha": "5502169374ccbb9ac7c3d70ac703ecbba3fa0813",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jason5ng32/MyIP#readme"
+  },
+  "9f0e6b71726c28bd": {
+    "appId": "9f0e6b71726c28bd",
+    "repositoryUrl": "https://github.com/FabianRolfMatthiasNoll/MyMangaDB",
+    "sourceDir": "fabianrolfmatthiasnoll--mymangadb",
+    "commitSha": "abe2a2ac7e54f72575aca82afcb020a987be7929",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/FabianRolfMatthiasNoll/MyMangaDB#readme"
+  },
+  "b01611eb49a60bea": {
+    "appId": "b01611eb49a60bea",
+    "repositoryUrl": "https://github.com/lardbit/nefarious",
+    "sourceDir": "lardbit--nefarious",
+    "commitSha": "f78c083d3511b756f3b5a0361c8adc8769457d02",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lardbit/nefarious#readme"
+  },
+  "b30d81e961c1d878": {
+    "appId": "b30d81e961c1d878",
+    "repositoryUrl": "https://github.com/m1k1o/neko",
+    "sourceDir": "m1k1o--neko",
+    "commitSha": "c75a2f60b57e544fea8d0f2f305a435980af84cb",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/m1k1o/neko#readme"
+  },
+  "12686b1afccc8758": {
+    "appId": "12686b1afccc8758",
+    "repositoryUrl": "https://github.com/AlexSciFier/neonlink",
+    "sourceDir": "alexscifier--neonlink",
+    "commitSha": "94e479e693d1ab91db6a503789e95a6f81f04250",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/AlexSciFier/neonlink#readme"
+  },
+  "208441e4f99c6eb9": {
+    "appId": "208441e4f99c6eb9",
+    "repositoryUrl": "https://github.com/netalertx/NetAlertX",
+    "sourceDir": "netalertx--netalertx",
+    "commitSha": "11280a19c3e249b0a20339a2e2cc47bb4cc05921",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/netalertx/NetAlertX#readme"
+  },
+  "cf6b5cf03a0834a0": {
+    "appId": "cf6b5cf03a0834a0",
+    "repositoryUrl": "https://github.com/netbox-community/netbox-docker",
+    "sourceDir": "netbox-community--netbox-docker",
+    "commitSha": "7689fec7a70717f7e72feecb383e7a3f55538b5f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/netbox-community/netbox-docker#readme"
+  },
+  "f214b0bfd2cdc278": {
+    "appId": "f214b0bfd2cdc278",
+    "repositoryUrl": "https://github.com/Tenebrie/neverkin",
+    "sourceDir": "tenebrie--neverkin",
+    "commitSha": "9623cb23c4285319b600b61f37825faa9df23159",
+    "composePath": "docker-compose.prod.yml",
+    "guideUrl": "https://github.com/Tenebrie/neverkin#readme"
+  },
+  "dc757dce714f829f": {
+    "appId": "dc757dce714f829f",
+    "repositoryUrl": "https://github.com/samuelclay/NewsBlur",
+    "sourceDir": "samuelclay--newsblur",
+    "commitSha": "95cded69fb428b7b6fee854144b9423efe08605e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/samuelclay/NewsBlur#readme"
+  },
+  "02a62e3a67c95ce3": {
+    "appId": "02a62e3a67c95ce3",
+    "repositoryUrl": "https://github.com/Turbootzz/Nimbus",
+    "sourceDir": "turbootzz--nimbus",
+    "commitSha": "0f0325030c2257a27ad34531bcc70b6958aea21a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Turbootzz/Nimbus#readme"
+  },
+  "884fa547ac7e6ea7": {
+    "appId": "884fa547ac7e6ea7",
+    "repositoryUrl": "https://github.com/NodeBB/NodeBB",
+    "sourceDir": "nodebb--nodebb",
+    "commitSha": "8d2af9ea57ef363a4a5d3d1fa206f832dd927955",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/NodeBB/NodeBB#readme"
+  },
+  "efb29106064421b5": {
+    "appId": "efb29106064421b5",
+    "repositoryUrl": "https://github.com/getnora-io/nora",
+    "sourceDir": "getnora-io--nora",
+    "commitSha": "d4a76eaa5b1869c818ef972bfa649bec330618f9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/getnora-io/nora#readme"
+  },
+  "b17a7c0dca04e3d3": {
+    "appId": "b17a7c0dca04e3d3",
+    "repositoryUrl": "https://github.com/not-three/main",
+    "sourceDir": "not-three--main",
+    "commitSha": "0f10af3f3a6c1296fe3a522ed2fccb141bd9b5e9",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/not-three/main#readme"
+  },
+  "7fa8d94f95b1519d": {
+    "appId": "7fa8d94f95b1519d",
+    "repositoryUrl": "https://github.com/gamosoft/NoteDiscovery",
+    "sourceDir": "gamosoft--notediscovery",
+    "commitSha": "95df96134f92ecdba68715aac6c386d75333477e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/gamosoft/NoteDiscovery#readme"
+  },
+  "0894cd7fe6ea24af": {
+    "appId": "0894cd7fe6ea24af",
+    "repositoryUrl": "https://github.com/jhstatewide/nscr",
+    "sourceDir": "jhstatewide--nscr",
+    "commitSha": "b1ac97e9f69b6cc48dd514f67510e59427d574ab",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/jhstatewide/nscr#readme"
+  },
+  "a3098180a377fdad": {
+    "appId": "a3098180a377fdad",
+    "repositoryUrl": "https://github.com/TraceApps/nutritrace",
+    "sourceDir": "traceapps--nutritrace",
+    "commitSha": "888c9664cd3a0222a9449cff506264097a2ae9b2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/TraceApps/nutritrace#readme"
+  },
+  "d17c81af679a58e4": {
+    "appId": "d17c81af679a58e4",
+    "repositoryUrl": "https://github.com/Drakkar-Software/OctoBot",
+    "sourceDir": "drakkar-software--octobot",
+    "commitSha": "c45fdc2c95c5bd3d649251fa90c327e2e8f86b00",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Drakkar-Software/OctoBot#readme"
+  },
+  "aca82106bb906d24": {
+    "appId": "aca82106bb906d24",
+    "repositoryUrl": "https://github.com/octobox/octobox",
+    "sourceDir": "octobox--octobox",
+    "commitSha": "41d609d55c17844735b48163b86b3aa068812b99",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/octobox/octobox#readme"
+  },
+  "6487382c87a1ae19": {
+    "appId": "6487382c87a1ae19",
+    "repositoryUrl": "https://github.com/offen/offen",
+    "sourceDir": "offen--offen",
+    "commitSha": "ec99082a37ffb5855bd84debfef227d41c7b403c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/offen/offen#readme"
+  },
+  "aca7847db12030b3": {
+    "appId": "aca7847db12030b3",
+    "repositoryUrl": "https://github.com/onecli/onecli",
+    "sourceDir": "onecli--onecli",
+    "commitSha": "9319d08be0b1fe35be39bf899b528a8e43f93027",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/onecli/onecli#readme"
+  },
+  "4b271d0f8de4532e": {
+    "appId": "4b271d0f8de4532e",
+    "repositoryUrl": "https://github.com/ONLYOFFICE/Docker-DocumentServer",
+    "sourceDir": "onlyoffice--docker-documentserver",
+    "commitSha": "63e7f2f3fdeb5f3553445e9f0a5aa4ef70e2457e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ONLYOFFICE/Docker-DocumentServer#readme"
+  },
+  "9f2cda44326186f7": {
+    "appId": "9f2cda44326186f7",
+    "repositoryUrl": "https://github.com/LogicLabs-OU/OpenArchiver",
+    "sourceDir": "logiclabs-ou--openarchiver",
+    "commitSha": "17bf5d0af296cef3601243f5a2a4c11e2a45c25a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/LogicLabs-OU/OpenArchiver#readme"
+  },
+  "c8a7c5818fd9f526": {
+    "appId": "c8a7c5818fd9f526",
+    "repositoryUrl": "https://github.com/gunet/openeclass",
+    "sourceDir": "gunet--openeclass",
+    "commitSha": "0cdfdbf73235c293fa43e54ee9d41f383c0026fb",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/gunet/openeclass#readme"
+  },
+  "1c395bed06593670": {
+    "appId": "1c395bed06593670",
+    "repositoryUrl": "https://github.com/openfoodfoundation/openfoodnetwork",
+    "sourceDir": "openfoodfoundation--openfoodnetwork",
+    "commitSha": "eb4ca5234e2c88ca4e27c5d50283304df7da44c0",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/openfoodfoundation/openfoodnetwork#readme"
+  },
+  "e29b988ee9633384": {
+    "appId": "e29b988ee9633384",
+    "repositoryUrl": "https://github.com/opensourcepos/opensourcepos",
+    "sourceDir": "opensourcepos--opensourcepos",
+    "commitSha": "fdbeb0e9b124ee970e77b9d08050b6a557ec4e81",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/opensourcepos/opensourcepos#readme"
+  },
+  "bcedf03dba2cfd79": {
+    "appId": "bcedf03dba2cfd79",
+    "repositoryUrl": "https://github.com/open-meteo/open-meteo",
+    "sourceDir": "open-meteo--open-meteo",
+    "commitSha": "4633aa1250c8495539d7d988e1112281628339e5",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/open-meteo/open-meteo#readme"
+  },
+  "7695295207bed0cb": {
+    "appId": "7695295207bed0cb",
+    "repositoryUrl": "https://github.com/opencart/opencart",
+    "sourceDir": "opencart--opencart",
+    "commitSha": "5fe7827555dac90d8c08aaaacd3f6e3c2f9a7cb3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/opencart/opencart#readme"
+  },
+  "2d38b900d91768f3": {
+    "appId": "2d38b900d91768f3",
+    "repositoryUrl": "https://github.com/DIGI-UW/OpenELIS-Global-2",
+    "sourceDir": "digi-uw--openelis-global-2",
+    "commitSha": "c66a0fc23a04be446f6dd5aa6c3510a221fe470c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DIGI-UW/OpenELIS-Global-2#readme"
+  },
+  "8df2c080d1201237": {
+    "appId": "8df2c080d1201237",
+    "repositoryUrl": "https://github.com/Jinjinov/OpenHabitTracker",
+    "sourceDir": "jinjinov--openhabittracker",
+    "commitSha": "a285bf78c04ecebf3b3acc701f1776d4da326905",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Jinjinov/OpenHabitTracker#readme"
+  },
+  "33faae3c9dc0816b": {
+    "appId": "33faae3c9dc0816b",
+    "repositoryUrl": "https://github.com/Openpanel-dev/openpanel",
+    "sourceDir": "openpanel-dev--openpanel",
+    "commitSha": "7c4d22ae4b6b20fb08eb5c94a0cd3cfebb3d32ca",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Openpanel-dev/openpanel#readme"
+  },
+  "a2045972cde24932": {
+    "appId": "a2045972cde24932",
+    "repositoryUrl": "https://github.com/getopenpost/openpost",
+    "sourceDir": "getopenpost--openpost",
+    "commitSha": "2e5af6375c969c80ca357f71e4cd6f855527e826",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/getopenpost/openpost#readme"
+  },
+  "679f7bb50af52541": {
+    "appId": "679f7bb50af52541",
+    "repositoryUrl": "https://github.com/opf/openproject",
+    "sourceDir": "opf--openproject",
+    "commitSha": "739ee9d241f5ee24fd73a731376e2b92979857a6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/opf/openproject#readme"
+  },
+  "3b9881a845b08240": {
+    "appId": "3b9881a845b08240",
+    "repositoryUrl": "https://github.com/openremote/core",
+    "sourceDir": "openremote--core",
+    "commitSha": "b9f435ec5582d2471d9174c8af1c9dcdff944297",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/openremote/core#readme"
+  },
+  "9e59c21f7cd9768b": {
+    "appId": "9e59c21f7cd9768b",
+    "repositoryUrl": "https://github.com/Safe3/openresty-manager",
+    "sourceDir": "safe3--openresty-manager",
+    "commitSha": "e4eb204f0b3aafb4d40f1a3ecc0ff80a25d4730d",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Safe3/openresty-manager#readme"
+  },
+  "fe0d9927a81ba9b2": {
+    "appId": "fe0d9927a81ba9b2",
+    "repositoryUrl": "https://github.com/GIScience/openrouteservice",
+    "sourceDir": "giscience--openrouteservice",
+    "commitSha": "6c5d45e08864b1b0e168042d88fb13e2ef04e178",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/GIScience/openrouteservice#readme"
+  },
+  "6c08e48f2d907586": {
+    "appId": "6c08e48f2d907586",
+    "repositoryUrl": "https://github.com/opensignlabs/opensign",
+    "sourceDir": "opensignlabs--opensign",
+    "commitSha": "e5f2c5c0a9f65ec01d8a53e4bf3a390c7ade7bcd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/opensignlabs/opensign#readme"
+  },
+  "3479839df741f43c": {
+    "appId": "3479839df741f43c",
+    "repositoryUrl": "https://github.com/openstreetmap/openstreetmap-website",
+    "sourceDir": "openstreetmap--openstreetmap-website",
+    "commitSha": "78b8c8dde34b585b01590a1ca629519fdd72db80",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/openstreetmap/openstreetmap-website#readme"
+  },
+  "36de069eae99a61e": {
+    "appId": "36de069eae99a61e",
+    "repositoryUrl": "https://github.com/rmyndharis/OpenWA",
+    "sourceDir": "rmyndharis--openwa",
+    "commitSha": "e9656853d0706eede3aae3fa73315d2a9e5dcc73",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rmyndharis/OpenWA#readme"
+  },
+  "2cbd143fc51d01ed": {
+    "appId": "2cbd143fc51d01ed",
+    "repositoryUrl": "https://github.com/operational-co/operational.co",
+    "sourceDir": "operational-co--operational-co",
+    "commitSha": "80be6ae791295b05cdc0bbae966edfedb796d2bc",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/operational-co/operational.co#readme"
+  },
+  "882c117d5f4c76b4": {
+    "appId": "882c117d5f4c76b4",
+    "repositoryUrl": "https://github.com/OpnForm/OpnForm",
+    "sourceDir": "opnform--opnform",
+    "commitSha": "c851f9fb3c581d9c36571cefc0d1d4e735c34cfd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/OpnForm/OpnForm#readme"
+  },
+  "f30de30902798223": {
+    "appId": "f30de30902798223",
+    "repositoryUrl": "https://github.com/cin12211/orca-q",
+    "sourceDir": "cin12211--orca-q",
+    "commitSha": "3142fe610bfba19112ba8976539b5c6d3278066b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/cin12211/orca-q#readme"
+  },
+  "12ca55d0edc285ea": {
+    "appId": "12ca55d0edc285ea",
+    "repositoryUrl": "https://github.com/openSUSE/osem",
+    "sourceDir": "opensuse--osem",
+    "commitSha": "cfe836b74b2f290728a0ca00fc915b5ff8ab39a2",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/openSUSE/osem#readme"
+  },
+  "bca30c2d40ffee84": {
+    "appId": "bca30c2d40ffee84",
+    "repositoryUrl": "https://github.com/Luzifer/ots",
+    "sourceDir": "luzifer--ots",
+    "commitSha": "47e7895453293cc34d50ac541b09febfbe0438b8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Luzifer/ots#readme"
+  },
+  "33a314493a914de9": {
+    "appId": "33a314493a914de9",
+    "repositoryUrl": "https://github.com/redimp/otterwiki",
+    "sourceDir": "redimp--otterwiki",
+    "commitSha": "96a316746ce8117b8715f858f121bf15d0528dd8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/redimp/otterwiki#readme"
+  },
+  "9f878221e1638eb1": {
+    "appId": "9f878221e1638eb1",
+    "repositoryUrl": "https://github.com/outline/outline",
+    "sourceDir": "outline--outline",
+    "commitSha": "83a94a206f234a1f0ec861d70a381cdd6c8f6df7",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/outline/outline#readme"
+  },
+  "c4f81d3f3b96087c": {
+    "appId": "c4f81d3f3b96087c",
+    "repositoryUrl": "https://github.com/OvenMediaLabs/OvenMediaEngine",
+    "sourceDir": "ovenmedialabs--ovenmediaengine",
+    "commitSha": "d32559f3a0bc64cd3eabdc0c3a8f59b87fc95ee9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/OvenMediaLabs/OvenMediaEngine#readme"
+  },
+  "bfec685ad1b953f6": {
+    "appId": "bfec685ad1b953f6",
+    "repositoryUrl": "https://github.com/a1ex4/ownfoil",
+    "sourceDir": "a1ex4--ownfoil",
+    "commitSha": "a9ac7479f7b54cd52731b24947ac0631cb77ba5f",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/a1ex4/ownfoil#readme"
+  },
+  "098f51059de46cc4": {
+    "appId": "098f51059de46cc4",
+    "repositoryUrl": "https://github.com/mrjackwills/oxker",
+    "sourceDir": "mrjackwills--oxker",
+    "commitSha": "791342c041031d3da9c2cc1b42439372e0f54258",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/mrjackwills/oxker#readme"
+  },
+  "85c2400d62828f7c": {
+    "appId": "85c2400d62828f7c",
+    "repositoryUrl": "https://github.com/WardPearce/paaster",
+    "sourceDir": "wardpearce--paaster",
+    "commitSha": "4dfb814bc12675ceeaa0f8355df56998ef813e5c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/WardPearce/paaster#readme"
+  },
+  "ed18eba8969efaf5": {
+    "appId": "ed18eba8969efaf5",
+    "repositoryUrl": "https://github.com/fosrl/pangolin",
+    "sourceDir": "fosrl--pangolin",
+    "commitSha": "2a4004044d8291fd66b1ac2202c49628de0a95ff",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/fosrl/pangolin#readme"
+  },
+  "09f8250f53d3bcf3": {
+    "appId": "09f8250f53d3bcf3",
+    "repositoryUrl": "https://github.com/pglombardo/PasswordPusher",
+    "sourceDir": "pglombardo--passwordpusher",
+    "commitSha": "82748ac170fc74f1e0272baef84ff72822b4f587",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/pglombardo/PasswordPusher#readme"
+  },
+  "effb97e0e48c33a0": {
+    "appId": "effb97e0e48c33a0",
+    "repositoryUrl": "https://github.com/interaapps/pastefy",
+    "sourceDir": "interaapps--pastefy",
+    "commitSha": "3f2c11a4c9fcf79929dfd02c96cda28c1c54792e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/interaapps/pastefy#readme"
+  },
+  "ac3ad80cfad71603": {
+    "appId": "ac3ad80cfad71603",
+    "repositoryUrl": "https://github.com/openconstruct/Peersuite",
+    "sourceDir": "openconstruct--peersuite",
+    "commitSha": "02f527d5dd2f4ae336303c8e581ebac757659bc1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/openconstruct/Peersuite#readme"
+  },
+  "218d78bea0cde872": {
+    "appId": "218d78bea0cde872",
+    "repositoryUrl": "https://github.com/pelican/panel",
+    "sourceDir": "pelican--panel",
+    "commitSha": "9c1eb35c4d854d7550fe28acd18c5a7762144f36",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/pelican/panel#readme"
+  },
+  "3e7c038e6c2b63c6": {
+    "appId": "3e7c038e6c2b63c6",
+    "repositoryUrl": "https://github.com/Peon-sh/Peon",
+    "sourceDir": "peon-sh--peon",
+    "commitSha": "783a12048c130be50a94b1446c556d0b7ac1d91d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Peon-sh/Peon#readme"
+  },
+  "f9289b632f9c6086": {
+    "appId": "f9289b632f9c6086",
+    "repositoryUrl": "https://github.com/Volmarg/personal-management-system",
+    "sourceDir": "volmarg--personal-management-system",
+    "commitSha": "e15b150f51d06a9b5328353b5b59fd194a57cd2a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Volmarg/personal-management-system#readme"
+  },
+  "1b496dd88e5670cc": {
+    "appId": "1b496dd88e5670cc",
+    "repositoryUrl": "https://github.com/SmilyOrg/photofield",
+    "sourceDir": "smilyorg--photofield",
+    "commitSha": "d7374a9ab11be7d684e958b9bdf2b4205d0dbc23",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/SmilyOrg/photofield#readme"
+  },
+  "746e3c4fe8d4d306": {
+    "appId": "746e3c4fe8d4d306",
+    "repositoryUrl": "https://github.com/HaschekSolutions/pictshare",
+    "sourceDir": "hascheksolutions--pictshare",
+    "commitSha": "ce5fc474e89769efeae25fee763894bcce3412e3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/HaschekSolutions/pictshare#readme"
+  },
+  "c582f5c15fe7f28c": {
+    "appId": "c582f5c15fe7f28c",
+    "repositoryUrl": "https://github.com/jsuto/piler",
+    "sourceDir": "jsuto--piler",
+    "commitSha": "7536db2cd92b0c8da63131aa6694a4572e72160e",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/jsuto/piler#readme"
+  },
+  "1d7c6065f979a426": {
+    "appId": "1d7c6065f979a426",
+    "repositoryUrl": "https://github.com/kieraneglin/pinchflat",
+    "sourceDir": "kieraneglin--pinchflat",
+    "commitSha": "67d8bd5598f4461c5435bcc66fc8d02b00c607cb",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/kieraneglin/pinchflat#readme"
+  },
+  "30503f69755fecf0": {
+    "appId": "30503f69755fecf0",
+    "repositoryUrl": "https://github.com/smp46/pingvin-share-x",
+    "sourceDir": "smp46--pingvin-share-x",
+    "commitSha": "e2a264e2ed61b6c919c9bb2cbe70eabfce65cfdc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/smp46/pingvin-share-x#readme"
+  },
+  "641e092dbb0ddef0": {
+    "appId": "641e092dbb0ddef0",
+    "repositoryUrl": "https://github.com/piqueserver/piqueserver",
+    "sourceDir": "piqueserver--piqueserver",
+    "commitSha": "3dfc0a6774fc5cf3a80eec13b7764b751a0d949b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/piqueserver/piqueserver#readme"
+  },
+  "7edf24aed8a955ad": {
+    "appId": "7edf24aed8a955ad",
+    "repositoryUrl": "https://github.com/pixelfed/pixelfed",
+    "sourceDir": "pixelfed--pixelfed",
+    "commitSha": "bf556068ea19ee35a928227019757901035e2c32",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/pixelfed/pixelfed#readme"
+  },
+  "3cb9a086b2ffe472": {
+    "appId": "3cb9a086b2ffe472",
+    "repositoryUrl": "https://github.com/Chnapy/PKVault",
+    "sourceDir": "chnapy--pkvault",
+    "commitSha": "4a023c35da0d6bb2a83e219d86e94023bfe50960",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Chnapy/PKVault#readme"
+  },
+  "f92c7dffe002e5a2": {
+    "appId": "f92c7dffe002e5a2",
+    "repositoryUrl": "https://github.com/alextselegidis/plainpad",
+    "sourceDir": "alextselegidis--plainpad",
+    "commitSha": "9d4d554c45b3d599623b139d13facaa257cfb346",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/alextselegidis/plainpad#readme"
+  },
+  "6bbd89da1a951eab": {
+    "appId": "6bbd89da1a951eab",
+    "repositoryUrl": "https://github.com/makeplane/plane",
+    "sourceDir": "makeplane--plane",
+    "commitSha": "4605f0078fdcf7016cea646ea50c4b825efd9fac",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/makeplane/plane#readme"
+  },
+  "acbdab42a016ae0c": {
+    "appId": "acbdab42a016ae0c",
+    "repositoryUrl": "https://github.com/albertasaftei/plumio",
+    "sourceDir": "albertasaftei--plumio",
+    "commitSha": "9a37da302fb344416a1cfdf17e64d6bba333146d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/albertasaftei/plumio#readme"
+  },
+  "389e201e735ec28b": {
+    "appId": "389e201e735ec28b",
+    "repositoryUrl": "https://github.com/pocket-id/pocket-id",
+    "sourceDir": "pocket-id--pocket-id",
+    "commitSha": "03cab69d6bf50bbaf0d0255373b3c8362547bce0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/pocket-id/pocket-id#readme"
+  },
+  "2dfe2c75111e5984": {
+    "appId": "2dfe2c75111e5984",
+    "repositoryUrl": "https://github.com/SamTV12345/PodFetch",
+    "sourceDir": "samtv12345--podfetch",
+    "commitSha": "8213a72c6e0070c36f670b44b4bbca879e839900",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/SamTV12345/PodFetch#readme"
+  },
+  "b44743ed9bd5f20c": {
+    "appId": "b44743ed9bd5f20c",
+    "repositoryUrl": "https://github.com/postalserver/postal",
+    "sourceDir": "postalserver--postal",
+    "commitSha": "d96eddbadeda600595d6247486f9ceb8e99cbc15",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/postalserver/postal#readme"
+  },
+  "63daa2753f23acef": {
+    "appId": "63daa2753f23acef",
+    "repositoryUrl": "https://github.com/gitroomhq/postiz-app",
+    "sourceDir": "gitroomhq--postiz-app",
+    "commitSha": "59a50e8bdffa6522483bbed60697290aadafe699",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/gitroomhq/postiz-app#readme"
+  },
+  "970fc86e51ca30a5": {
+    "appId": "970fc86e51ca30a5",
+    "repositoryUrl": "https://github.com/PrestaShop/PrestaShop",
+    "sourceDir": "prestashop--prestashop",
+    "commitSha": "8cc8750d0c76f4d189a7091176bbdade5c9115d8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/PrestaShop/PrestaShop#readme"
+  },
+  "7806d5878098ffdc": {
+    "appId": "7806d5878098ffdc",
+    "repositoryUrl": "https://github.com/prismelabs/analytics",
+    "sourceDir": "prismelabs--analytics",
+    "commitSha": "9eea7c5a9e391ca88f5e27f630534a4162901820",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/prismelabs/analytics#readme"
+  },
+  "2cdffdaebe737a0b": {
+    "appId": "2cdffdaebe737a0b",
+    "repositoryUrl": "https://github.com/david-bai00/PrivyDrop",
+    "sourceDir": "david-bai00--privydrop",
+    "commitSha": "add211dd2a3e893458e0249d98fe6f6ef0165ec0",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/david-bai00/PrivyDrop#readme"
+  },
+  "6e1411afdc74931f": {
+    "appId": "6e1411afdc74931f",
+    "repositoryUrl": "https://github.com/heyputer/puter",
+    "sourceDir": "heyputer--puter",
+    "commitSha": "c6c0dd5e291c0fc80f765bab74281b91a56a533b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/heyputer/puter#readme"
+  },
+  "150e945aa64ab40b": {
+    "appId": "150e945aa64ab40b",
+    "repositoryUrl": "https://github.com/codidact/qpixel",
+    "sourceDir": "codidact--qpixel",
+    "commitSha": "36a1eb399a2c44d44645be6c2a214fc66e4e25ba",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/codidact/qpixel#readme"
+  },
+  "d9e74c0e0c928eac": {
+    "appId": "d9e74c0e0c928eac",
+    "repositoryUrl": "https://github.com/QuackbackIO/quackback",
+    "sourceDir": "quackbackio--quackback",
+    "commitSha": "3d9721cb0b30c03f7b19d1696f66bfb51310fbea",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/QuackbackIO/quackback#readme"
+  },
+  "b44812fd7a516f30": {
+    "appId": "b44812fd7a516f30",
+    "repositoryUrl": "https://github.com/Kozea/Radicale",
+    "sourceDir": "kozea--radicale",
+    "commitSha": "589fdea802a8b0d2cb20a88927369fc31533d4b0",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/Kozea/Radicale#readme"
+  },
+  "5ff4bf30ae94874f": {
+    "appId": "5ff4bf30ae94874f",
+    "repositoryUrl": "https://github.com/infiniflow/ragflow",
+    "sourceDir": "infiniflow--ragflow",
+    "commitSha": "cf25b92eef28f7b8a89604a177a41c0ad9269ec7",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/infiniflow/ragflow#readme"
+  },
+  "52736e5d4c47c9fb": {
+    "appId": "52736e5d4c47c9fb",
+    "repositoryUrl": "https://github.com/lukevella/rallly",
+    "sourceDir": "lukevella--rallly",
+    "commitSha": "8e67a2161a2d2211c04ef60d3a40ec365b50149c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lukevella/rallly#readme"
+  },
+  "b55ddbbc45ccaeb7": {
+    "appId": "b55ddbbc45ccaeb7",
+    "repositoryUrl": "https://github.com/golmenero/ratelog",
+    "sourceDir": "golmenero--ratelog",
+    "commitSha": "96ca93a83ea256c84790d52d3ca20806c208fd7b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/golmenero/ratelog#readme"
+  },
+  "0556575a6f5d2554": {
+    "appId": "0556575a6f5d2554",
+    "repositoryUrl": "https://github.com/Ralex91/Razzia",
+    "sourceDir": "ralex91--razzia",
+    "commitSha": "5aa079f713ca2f4dd525dd654748f78258901292",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/Ralex91/Razzia#readme"
+  },
+  "d2ae73c6128ceb28": {
+    "appId": "d2ae73c6128ceb28",
+    "repositoryUrl": "https://github.com/re-Director/re-director",
+    "sourceDir": "re-director--re-director",
+    "commitSha": "a22f592ad3902058a88ea53719be1aa3794d5b68",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/re-Director/re-director#readme"
+  },
+  "ebbf4c9b837ca6d0": {
+    "appId": "ebbf4c9b837ca6d0",
+    "repositoryUrl": "https://github.com/reactive-resume/reactive-resume",
+    "sourceDir": "reactive-resume--reactive-resume",
+    "commitSha": "19e0518eb5ea1b2c84d785bc5ea2b6d6c9d7b043",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/reactive-resume/reactive-resume#readme"
+  },
+  "38d60b1529850e60": {
+    "appId": "38d60b1529850e60",
+    "repositoryUrl": "https://github.com/ncarlier/readflow",
+    "sourceDir": "ncarlier--readflow",
+    "commitSha": "2cc2d17bfb31c1b8abeba32983355fa837fa21ae",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ncarlier/readflow#readme"
+  },
+  "088188776303ce77": {
+    "appId": "088188776303ce77",
+    "repositoryUrl": "https://github.com/Reaparr/Reaparr",
+    "sourceDir": "reaparr--reaparr",
+    "commitSha": "3f0246356944e622407cb9c57328d808bbc9da42",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Reaparr/Reaparr#readme"
+  },
+  "9704dc909529cee3": {
+    "appId": "9704dc909529cee3",
+    "repositoryUrl": "https://github.com/julianpoy/recipesage",
+    "sourceDir": "julianpoy--recipesage",
+    "commitSha": "b96b6fa0b0e220143122f9ecabdc7dd59449dbbc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/julianpoy/recipesage#readme"
+  },
+  "1b18ec7875106091": {
+    "appId": "1b18ec7875106091",
+    "repositoryUrl": "https://github.com/reaper47/recipya",
+    "sourceDir": "reaper47--recipya",
+    "commitSha": "0df0ee292cff05045e5d72a656456ebad460969e",
+    "composePath": "deploy/compose.yaml",
+    "guideUrl": "https://github.com/reaper47/recipya#readme"
+  },
+  "274509afd4b98c1c": {
+    "appId": "274509afd4b98c1c",
+    "repositoryUrl": "https://github.com/recyclarr/recyclarr",
+    "sourceDir": "recyclarr--recyclarr",
+    "commitSha": "97adaf5c4936b888aaf806001380b5e28bae3b43",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/recyclarr/recyclarr#readme"
+  },
+  "9060662bcbe4955f": {
+    "appId": "9060662bcbe4955f",
+    "repositoryUrl": "https://github.com/getredash/redash",
+    "sourceDir": "getredash--redash",
+    "commitSha": "e170795256ae028930e4760192e5dc3f59bb420c",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/getredash/redash#readme"
+  },
+  "69d33d68bcef83ee": {
+    "appId": "69d33d68bcef83ee",
+    "repositoryUrl": "https://github.com/redaxo/core",
+    "sourceDir": "redaxo--core",
+    "commitSha": "c92dfa4f9d13de1610a27f262d04728b45b2f572",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/redaxo/core#readme"
+  },
+  "d52adeeb5f367112": {
+    "appId": "d52adeeb5f367112",
+    "repositoryUrl": "https://github.com/redlib-org/redlib",
+    "sourceDir": "redlib-org--redlib",
+    "commitSha": "a4d36e954cf1bd64f209cd8868c5a29edc81b374",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/redlib-org/redlib#readme"
+  },
+  "caa06bc43b7a2370": {
+    "appId": "caa06bc43b7a2370",
+    "repositoryUrl": "https://github.com/relaticle/relaticle",
+    "sourceDir": "relaticle--relaticle",
+    "commitSha": "3bea212ffa72e95de26dbd3f1e1eaa2b1a8b92cf",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/relaticle/relaticle#readme"
+  },
+  "f2c312eaaa024fd9": {
+    "appId": "f2c312eaaa024fd9",
+    "repositoryUrl": "https://github.com/jesusnoseq/request-inbox",
+    "sourceDir": "jesusnoseq--request-inbox",
+    "commitSha": "0d27e117c60600dc02b7cd5c79f7c1e0f48ce3bc",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jesusnoseq/request-inbox#readme"
+  },
+  "133aa8b1f38170bb": {
+    "appId": "133aa8b1f38170bb",
+    "repositoryUrl": "https://github.com/rero/rero-ils",
+    "sourceDir": "rero--rero-ils",
+    "commitSha": "9d5913a7c7e35de689c59aebe4eacbcbc4660c5c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rero/rero-ils#readme"
+  },
+  "a45471e6bf6488ab": {
+    "appId": "a45471e6bf6488ab",
+    "repositoryUrl": "https://github.com/RiDDiX/RetroArr",
+    "sourceDir": "riddix--retroarr",
+    "commitSha": "42605827700992ff71bd7e050816e218f1171686",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/RiDDiX/RetroArr#readme"
+  },
+  "4e9a49749d415232": {
+    "appId": "4e9a49749d415232",
+    "repositoryUrl": "https://github.com/JMBeresford/retrom",
+    "sourceDir": "jmberesford--retrom",
+    "commitSha": "c081a2d503f9cb10c6e3a2b9ae6c37561160800f",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/JMBeresford/retrom#readme"
+  },
+  "ec8c371869d4105d": {
+    "appId": "ec8c371869d4105d",
+    "repositoryUrl": "https://github.com/letsrevel/revel-backend",
+    "sourceDir": "letsrevel--revel-backend",
+    "commitSha": "ddf153f7fac00e5abab4e1668a3bc75d96dc3bb7",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/letsrevel/revel-backend#readme"
+  },
+  "284e48f1299b2b8d": {
+    "appId": "284e48f1299b2b8d",
+    "repositoryUrl": "https://github.com/rommapp/romm",
+    "sourceDir": "rommapp--romm",
+    "commitSha": "6fae8185f81dd4897940e76045bc9834cfb798d1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rommapp/romm#readme"
+  },
+  "52c9d4f7d9fa09d3": {
+    "appId": "52c9d4f7d9fa09d3",
+    "repositoryUrl": "https://github.com/fonoster/routr",
+    "sourceDir": "fonoster--routr",
+    "commitSha": "2784f886cab933977feed3fe50edcaec0e6f7dac",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/fonoster/routr#readme"
+  },
+  "264ba32d2c88df26": {
+    "appId": "264ba32d2c88df26",
+    "repositoryUrl": "https://github.com/pietheinstrengholt/rssmonster",
+    "sourceDir": "pietheinstrengholt--rssmonster",
+    "commitSha": "9d6b76e2c16b988daa8b66366b4b78d14ce02d5d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/pietheinstrengholt/rssmonster#readme"
+  },
+  "4cd0d3c251bd608c": {
+    "appId": "4cd0d3c251bd608c",
+    "repositoryUrl": "https://github.com/RSS-Bridge/rss-bridge",
+    "sourceDir": "rss-bridge--rss-bridge",
+    "commitSha": "e980264bb08fd7e7d3e544b8875d831792dc5978",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/RSS-Bridge/rss-bridge#readme"
+  },
+  "6cb5408363cee2a1": {
+    "appId": "6cb5408363cee2a1",
+    "repositoryUrl": "https://github.com/rustfs/rustfs",
+    "sourceDir": "rustfs--rustfs",
+    "commitSha": "bdc00c8d0da16abd0f5ab84bc787c6b0d93e14ee",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rustfs/rustfs#readme"
+  },
+  "ba0892f6e613c16e": {
+    "appId": "ba0892f6e613c16e",
+    "repositoryUrl": "https://github.com/rustrak/rustrak",
+    "sourceDir": "rustrak--rustrak",
+    "commitSha": "5c1304288550c4fe1a4f3b72052c77dda7578a40",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/rustrak/rustrak#readme"
+  },
+  "22bffd05ef862739": {
+    "appId": "22bffd05ef862739",
+    "repositoryUrl": "https://github.com/orhun/rustypaste",
+    "sourceDir": "orhun--rustypaste",
+    "commitSha": "ae4fa043689bf9233928e6dda1be04eca46cf1e7",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/orhun/rustypaste#readme"
+  },
+  "101cc9d778da823c": {
+    "appId": "101cc9d778da823c",
+    "repositoryUrl": "https://github.com/gp247net/s-cart",
+    "sourceDir": "gp247net--s-cart",
+    "commitSha": "2560446cb964349ec3042e02b0ff460e50f9266c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/gp247net/s-cart#readme"
+  },
+  "8e66126b9da2f247": {
+    "appId": "8e66126b9da2f247",
+    "repositoryUrl": "https://github.com/chaitin/SafeLine",
+    "sourceDir": "chaitin--safeline",
+    "commitSha": "7dee6104b2c8e94ddee9bac1e7c05fa783d769db",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/chaitin/SafeLine#readme"
+  },
+  "137a005e529e0893": {
+    "appId": "137a005e529e0893",
+    "repositoryUrl": "https://github.com/SAMA-Communications/sama-server",
+    "sourceDir": "sama-communications--sama-server",
+    "commitSha": "1cb382a3c0eaaf7349de0d5ab7db49bfa300df7a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/SAMA-Communications/sama-server#readme"
+  },
+  "1cd0c6698f6c39ea": {
+    "appId": "1cd0c6698f6c39ea",
+    "repositoryUrl": "https://github.com/Erudika/scoold",
+    "sourceDir": "erudika--scoold",
+    "commitSha": "efe1af36dd2cd7b5818f7f7c68c611f8b75581ef",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Erudika/scoold#readme"
+  },
+  "07fc09a153f637a3": {
+    "appId": "07fc09a153f637a3",
+    "repositoryUrl": "https://github.com/sE2EEnd/sE2EEnd",
+    "sourceDir": "se2eend--se2eend",
+    "commitSha": "07d36a49991836eb4cdf95f6f9c1d08308ebb0d3",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sE2EEnd/sE2EEnd#readme"
+  },
+  "d1900e90797e7830": {
+    "appId": "d1900e90797e7830",
+    "repositoryUrl": "https://github.com/seatsurfing/seatsurfing",
+    "sourceDir": "seatsurfing--seatsurfing",
+    "commitSha": "f718c22c7cb64b32f6d99b99b0c2164f23e8c1fa",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/seatsurfing/seatsurfing#readme"
+  },
+  "f769087a06943b93": {
+    "appId": "f769087a06943b93",
+    "repositoryUrl": "https://github.com/seerr-team/seerr",
+    "sourceDir": "seerr-team--seerr",
+    "commitSha": "978f437dc06af77459c8887781a32d2879f1b69d",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/seerr-team/seerr#readme"
+  },
+  "453e03e617fb96f9": {
+    "appId": "453e03e617fb96f9",
+    "repositoryUrl": "https://github.com/shaarli/Shaarli",
+    "sourceDir": "shaarli--shaarli",
+    "commitSha": "462fabd5ac9a3e256dd0d7ea99baf3e33afa28d1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/shaarli/Shaarli#readme"
+  },
+  "21f7ce1739a0ee92": {
+    "appId": "21f7ce1739a0ee92",
+    "repositoryUrl": "https://github.com/mikebrady/shairport-sync",
+    "sourceDir": "mikebrady--shairport-sync",
+    "commitSha": "7e27a3251773802b28c8b539aff1908d298be6be",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/mikebrady/shairport-sync#readme"
+  },
+  "7ad47144c98eac5e": {
+    "appId": "7ad47144c98eac5e",
+    "repositoryUrl": "https://github.com/eikek/sharry",
+    "sourceDir": "eikek--sharry",
+    "commitSha": "5173fcd777e56908f9f82145748a99ca12578d5e",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/eikek/sharry#readme"
+  },
+  "a1915fe811f564d2": {
+    "appId": "a1915fe811f564d2",
+    "repositoryUrl": "https://github.com/shellhub-io/shellhub",
+    "sourceDir": "shellhub-io--shellhub",
+    "commitSha": "fc99462b4e0235400cdfecfd5f578c48e50d557b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/shellhub-io/shellhub#readme"
+  },
+  "e90e3d83aee83051": {
+    "appId": "e90e3d83aee83051",
+    "repositoryUrl": "https://github.com/TobySuch/Shifter",
+    "sourceDir": "tobysuch--shifter",
+    "commitSha": "abdd72e67059d8a115f5dc94fcefcb51120990be",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/TobySuch/Shifter#readme"
+  },
+  "87a245544482c8c0": {
+    "appId": "87a245544482c8c0",
+    "repositoryUrl": "https://github.com/shlinkio/shlink",
+    "sourceDir": "shlinkio--shlink",
+    "commitSha": "be5f5bb7fffc38d05ea46ccaa9debc93ae778e52",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/shlinkio/shlink#readme"
+  },
+  "eeb3a0c88397b781": {
+    "appId": "eeb3a0c88397b781",
+    "repositoryUrl": "https://github.com/shopware/shopware",
+    "sourceDir": "shopware--shopware",
+    "commitSha": "8dc74f24f0f32650ec1553f7ab3b1ac5ffa372ae",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/shopware/shopware#readme"
+  },
+  "185e705e92bdcd61": {
+    "appId": "185e705e92bdcd61",
+    "repositoryUrl": "https://github.com/SickChill/SickChill",
+    "sourceDir": "sickchill--sickchill",
+    "commitSha": "f7c110b45fd237289131e447e572a9c34c60cf2a",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/SickChill/SickChill#readme"
+  },
+  "4fb198d17f0ec5e8": {
+    "appId": "4fb198d17f0ec5e8",
+    "repositoryUrl": "https://github.com/SimpleMachines/SMF",
+    "sourceDir": "simplemachines--smf",
+    "commitSha": "6c70dd5d321d370156d9ce7f18f8526e586b96f4",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/SimpleMachines/SMF#readme"
+  },
+  "229f66e90cd81aee": {
+    "appId": "229f66e90cd81aee",
+    "repositoryUrl": "https://github.com/simpledms/simpledms",
+    "sourceDir": "simpledms--simpledms",
+    "commitSha": "e59447b513c5d844c2a2214a7634d209f1ca7d17",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/simpledms/simpledms#readme"
+  },
+  "6d54893b607f41fb": {
+    "appId": "6d54893b607f41fb",
+    "repositoryUrl": "https://github.com/antoniomika/sish",
+    "sourceDir": "antoniomika--sish",
+    "commitSha": "17ad1f3455bae7757bb5b4fabdcc83f17bf01c66",
+    "composePath": "deploy/docker-compose.yml",
+    "guideUrl": "https://github.com/antoniomika/sish#readme"
+  },
+  "ab4d06791d544f04": {
+    "appId": "ab4d06791d544f04",
+    "repositoryUrl": "https://github.com/yourselfhosted/slash",
+    "sourceDir": "yourselfhosted--slash",
+    "commitSha": "e5a4508b797a5fbdd7c633146152b14a5aba9061",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/yourselfhosted/slash#readme"
+  },
+  "cf3d5de828b8460f": {
+    "appId": "cf3d5de828b8460f",
+    "repositoryUrl": "https://github.com/andrii-kryvoviaz/slink",
+    "sourceDir": "andrii-kryvoviaz--slink",
+    "commitSha": "b5549f1b8084be61f0346ace4e285b8799382231",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/andrii-kryvoviaz/slink#readme"
+  },
+  "18db88bba45fb85e": {
+    "appId": "18db88bba45fb85e",
+    "repositoryUrl": "https://github.com/snapotter-hq/SnapOtter",
+    "sourceDir": "snapotter-hq--snapotter",
+    "commitSha": "f93a3b15aaaf33e679f22f8983ef600fa72f67c1",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/snapotter-hq/SnapOtter#readme"
+  },
+  "d2b1cfbc01a77680": {
+    "appId": "d2b1cfbc01a77680",
+    "repositoryUrl": "https://github.com/the-djmaze/snappymail",
+    "sourceDir": "the-djmaze--snappymail",
+    "commitSha": "c154d23cfeca1137647b0cf88dd492e3e29e164e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/the-djmaze/snappymail#readme"
+  },
+  "c4eb9af5e8bbba3a": {
+    "appId": "c4eb9af5e8bbba3a",
+    "repositoryUrl": "https://github.com/snikket-im/snikket-server",
+    "sourceDir": "snikket-im--snikket-server",
+    "commitSha": "e52b510f833409c83b386f09bc7e8b65b226620b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/snikket-im/snikket-server#readme"
+  },
+  "fa347f1f6410980f": {
+    "appId": "fa347f1f6410980f",
+    "repositoryUrl": "https://github.com/MohamedElashri/snipo",
+    "sourceDir": "mohamedelashri--snipo",
+    "commitSha": "24e3bf6a53900d6f92c5795e57495f5b32f63de8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/MohamedElashri/snipo#readme"
+  },
+  "7affaa46f1a0a56d": {
+    "appId": "7affaa46f1a0a56d",
+    "repositoryUrl": "https://github.com/TuroYT/snowshare",
+    "sourceDir": "turoyt--snowshare",
+    "commitSha": "f27e38414df22ac54c57347423f39704401bd4e1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/TuroYT/snowshare#readme"
+  },
+  "005cbe3857991553": {
+    "appId": "005cbe3857991553",
+    "repositoryUrl": "https://github.com/Socioboard-developers/Socioboard-5.0",
+    "sourceDir": "socioboard-developers--socioboard-5-0",
+    "commitSha": "1ec4ff5032af2a38f50e32620d03a3d4e36de372",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/Socioboard-developers/Socioboard-5.0#readme"
+  },
+  "8ea5b98f5b672094": {
+    "appId": "8ea5b98f5b672094",
+    "repositoryUrl": "https://github.com/nskondratev/socks5-proxy-server",
+    "sourceDir": "nskondratev--socks5-proxy-server",
+    "commitSha": "cc5565e1a0553fb99ece750abe9032ce3232f907",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/nskondratev/socks5-proxy-server#readme"
+  },
+  "551c4eb4b7986a27": {
+    "appId": "551c4eb4b7986a27",
+    "repositoryUrl": "https://github.com/solectrus/solectrus",
+    "sourceDir": "solectrus--solectrus",
+    "commitSha": "c4340637d7c3f5809ff9a05a85ab02461d222ae0",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/solectrus/solectrus#readme"
+  },
+  "46fef03752a6ffde": {
+    "appId": "46fef03752a6ffde",
+    "repositoryUrl": "https://github.com/SolidInvoice/SolidInvoice",
+    "sourceDir": "solidinvoice--solidinvoice",
+    "commitSha": "3db588391fc9701460cd4dfdf8e9a851b19954cd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/SolidInvoice/SolidInvoice#readme"
+  },
+  "54b747f649a2a5ea": {
+    "appId": "54b747f649a2a5ea",
+    "repositoryUrl": "https://github.com/solidtime-io/solidtime",
+    "sourceDir": "solidtime-io--solidtime",
+    "commitSha": "b46f015754a19493418a3129dcfcf8890587c6a8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/solidtime-io/solidtime#readme"
+  },
+  "035c1558a11f0b48": {
+    "appId": "035c1558a11f0b48",
+    "repositoryUrl": "https://github.com/solidusio/solidus",
+    "sourceDir": "solidusio--solidus",
+    "commitSha": "53f70152fd8d172e81ca4e76d51b84013ab40060",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/solidusio/solidus#readme"
+  },
+  "caac63e501b1fc70": {
+    "appId": "caac63e501b1fc70",
+    "repositoryUrl": "https://github.com/sbpp/sourcebans-pp",
+    "sourceDir": "sbpp--sourcebans-pp",
+    "commitSha": "f55e8fbc8e038f7aaf64ccd7d26d4b03e64f2d89",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sbpp/sourcebans-pp#readme"
+  },
+  "2ac2cf4ca8ebc115": {
+    "appId": "2ac2cf4ca8ebc115",
+    "repositoryUrl": "https://github.com/SpectrumIM/spectrum2",
+    "sourceDir": "spectrumim--spectrum2",
+    "commitSha": "51db10fc7eb9b56a71e7c4e6b8c81bd49cb7bbee",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/SpectrumIM/spectrum2#readme"
+  },
+  "98fb92ae87e09d2d": {
+    "appId": "98fb92ae87e09d2d",
+    "repositoryUrl": "https://github.com/sqlpage/SQLPage",
+    "sourceDir": "sqlpage--sqlpage",
+    "commitSha": "362ce5977f87bf4d275920a5f069b3b496ee3f28",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sqlpage/SQLPage#readme"
+  },
+  "3c2220b65ea4e064": {
+    "appId": "3c2220b65ea4e064",
+    "repositoryUrl": "https://github.com/stackrender/stackrender",
+    "sourceDir": "stackrender--stackrender",
+    "commitSha": "6eca62716165cd943dc4a2a23c38323a03b25778",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/stackrender/stackrender#readme"
+  },
+  "f0256baaf1f74120": {
+    "appId": "f0256baaf1f74120",
+    "repositoryUrl": "https://github.com/notclickable-jordan/starbase-80",
+    "sourceDir": "notclickable-jordan--starbase-80",
+    "commitSha": "595c123975ca887e260b5c6b86b1dc5a9df39991",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/notclickable-jordan/starbase-80#readme"
+  },
+  "bf5459fe53f48297": {
+    "appId": "bf5459fe53f48297",
+    "repositoryUrl": "https://github.com/stoatchat/self-hosted",
+    "sourceDir": "stoatchat--self-hosted",
+    "commitSha": "9af5e9063a8d1311477b7d2f24f5764ffe3e1cd1",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/stoatchat/self-hosted#readme"
+  },
+  "c657b0d97c66f829": {
+    "appId": "c657b0d97c66f829",
+    "repositoryUrl": "https://github.com/benkaiser/stretto",
+    "sourceDir": "benkaiser--stretto",
+    "commitSha": "bc37c7baed464aed14e26c60714db8a039d7d83a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/benkaiser/stretto#readme"
+  },
+  "21d2da54290358cd": {
+    "appId": "21d2da54290358cd",
+    "repositoryUrl": "https://github.com/recurser/string-is",
+    "sourceDir": "recurser--string-is",
+    "commitSha": "5647108dbc2c075ccb785fa9264a32e0f3c031dd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/recurser/string-is#readme"
+  },
+  "a73f29ab47acdf8f": {
+    "appId": "a73f29ab47acdf8f",
+    "repositoryUrl": "https://github.com/stringer-rss/stringer",
+    "sourceDir": "stringer-rss--stringer",
+    "commitSha": "0607d9a413a9b266a50e87fa66186df43bde8ddd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/stringer-rss/stringer#readme"
+  },
+  "1fcbe4b90f4ad133": {
+    "appId": "1fcbe4b90f4ad133",
+    "repositoryUrl": "https://github.com/eduard256/Strix",
+    "sourceDir": "eduard256--strix",
+    "commitSha": "38763ae2827b136b7273b3b269ba9bdcae143d1c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/eduard256/Strix#readme"
+  },
+  "08713f48443ee57d": {
+    "appId": "08713f48443ee57d",
+    "repositoryUrl": "https://github.com/coaxk/subarr",
+    "sourceDir": "coaxk--subarr",
+    "commitSha": "1a7f27736428db1b7f381081d39c5699c93d680c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/coaxk/subarr#readme"
+  },
+  "94fb59118247b120": {
+    "appId": "94fb59118247b120",
+    "repositoryUrl": "https://github.com/giuseppe99barchetta/SuggestArr",
+    "sourceDir": "giuseppe99barchetta--suggestarr",
+    "commitSha": "50f350b8b41724a4d6605782d9d5c14fca3e770b",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/giuseppe99barchetta/SuggestArr#readme"
+  },
+  "9682ad403e9ee107": {
+    "appId": "9682ad403e9ee107",
+    "repositoryUrl": "https://github.com/algolia/sup3rS3cretMes5age",
+    "sourceDir": "algolia--sup3rs3cretmes5age",
+    "commitSha": "2077fb889eb6874ced7a6ea62cab36188fca36a1",
+    "composePath": "deploy/docker-compose.yml",
+    "guideUrl": "https://github.com/algolia/sup3rS3cretMes5age#readme"
+  },
+  "2b5226bf08105545": {
+    "appId": "2b5226bf08105545",
+    "repositoryUrl": "https://github.com/supabase/supabase",
+    "sourceDir": "supabase--supabase",
+    "commitSha": "135d8f00c351ea46c96354c1387e83bdbac9babc",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/supabase/supabase#readme"
+  },
+  "71cc94c056860080": {
+    "appId": "71cc94c056860080",
+    "repositoryUrl": "https://github.com/super-productivity/super-productivity",
+    "sourceDir": "super-productivity--super-productivity",
+    "commitSha": "661dda986d713c926ed7f911b991dff09408c4a2",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/super-productivity/super-productivity#readme"
+  },
+  "41d93b8bf80ef6d3": {
+    "appId": "41d93b8bf80ef6d3",
+    "repositoryUrl": "https://github.com/superdesk/superdesk",
+    "sourceDir": "superdesk--superdesk",
+    "commitSha": "1f460e9a3245497384549a4dc04152765832d073",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/superdesk/superdesk#readme"
+  },
+  "f088aee21acb435b": {
+    "appId": "f088aee21acb435b",
+    "repositoryUrl": "https://github.com/apache/superset",
+    "sourceDir": "apache--superset",
+    "commitSha": "b411454508c49ba4780047582ab61ccababa856c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/apache/superset#readme"
+  },
+  "32405a2e74568aa8": {
+    "appId": "32405a2e74568aa8",
+    "repositoryUrl": "https://github.com/rohitkumbhar/surmai",
+    "sourceDir": "rohitkumbhar--surmai",
+    "commitSha": "b86fcc2238a9fb020a346d6ec6ebdcc0b967ec29",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/rohitkumbhar/surmai#readme"
+  },
+  "0c5f5bd5fdac580a": {
+    "appId": "0c5f5bd5fdac580a",
+    "repositoryUrl": "https://github.com/Eldara-Tech/swarmcli",
+    "sourceDir": "eldara-tech--swarmcli",
+    "commitSha": "9936dca67e8065042da234dbeeead095cb4141fb",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/Eldara-Tech/swarmcli#readme"
+  },
+  "83d8c9d8f3adf2b3": {
+    "appId": "83d8c9d8f3adf2b3",
+    "repositoryUrl": "https://github.com/swarmpit/swarmpit",
+    "sourceDir": "swarmpit--swarmpit",
+    "commitSha": "65b2c99ffbf07ca986c3a5f4f5bd98ceecf8a8b9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/swarmpit/swarmpit#readme"
+  },
+  "d5cafa7da02c3d80": {
+    "appId": "d5cafa7da02c3d80",
+    "repositoryUrl": "https://github.com/Swetrix/selfhosting",
+    "sourceDir": "swetrix--selfhosting",
+    "commitSha": "5008fa8c2c1a23d7659f18dd0432acb6fb489175",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/Swetrix/selfhosting#readme"
+  },
+  "10bf0b304cc2450d": {
+    "appId": "10bf0b304cc2450d",
+    "repositoryUrl": "https://github.com/Sylius/Sylius",
+    "sourceDir": "sylius--sylius",
+    "commitSha": "046bb2810a41675d8038409d78e59222ac9dc9b5",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Sylius/Sylius#readme"
+  },
+  "1cbcadb50342bf04": {
+    "appId": "1cbcadb50342bf04",
+    "repositoryUrl": "https://github.com/Sync-in/server",
+    "sourceDir": "sync-in--server",
+    "commitSha": "8de91c47ac9398bdb02b95f7ced404290eecbb82",
+    "composePath": "docker/docker-compose.yaml",
+    "guideUrl": "https://github.com/Sync-in/server#readme"
+  },
+  "1d3652729782cf00": {
+    "appId": "1d3652729782cf00",
+    "repositoryUrl": "https://github.com/RblSb/SyncTube",
+    "sourceDir": "rblsb--synctube",
+    "commitSha": "7b0ea5877eefcfe70744683a4273b52b3e34037a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/RblSb/SyncTube#readme"
+  },
+  "fabdb9611acb36a3": {
+    "appId": "fabdb9611acb36a3",
+    "repositoryUrl": "https://github.com/debiki/talkyard",
+    "sourceDir": "debiki--talkyard",
+    "commitSha": "e80b4519d54aae47deb5a7a0a1e686f96f50ff77",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/debiki/talkyard#readme"
+  },
+  "bfa5e608a667e0bb": {
+    "appId": "bfa5e608a667e0bb",
+    "repositoryUrl": "https://github.com/nymanjens/piga",
+    "sourceDir": "nymanjens--piga",
+    "commitSha": "2d2c29ae9eb5731de5cd5d4127bdd224cbaec871",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/nymanjens/piga#readme"
+  },
+  "257e9baf1c4f6e53": {
+    "appId": "257e9baf1c4f6e53",
+    "repositoryUrl": "https://github.com/b310-digital/teammapper",
+    "sourceDir": "b310-digital--teammapper",
+    "commitSha": "9fab9e31c34974c1f5bdd2ada0e0dde4cae4d636",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/b310-digital/teammapper#readme"
+  },
+  "05361fee55cb240b": {
+    "appId": "05361fee55cb240b",
+    "repositoryUrl": "https://github.com/Termix-SSH/Termix",
+    "sourceDir": "termix-ssh--termix",
+    "commitSha": "e152bacc7c82e5a4129d2595379df04993ab27cf",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Termix-SSH/Termix#readme"
+  },
+  "0efa22eb59d28cfc": {
+    "appId": "0efa22eb59d28cfc",
+    "repositoryUrl": "https://github.com/RouHim/this-week-in-past",
+    "sourceDir": "rouhim--this-week-in-past",
+    "commitSha": "681ae5032475d310466100db5f6984290f5c2a91",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/RouHim/this-week-in-past#readme"
+  },
+  "6023826505d25c2b": {
+    "appId": "6023826505d25c2b",
+    "repositoryUrl": "https://github.com/almarklein/timetagger",
+    "sourceDir": "almarklein--timetagger",
+    "commitSha": "6c4f1fc53b8557651e9c32191b3b5b03a4d098b5",
+    "composePath": "deploy/docker-compose.yml",
+    "guideUrl": "https://github.com/almarklein/timetagger#readme"
+  },
+  "6253a7ed7da8317e": {
+    "appId": "6253a7ed7da8317e",
+    "repositoryUrl": "https://github.com/drytrix/TimeTracker",
+    "sourceDir": "drytrix--timetracker",
+    "commitSha": "2c62f9fc39ddd45ce315399fa3d23fc2ecce110d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/drytrix/TimeTracker#readme"
+  },
+  "a42ae16cd67ae830": {
+    "appId": "a42ae16cd67ae830",
+    "repositoryUrl": "https://github.com/prasathmani/tinyfilemanager",
+    "sourceDir": "prasathmani--tinyfilemanager",
+    "commitSha": "41491439a6b243c55502581e53fad20bc4c6e777",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/prasathmani/tinyfilemanager#readme"
+  },
+  "ac9448c44ee89875": {
+    "appId": "ac9448c44ee89875",
+    "repositoryUrl": "https://github.com/tt-rss/tt-rss",
+    "sourceDir": "tt-rss--tt-rss",
+    "commitSha": "270fcc71f867b4669e330332aaf60e329107fc06",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/tt-rss/tt-rss#readme"
+  },
+  "22e5de426ec74634": {
+    "appId": "22e5de426ec74634",
+    "repositoryUrl": "https://github.com/runtipi/runtipi",
+    "sourceDir": "runtipi--runtipi",
+    "commitSha": "bd98aed8e806428c797020993f660176e4c136f8",
+    "composePath": "docker-compose.prod.yml",
+    "guideUrl": "https://github.com/runtipi/runtipi#readme"
+  },
+  "e3a1dc4ade7a589b": {
+    "appId": "e3a1dc4ade7a589b",
+    "repositoryUrl": "https://github.com/titraio/titra",
+    "sourceDir": "titraio--titra",
+    "commitSha": "77c30cdc4a5b75c792e027766222b301facefc94",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/titraio/titra#readme"
+  },
+  "715b10b073f481be": {
+    "appId": "715b10b073f481be",
+    "repositoryUrl": "https://github.com/tolgee/tolgee-platform",
+    "sourceDir": "tolgee--tolgee-platform",
+    "commitSha": "a81d9386afc81d8f7e8606ba2eecf88b0776b082",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/tolgee/tolgee-platform#readme"
+  },
+  "067f046a6a82cf3a": {
+    "appId": "067f046a6a82cf3a",
+    "repositoryUrl": "https://github.com/ToolJet/ToolJet",
+    "sourceDir": "tooljet--tooljet",
+    "commitSha": "6b2e10d457e49c6130e96299f159c69b8eace40a",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ToolJet/ToolJet#readme"
+  },
+  "892b1f7ba45fdc0e": {
+    "appId": "892b1f7ba45fdc0e",
+    "repositoryUrl": "https://github.com/TracksApp/tracks",
+    "sourceDir": "tracksapp--tracks",
+    "commitSha": "8dcca98c6c48404d8328bbee220a8b19d48799ce",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/TracksApp/tracks#readme"
+  },
+  "116dccd3581bedd0": {
+    "appId": "116dccd3581bedd0",
+    "repositoryUrl": "https://github.com/emlopezr/trackwatch",
+    "sourceDir": "emlopezr--trackwatch",
+    "commitSha": "4cf53348b341784477794273594321e50bd698b6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/emlopezr/trackwatch#readme"
+  },
+  "081fe0d8798dd30f": {
+    "appId": "081fe0d8798dd30f",
+    "repositoryUrl": "https://github.com/ever-co/ever-traduora",
+    "sourceDir": "ever-co--ever-traduora",
+    "commitSha": "f29a2167284c6df2c30c5066bf166f7268cb0af5",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ever-co/ever-traduora#readme"
+  },
+  "709bcf1c51d434dd": {
+    "appId": "709bcf1c51d434dd",
+    "repositoryUrl": "https://github.com/traggo/server",
+    "sourceDir": "traggo--server",
+    "commitSha": "8ca9bb6aa414ae621488a5a158a6235e89cfa57b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/traggo/server#readme"
+  },
+  "a6dc702176bdf834": {
+    "appId": "a6dc702176bdf834",
+    "repositoryUrl": "https://github.com/trailbaseio/trailbase",
+    "sourceDir": "trailbaseio--trailbase",
+    "commitSha": "8359b240cc4ae1d229738385bf42f8f40d5d59af",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/trailbaseio/trailbase#readme"
+  },
+  "a66354b788bd7b79": {
+    "appId": "a66354b788bd7b79",
+    "repositoryUrl": "https://github.com/transmute-app/transmute",
+    "sourceDir": "transmute-app--transmute",
+    "commitSha": "7de1265fbfbbfd073c5c9a65ed1f7e45bc3ca50c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/transmute-app/transmute#readme"
+  },
+  "0d46b8a19e1c913d": {
+    "appId": "0d46b8a19e1c913d",
+    "repositoryUrl": "https://github.com/nirix/traq",
+    "sourceDir": "nirix--traq",
+    "commitSha": "ec18842b0a53bdac7ec9719e3fb63c6fb5e5f4e8",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/nirix/traq#readme"
+  },
+  "79dd24c198dba6c9": {
+    "appId": "79dd24c198dba6c9",
+    "repositoryUrl": "https://github.com/TriliumNext/Trilium",
+    "sourceDir": "triliumnext--trilium",
+    "commitSha": "1a613d03a6708a316290ba90a1e848f762c5a02b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/TriliumNext/Trilium#readme"
+  },
+  "6646332b5320b038": {
+    "appId": "6646332b5320b038",
+    "repositoryUrl": "https://github.com/itskovacs/trip",
+    "sourceDir": "itskovacs--trip",
+    "commitSha": "856b1edfe81a735fce4b544c2e16a6518cebf164",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/itskovacs/trip#readme"
+  },
+  "43e3ab243c0488fd": {
+    "appId": "43e3ab243c0488fd",
+    "repositoryUrl": "https://github.com/tsuru/tsuru",
+    "sourceDir": "tsuru--tsuru",
+    "commitSha": "d23ece2acf062515e253dc2a9a0a2952539eaac1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/tsuru/tsuru#readme"
+  },
+  "929cd1f39659491e": {
+    "appId": "929cd1f39659491e",
+    "repositoryUrl": "https://github.com/tubearchivist/tubearchivist",
+    "sourceDir": "tubearchivist--tubearchivist",
+    "commitSha": "0e7da74b1ea922308b6e78deb3716026ca51476d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/tubearchivist/tubearchivist#readme"
+  },
+  "795eb206da490cfb": {
+    "appId": "795eb206da490cfb",
+    "repositoryUrl": "https://github.com/chrisvel/tududi",
+    "sourceDir": "chrisvel--tududi",
+    "commitSha": "7d4c263be55db2a20dce6fe552e7411c997ef364",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/chrisvel/tududi#readme"
+  },
+  "025c4fdbd5178ce8": {
+    "appId": "025c4fdbd5178ce8",
+    "repositoryUrl": "https://github.com/TykTechnologies/tyk",
+    "sourceDir": "tyktechnologies--tyk",
+    "commitSha": "4919a8a5e42c6ab20ab330e3eeaa70e3d5e81f35",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/TykTechnologies/tyk#readme"
+  },
+  "b06617ebe99fa277": {
+    "appId": "b06617ebe99fa277",
+    "repositoryUrl": "https://github.com/baptisteArno/typebot.io",
+    "sourceDir": "baptistearno--typebot-io",
+    "commitSha": "e77b21c5b385ffe49006a742dd47b52fb6bfa79c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/baptisteArno/typebot.io#readme"
+  },
+  "8bd06fdb87821dd0": {
+    "appId": "8bd06fdb87821dd0",
+    "repositoryUrl": "https://github.com/umami-software/umami",
+    "sourceDir": "umami-software--umami",
+    "commitSha": "ec0ff50388c264ed8ce46f00967e92f7e71476ae",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/umami-software/umami#readme"
+  },
+  "7ace9bb51dd23355": {
+    "appId": "7ace9bb51dd23355",
+    "repositoryUrl": "https://github.com/Unleash/unleash",
+    "sourceDir": "unleash--unleash",
+    "commitSha": "598daef7134ee2b11529240e483f4e9046e8f7d1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Unleash/unleash#readme"
+  },
+  "7108ae18229a793f": {
+    "appId": "7108ae18229a793f",
+    "repositoryUrl": "https://github.com/jasonraimondi/url-to-png",
+    "sourceDir": "jasonraimondi--url-to-png",
+    "commitSha": "75d3bdc5271ba9b9ad012bf7628a86c37b4abb6b",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/jasonraimondi/url-to-png#readme"
+  },
+  "a9ed4d56d719b39a": {
+    "appId": "a9ed4d56d719b39a",
+    "repositoryUrl": "https://github.com/usertour/usertour",
+    "sourceDir": "usertour--usertour",
+    "commitSha": "6c53d3d33647e999dbec861afc39555249d9303a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/usertour/usertour#readme"
+  },
+  "e6758b3767055c77": {
+    "appId": "e6758b3767055c77",
+    "repositoryUrl": "https://github.com/fr4nsys/usulnet",
+    "sourceDir": "fr4nsys--usulnet",
+    "commitSha": "890248b6728ae0146a28d4e9fdee96919dfb5c56",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/fr4nsys/usulnet#readme"
+  },
+  "9118cdb34f18ee74": {
+    "appId": "9118cdb34f18ee74",
+    "repositoryUrl": "https://github.com/Safe3/uusec-waf",
+    "sourceDir": "safe3--uusec-waf",
+    "commitSha": "5adfe3acdc2d08c140f39d0674bc7f2057d7a566",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/Safe3/uusec-waf#readme"
+  },
+  "3e0cd32857014e64": {
+    "appId": "3e0cd32857014e64",
+    "repositoryUrl": "https://github.com/ItzCrazyKns/Vane",
+    "sourceDir": "itzcrazykns--vane",
+    "commitSha": "348feca3e378fb4157b217724ed508dc707f853f",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ItzCrazyKns/Vane#readme"
+  },
+  "4102bfb4c394a654": {
+    "appId": "4102bfb4c394a654",
+    "repositoryUrl": "https://github.com/vendurehq/vendure",
+    "sourceDir": "vendurehq--vendure",
+    "commitSha": "530fa0afad87c449635d3864b604de93d7dd0a43",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/vendurehq/vendure#readme"
+  },
+  "8a4886278c6dee31": {
+    "appId": "8a4886278c6dee31",
+    "repositoryUrl": "https://github.com/verdaccio/verdaccio",
+    "sourceDir": "verdaccio--verdaccio",
+    "commitSha": "3fc219a205814e4554da6c35c81ebe1e017fef8e",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/verdaccio/verdaccio#readme"
+  },
+  "f0d6dc74aef50ce9": {
+    "appId": "f0d6dc74aef50ce9",
+    "repositoryUrl": "https://github.com/madiele/vod2pod-rss",
+    "sourceDir": "madiele--vod2pod-rss",
+    "commitSha": "91dedfc111b92c0d9220b0c0b71e6285ee553ff4",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/madiele/vod2pod-rss#readme"
+  },
+  "6278408ba4e0f66e": {
+    "appId": "6278408ba4e0f66e",
+    "repositoryUrl": "https://github.com/givanz/Vvveb",
+    "sourceDir": "givanz--vvveb",
+    "commitSha": "5adb8cde58b74bb95ee1bb07505efb2ff76cdfe1",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/givanz/Vvveb#readme"
+  },
+  "018f04df1056067d": {
+    "appId": "018f04df1056067d",
+    "repositoryUrl": "https://github.com/muety/wakapi",
+    "sourceDir": "muety--wakapi",
+    "commitSha": "1157f203c8b646466b4e72563764738b10f0cd0d",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/muety/wakapi#readme"
+  },
+  "91603d108ce7f620": {
+    "appId": "91603d108ce7f620",
+    "repositoryUrl": "https://github.com/wallabag/wallabag",
+    "sourceDir": "wallabag--wallabag",
+    "commitSha": "d641e6b0f533df984cacd96c8c2993c991368950",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/wallabag/wallabag#readme"
+  },
+  "f8a4f3ed3ce3a404": {
+    "appId": "f8a4f3ed3ce3a404",
+    "repositoryUrl": "https://github.com/ellite/wallos",
+    "sourceDir": "ellite--wallos",
+    "commitSha": "cc9677a67e76ac55c13f373d4c7cc5ca9007079e",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ellite/wallos#readme"
+  },
+  "5a63732e5b50a223": {
+    "appId": "5a63732e5b50a223",
+    "repositoryUrl": "https://github.com/open-wanderer/wanderer",
+    "sourceDir": "open-wanderer--wanderer",
+    "commitSha": "5be2b7512a4b9387a899fdb416b1d6e852047963",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/open-wanderer/wanderer#readme"
+  },
+  "9fd8602358d4fcee": {
+    "appId": "9fd8602358d4fcee",
+    "repositoryUrl": "https://github.com/sassanix/Warracker",
+    "sourceDir": "sassanix--warracker",
+    "commitSha": "8628690a92c795b85529f0cab94dc59f4ce811c9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sassanix/Warracker#readme"
+  },
+  "e1eddd1a5666bf1d": {
+    "appId": "e1eddd1a5666bf1d",
+    "repositoryUrl": "https://github.com/sbondCo/Watcharr",
+    "sourceDir": "sbondco--watcharr",
+    "commitSha": "b3b7580f88bd508e70aa6385edd8cdb21ab1cced",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/sbondCo/Watcharr#readme"
+  },
+  "270ee221ff038604": {
+    "appId": "270ee221ff038604",
+    "repositoryUrl": "https://github.com/wabarc/wayback",
+    "sourceDir": "wabarc--wayback",
+    "commitSha": "aeb9ee799d6b3233346296093a33249ec09d21bf",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/wabarc/wayback#readme"
+  },
+  "7867d9272cafdc76": {
+    "appId": "7867d9272cafdc76",
+    "repositoryUrl": "https://github.com/lovasoa/whitebophir",
+    "sourceDir": "lovasoa--whitebophir",
+    "commitSha": "1bab9e209968e14b7450e99ffdbeaa93296c0259",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/lovasoa/whitebophir#readme"
+  },
+  "8aaa94cd09faa3b2": {
+    "appId": "8aaa94cd09faa3b2",
+    "repositoryUrl": "https://github.com/tarampampam/webhook-tester",
+    "sourceDir": "tarampampam--webhook-tester",
+    "commitSha": "de43e5952674ef97d064d9b916aa59112c461dc6",
+    "composePath": "compose.yml",
+    "guideUrl": "https://github.com/tarampampam/webhook-tester#readme"
+  },
+  "9a84ea11c33bb34a": {
+    "appId": "9a84ea11c33bb34a",
+    "repositoryUrl": "https://github.com/websoft9/websoft9",
+    "sourceDir": "websoft9--websoft9",
+    "commitSha": "e3c0c535c086bf95d562225c84e815a66838fbe6",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/websoft9/websoft9#readme"
+  },
+  "bc3868d7cfc36647": {
+    "appId": "bc3868d7cfc36647",
+    "repositoryUrl": "https://github.com/neon-mmd/websurfx",
+    "sourceDir": "neon-mmd--websurfx",
+    "commitSha": "09582bea0c6cebbf6be3b07df0caa6cf387b2ebb",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/neon-mmd/websurfx#readme"
+  },
+  "b174edff9e48d60e": {
+    "appId": "b174edff9e48d60e",
+    "repositoryUrl": "https://github.com/WebThingsIO/gateway",
+    "sourceDir": "webthingsio--gateway",
+    "commitSha": "faa0d5ce6d8a5e4f475569602a67f8bf95ff3ec9",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/WebThingsIO/gateway#readme"
+  },
+  "0938ba1244ec53a6": {
+    "appId": "0938ba1244ec53a6",
+    "repositoryUrl": "https://github.com/wekan/wekan",
+    "sourceDir": "wekan--wekan",
+    "commitSha": "84c6d2db7f96adf9fc21a8881dfef3d8712aad3d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/wekan/wekan#readme"
+  },
+  "d8c6217314ac1313": {
+    "appId": "d8c6217314ac1313",
+    "repositoryUrl": "https://github.com/butlerx/wetty",
+    "sourceDir": "butlerx--wetty",
+    "commitSha": "b28e1ce3d0a9a84ed23e26116939c18dbfef693d",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/butlerx/wetty#readme"
+  },
+  "d2bd2e1187c1a656": {
+    "appId": "d2bd2e1187c1a656",
+    "repositoryUrl": "https://github.com/ahmetoner/whisper-asr-webservice",
+    "sourceDir": "ahmetoner--whisper-asr-webservice",
+    "commitSha": "ec32cd50b508412e0b8ebe81c26cd7a7dc900b7a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/ahmetoner/whisper-asr-webservice#readme"
+  },
+  "d9f0e199504a13d4": {
+    "appId": "d9f0e199504a13d4",
+    "repositoryUrl": "https://github.com/Zavy86/WikiDocs",
+    "sourceDir": "zavy86--wikidocs",
+    "commitSha": "7fd85bf834d5c10695db075ff022a7c2dd5b46c3",
+    "composePath": "docker/compose.yml",
+    "guideUrl": "https://github.com/Zavy86/WikiDocs#readme"
+  },
+  "0511b1f2c05dfcc0": {
+    "appId": "0511b1f2c05dfcc0",
+    "repositoryUrl": "https://github.com/zone-eu/wildduck",
+    "sourceDir": "zone-eu--wildduck",
+    "commitSha": "a88367d98256323f40f47ca4a58089e9fb03500c",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/zone-eu/wildduck#readme"
+  },
+  "87f6288e77b4fb62": {
+    "appId": "87f6288e77b4fb62",
+    "repositoryUrl": "https://github.com/windmill-labs/windmill",
+    "sourceDir": "windmill-labs--windmill",
+    "commitSha": "c1a561f5ec091de0ae2de12ee811ca628c58c9f5",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/windmill-labs/windmill#readme"
+  },
+  "14b3d01f4dcab7c4": {
+    "appId": "14b3d01f4dcab7c4",
+    "repositoryUrl": "https://github.com/codeofmario/wiremap",
+    "sourceDir": "codeofmario--wiremap",
+    "commitSha": "c127167e05ca5340e5e7ef890b53969dd671054e",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/codeofmario/wiremap#readme"
+  },
+  "6f71cb2c7cbe01e4": {
+    "appId": "6f71cb2c7cbe01e4",
+    "repositoryUrl": "https://github.com/cmintey/wishlist",
+    "sourceDir": "cmintey--wishlist",
+    "commitSha": "0857a6142de8cbf7fe1135a249d9566c2e3105c5",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/cmintey/wishlist#readme"
+  },
+  "476102297d002604": {
+    "appId": "476102297d002604",
+    "repositoryUrl": "https://github.com/wizarrrr/wizarr",
+    "sourceDir": "wizarrrr--wizarr",
+    "commitSha": "17db8dfba4f3c6848570c83c162c0016d737f138",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/wizarrrr/wizarr#readme"
+  },
+  "2e85740dfc223cfd": {
+    "appId": "2e85740dfc223cfd",
+    "repositoryUrl": "https://github.com/GSCloud/docker_wordpress",
+    "sourceDir": "gscloud--docker-wordpress",
+    "commitSha": "67f120ff9872582a4ce6bb220edac0e41ba1b5fd",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/GSCloud/docker_wordpress#readme"
+  },
+  "536327f7b481b5ea": {
+    "appId": "536327f7b481b5ea",
+    "repositoryUrl": "https://github.com/writefreely/writefreely",
+    "sourceDir": "writefreely--writefreely",
+    "commitSha": "5d1bc057e86aafb6888bf301376b46ea5e0620e7",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/writefreely/writefreely#readme"
+  },
+  "0169e6e5848a435c": {
+    "appId": "0169e6e5848a435c",
+    "repositoryUrl": "https://github.com/eitchtee/WYGIWYH",
+    "sourceDir": "eitchtee--wygiwyh",
+    "commitSha": "8794aba1c55e4eae3150eb58ca090cce41d8138c",
+    "composePath": "docker-compose.prod.yml",
+    "guideUrl": "https://github.com/eitchtee/WYGIWYH#readme"
+  },
+  "b3bbcf5b7461a2e9": {
+    "appId": "b3bbcf5b7461a2e9",
+    "repositoryUrl": "https://github.com/kantorge/yaffa",
+    "sourceDir": "kantorge--yaffa",
+    "commitSha": "54564d2a3ef57fb7728b7064d1a180510a366e6a",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/kantorge/yaffa#readme"
+  },
+  "f540110ac685e484": {
+    "appId": "f540110ac685e484",
+    "repositoryUrl": "https://github.com/FuzzyGrim/Yamtrack",
+    "sourceDir": "fuzzygrim--yamtrack",
+    "commitSha": "bf67b8c24465d782dc9f19bd606ef63e23c041f7",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/FuzzyGrim/Yamtrack#readme"
+  },
+  "ca3c57ebacd601c9": {
+    "appId": "ca3c57ebacd601c9",
+    "repositoryUrl": "https://github.com/Totonyus/ydl_api_ng",
+    "sourceDir": "totonyus--ydl-api-ng",
+    "commitSha": "399f6057ce26d26069012682d8031c0706cdf445",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/Totonyus/ydl_api_ng#readme"
+  },
+  "ba8aafbc18ea7b63": {
+    "appId": "ba8aafbc18ea7b63",
+    "repositoryUrl": "https://github.com/DialmasterOrg/Youtarr",
+    "sourceDir": "dialmasterorg--youtarr",
+    "commitSha": "d7938d552a13dbf4bbc76f7e2b8f18d3d22cf2b6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/DialmasterOrg/Youtarr#readme"
+  },
+  "8105683e176d8401": {
+    "appId": "8105683e176d8401",
+    "repositoryUrl": "https://github.com/hyeonsangjeon/youtube-dl-nas",
+    "sourceDir": "hyeonsangjeon--youtube-dl-nas",
+    "commitSha": "ef43038a9fef0dee9fe8236c9a0b99e68af1db7a",
+    "composePath": "compose.yaml",
+    "guideUrl": "https://github.com/hyeonsangjeon/youtube-dl-nas#readme"
+  },
+  "db64512fcd648edb": {
+    "appId": "db64512fcd648edb",
+    "repositoryUrl": "https://github.com/zwave-js/zwave-js-ui",
+    "sourceDir": "zwave-js--zwave-js-ui",
+    "commitSha": "ebd5e6ab6d6a3f880acfcade05e7b8deb7808439",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/zwave-js/zwave-js-ui#readme"
+  },
+  "3a1fc93c6a7eacfb": {
+    "appId": "3a1fc93c6a7eacfb",
+    "repositoryUrl": "https://github.com/0pandadev/ziit",
+    "sourceDir": "0pandadev--ziit",
+    "commitSha": "ccd6dd515e618f5723cbbb41854df7300ce0ddad",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/0pandadev/ziit#readme"
+  },
+  "842b65aebdcffb9c": {
+    "appId": "842b65aebdcffb9c",
+    "repositoryUrl": "https://github.com/diced/zipline",
+    "sourceDir": "diced--zipline",
+    "commitSha": "01e1d9a1e1a75362a59e7adea2a56aad746418e6",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/diced/zipline#readme"
+  },
+  "5c8223639eaa278f": {
+    "appId": "5c8223639eaa278f",
+    "repositoryUrl": "https://github.com/tobychui/zoraxy",
+    "sourceDir": "tobychui--zoraxy",
+    "commitSha": "310b0cc343a3c2af6d040a5300f7047d61ec0aeb",
+    "composePath": "docker/docker-compose.yml",
+    "guideUrl": "https://github.com/tobychui/zoraxy#readme"
+  },
+  "3212cf3b507deb6a": {
+    "appId": "3212cf3b507deb6a",
+    "repositoryUrl": "https://github.com/deluan/zsh-in-docker",
+    "sourceDir": "deluan--zsh-in-docker",
+    "commitSha": "55a4e476f78f37204af9dfc0290a92e52cf881b1",
+    "composePath": "docker-compose.yml",
+    "guideUrl": "https://github.com/deluan/zsh-in-docker#readme"
+  },
+  "5fc1bc5bb453848c": {
+    "appId": "5fc1bc5bb453848c",
+    "repositoryUrl": "https://github.com/ovh/utask",
+    "sourceDir": "ovh--utask",
+    "commitSha": "8164f7987bbb85708e4fc7b29d41095d6aa303cf",
+    "composePath": "docker-compose.yaml",
+    "guideUrl": "https://github.com/ovh/utask#readme"
+  }
+}

@@ -1,0 +1,20 @@
+---
+# http://hub.docker.com/r/joplin/server
+services:
+  joplin:
+    container_name: joplin
+    depends_on:
+      - postgres
+    env_file:
+      - path: ./.env
+        required: false
+    image: joplin/server:latest
+    ports:
+      - 22300:22300
+    restart: unless-stopped
+  postgres:
+    env_file:
+      - path: ./.env
+        required: false
+    image: postgres:18
+    restart: unless-stopped

@@ -1,0 +1,14 @@
+services:
+  pkvault:
+    image: ghcr.io/chnapy/pkvault:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pkvault
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./pkvault-data:/pkvault
+
+      # you must add in app settings save paths: /pkvault/saves/
+      - ./pkvault-saves:/pkvault/saves

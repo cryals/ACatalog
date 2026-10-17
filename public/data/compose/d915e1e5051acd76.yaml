@@ -1,0 +1,14 @@
+services:
+
+  money-balancer:
+    image: ghcr.io/dorianim/money-balancer
+    container_name: money-balancer
+    restart: unless-stopped    
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/money-balancer/data:/data
+    environment:
+      - JWT_SECRET=ThisIsAVerySecretString # change this

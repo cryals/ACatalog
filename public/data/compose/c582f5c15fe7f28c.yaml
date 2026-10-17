@@ -1,0 +1,83 @@
+services:
+  mysql:
+    image: mariadb:12.0.2
+    container_name: mysql
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - dac_override
+      - setuid
+      - setgid
+    environment:
+      - MYSQL_DATABASE=piler
+      - MYSQL_USER=piler
+      - MYSQL_PASSWORD=piler123
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./piler.cnf:/etc/mysql/conf.d/piler.cnf:ro
+
+  manticore:
+    image: manticoresearch/manticore:25.0.0
+    container_name: manticore
+    restart: unless-stopped
+    volumes:
+      - ./manticore.conf:/etc/manticoresearch/manticore.conf
+      - piler_manticore:/var/lib/manticore
+    deploy:
+      resources:
+        reservations:
+          memory: 512M
+        limits:
+          memory: 512M
+
+  piler:
+    image: sutoj/piler:${VERSION:-1.4.9}
+    container_name: piler
+    restart: unless-stopped
+    init: true
+    environment:
+      - MANTICORE_HOSTNAME=manticore
+      - MEMCACHED_HOSTNAME=memcached
+      - MYSQL_HOSTNAME=mysql
+      - MYSQL_DATABASE=piler
+      - MYSQL_USER=piler
+      - MYSQL_PASSWORD=piler123
+      - PILER_HOSTNAME=${ARCHIVE_HOST:-archive.example.com}
+      - RT=1
+    ports:
+      - "25:25"
+      - "80:80"
+    volumes:
+      - piler_etc:/etc/piler
+      - piler_store:/var/piler/store
+    healthcheck:
+      test: curl -s smtp://localhost/
+      interval: "20s"
+      timeout: "3s"
+      start_period: "15s"
+      retries: 3
+    deploy:
+      resources:
+        reservations:
+          memory: 512M
+        limits:
+          memory: 512M
+    depends_on:
+      - "mysql"
+      - "memcached"
+      - "manticore"
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    restart: unless-stopped
+    command: -m 64
+
+volumes:
+  db_data: {}
+  piler_etc: {}
+  piler_manticore: {}
+  piler_store: {}

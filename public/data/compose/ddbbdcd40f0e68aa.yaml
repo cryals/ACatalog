@@ -1,0 +1,12 @@
+---
+# https://ghcr.io/jetsung/aria2
+services:
+  aria2:
+    container_name: aria2
+    env_file:
+      - path: ./.env
+        required: false
+    image: ghcr.io/jetsung/aria2:latest
+    ports:
+      - 6800:6800
+    restart: unless-stopped

@@ -1,0 +1,32 @@
+# Domain Locker, in one container with one volume.
+# Data lives in a SQLite file at /data, and the app runs its own scheduled jobs.
+# To use Postgres instead, see docker-compose.postgres.yml
+
+services:
+  app:
+    image: lissy93/domain-locker:latest # or ghcr.io/lissy93/domain-locker:latest
+    # build: . # Uncomment to build from source instead
+    container_name: domain-locker
+    restart: unless-stopped
+
+    environment:
+      DL_ENV_TYPE: selfHosted
+      # Uncomment to require a password to use the app
+      # DL_AUTH_PASSWORD: ${DL_AUTH_PASSWORD}
+
+    ports:
+      - "${DL_APP_PORT:-3000}:3000"
+
+    volumes:
+      - domain_locker_data:/data
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  domain_locker_data:
+    name: domain_locker_data

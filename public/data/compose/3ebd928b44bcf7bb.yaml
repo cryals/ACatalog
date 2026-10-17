@@ -1,0 +1,12 @@
+services:
+  manage-meals-web:
+    image: ghcr.io/managemeals/manage-meals-web:latest
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    networks:
+      - mmeals_net
+
+networks:
+  mmeals_net:
+    external: true

@@ -1,0 +1,29 @@
+services:
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    user: 1000:1000
+    restart: unless-stopped
+    environment:
+      - GF_SERVER_ROOT_URL=https://grafana.example.com # <-- adjust
+      - GF_METRICS_ENABLED=false
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/grafana:/var/lib/grafana
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.docker.network=proxy
+    #  - traefik.http.routers.grafana.rule=Host(`grafana.example.com`)
+    #  - traefik.http.services.grafana.loadbalancer.server.port=3000
+    #  # Optional part for traefik middlewares
+    #  - traefik.http.routers.grafana.middlewares=local-ipwhitelist@file
+
+#networks:
+#  proxy:
+#    external: true

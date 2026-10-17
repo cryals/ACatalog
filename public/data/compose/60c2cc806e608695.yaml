@@ -1,0 +1,55 @@
+# Econumo self-hosted stack.
+#
+#   End users (published image):  docker compose pull && docker compose up -d
+#   Developers (build from src):  docker compose up -d --build   (or `make docker-up`)
+#
+# Config lives in .env (copy .env.example). The `db` named volume holds the
+# sqlite database (/app/var/db).
+services:
+  econumo:
+    image: ghcr.io/econumo/econumo:latest
+    # `build` is only used with `--build`; a plain `up` uses the image above.
+    build:
+      context: .
+      dockerfile: deployment/docker/Dockerfile
+      target: prod
+    env_file:
+      - .env
+    ports:
+      - "8181:80"
+    volumes:
+      - db:/app/var/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/app/econumo", "healthcheck"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  # Optional PostgreSQL. Off by default — the app runs on SQLite (the `db` volume
+  # above). Uncomment this service (and the `pgdata` volume below) to either:
+  #   - run `make test`: its pgsql tier + `pg-ensure` auto-create the
+  #     throwaway `econumo_test` database in here, or
+  #   - run the app itself on Postgres: set DATABASE_URL in .env to
+  #     postgres://econumo:econumo@postgres:5432/econumo?sslmode=disable
+  # postgres:
+  #   image: postgres:17-alpine
+  #   environment:
+  #     POSTGRES_USER: econumo
+  #     POSTGRES_PASSWORD: econumo
+  #     POSTGRES_DB: econumo
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U econumo"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 10
+
+volumes:
+  db:
+  # pgdata:   # uncomment together with the postgres service above

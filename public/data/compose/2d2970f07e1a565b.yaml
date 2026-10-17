@@ -1,0 +1,28 @@
+services:
+  application:
+    image: algirdasc/expensave:latest
+    restart: unless-stopped
+    ports:
+      - "18000:18000"
+    environment:
+      LOCALE: en
+      REGISTRATION_DISABLED: no
+      TZ: Europe/Vilnius
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mariadb:11
+    volumes:
+      - './db:/var/lib/mysql'
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: expensave
+      MARIADB_PASSWORD: expensave
+      MARIADB_DATABASE: expensave
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping" ]
+      retries: 5
+      timeout: 5s

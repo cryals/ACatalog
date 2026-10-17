@@ -1,0 +1,221 @@
+version: '3.8'
+services:
+    gatekeeper:
+        image: tenebrie/timelines-gatekeeper:${VERSION}
+        build:
+            context: ./app/gatekeeper-proxy
+            dockerfile: ./Dockerfile.prod
+        ports:
+            - target: 80
+              published: 80
+              mode: host
+            - target: 443
+              published: 443
+              mode: host
+        deploy:
+            endpoint_mode: dnsrr
+            replicas: 1
+            placement:
+                constraints:
+                    - node.role == manager
+            update_config:
+                order: stop-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        secrets:
+            - environment
+        volumes:
+            - /mnt/volume_secrets/certs:/etc/letsencrypt:cached
+        logging:
+            driver: json-file
+            options:
+                max-size: '50m'
+                max-file: '10'
+    styx:
+        image: tenebrie/timelines-styx:${VERSION}
+        build:
+            context: ./
+            dockerfile: ./app/styx-frontend/Dockerfile.prod
+            args:
+                VERSION: ${VERSION}
+                ASSET_STORE_URL: ${ASSET_STORE_URL:-}
+        deploy:
+            replicas: 2
+            update_config:
+                order: start-first
+                parallelism: 2
+                delay: 10s
+                failure_action: pause
+        secrets:
+            - environment
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+            interval: 15s
+            timeout: 30s
+            retries: 3
+            start_period: 30s
+    rhea:
+        image: tenebrie/timelines-rhea:${VERSION}
+        build:
+            context: ./
+            dockerfile: ./app/rhea-backend/Dockerfile.prod
+        environment:
+            NODE_ENV: production # Prod or staging
+            DATABASE_URL: postgresql://docker:docker@rhea-postgres:5432/db?schema=public
+        command: node dist/src/index.js
+        stop_grace_period: 30s
+        deploy:
+            replicas: 2
+            update_config:
+                order: start-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        volumes:
+            - /mnt/volume_rhea_postgres:/mnt/volume_rhea_postgres:ro
+        secrets:
+            - jwt-secret
+            - environment
+            - s3-bucket-id
+            - s3-endpoint
+            - s3-access-key-id
+            - s3-access-key-secret
+            - webhook-contact-form-url
+            - imagen-google-api-key
+    calliope:
+        image: tenebrie/timelines-calliope:${VERSION}
+        build:
+            context: ./
+            dockerfile: ./app/calliope-websockets/Dockerfile.prod
+        environment:
+            NODE_ENV: production # Prod or staging
+        command: node dist/index.js
+        stop_grace_period: 30s
+        deploy:
+            replicas: 2
+            update_config:
+                order: start-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        secrets:
+            - jwt-secret
+            - environment
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:3001/calliope/health"]
+            interval: 15s
+            timeout: 30s
+            retries: 3
+            start_period: 30s
+    orpheus:
+        image: tenebrie/timelines-orpheus:${VERSION}
+        build:
+            context: ./
+            dockerfile: ./app/orpheus-mcp/Dockerfile.prod
+        environment:
+            NODE_ENV: production # Prod or staging
+            REQUIRE_OAUTH: "true"
+        command: npm run prod
+        deploy:
+            replicas: 1
+            update_config:
+                order: start-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        secrets:
+            - jwt-secret
+            - environment
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:3002/orpheus/health"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+            start_period: 60s
+    thetis:
+        image: tenebrie/timelines-thetis:${VERSION}
+        build:
+            context: ./
+            dockerfile: ./app/thetis-landing/Dockerfile.prod
+        deploy:
+            replicas: 1
+            update_config:
+                order: start-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:8081/health"]
+            interval: 15s
+            timeout: 30s
+            retries: 3
+            start_period: 30s
+    rhea-postgres:
+        deploy:
+            placement:
+                constraints:
+                    - node.role == manager
+        volumes:
+            - /mnt/volume_rhea_postgres/data:/var/lib/postgresql/data/:cached
+
+    redis:
+        deploy:
+            placement:
+                constraints:
+                    - node.role == manager
+
+    chronos:
+        image: tenebrie/timelines-chronos:${VERSION}
+        build:
+            context: ./app/chronos-backups
+            dockerfile: ./Dockerfile
+        environment:
+            BACKREST_DATA: /data
+            BACKREST_CONFIG: /config/config.json
+            XDG_CACHE_HOME: /cache
+        deploy:
+            replicas: 1
+            placement:
+                constraints:
+                    - node.role == manager
+            update_config:
+                order: stop-first
+                parallelism: 1
+                delay: 10s
+                failure_action: pause
+        secrets:
+            - s3-bucket-id
+            - s3-endpoint
+            - s3-access-key-id
+            - s3-access-key-secret
+        volumes:
+            - /mnt/volume_rhea_postgres/backrest/data:/data:cached
+            - /mnt/volume_rhea_postgres/backrest/config:/config:cached
+            - /mnt/volume_rhea_postgres/backrest/cache:/cache:cached
+        depends_on:
+            - rhea-postgres
+        healthcheck:
+            test: ["CMD", "wget", "-q", "--spider", "http://localhost:9898"]
+            interval: 15s
+            timeout: 30s
+            retries: 3
+            start_period: 30s
+
+secrets:
+    jwt-secret:
+        external: true
+    environment:
+        external: true
+    s3-bucket-id:
+        external: true
+    s3-endpoint:
+        external: true
+    s3-access-key-id:
+        external: true
+    s3-access-key-secret:
+        external: true
+    webhook-contact-form-url:
+        external: true
+    imagen-google-api-key:
+        external: true

@@ -1,0 +1,63 @@
+---
+# https://hub.docker.com/r/hoppscotch/hoppscotch
+services:
+  postgres:
+    env_file:
+      - path: ./.env
+        required: false
+    image: postgres:18
+    profiles:
+      - init
+      - hoppscotch
+    restart: unless-stopped
+  hoppscotch:
+    env_file:
+      - path: ./.env
+        required: false
+      - path: ./aio.env
+        required: false
+    image: hoppscotch/hoppscotch:latest
+    ports:
+      - 80:80
+      - 3200:3200
+    profiles:
+      - hoppscotch
+    restart: unless-stopped
+  admin:
+    env_file:
+      - path: ./.env
+        required: false
+      - path: ./one.env
+        required: false
+    image: hoppscotch/hoppscotch-admin:latest
+    ports:
+      - 80:80
+    profiles:
+      - one
+    restart: unless-stopped
+  frontend:
+    env_file:
+      - path: ./.env
+        required: false
+      - path: ./one.env
+        required: false
+    image: hoppscotch/hoppscotch-frontend:latest
+    ports:
+      - 80:80
+    profiles:
+      - one
+    restart: unless-stopped
+  backend:
+    depends_on:
+      - postgres
+    env_file:
+      - path: ./.env
+        required: false
+      - path: ./one.env
+        required: false
+    image: hoppscotch/hoppscotch-backend:latest
+    ports:
+      - 80:80
+    profiles:
+      - one
+    restart: unless-stopped

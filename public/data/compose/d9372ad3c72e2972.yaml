@@ -1,0 +1,84 @@
+services:
+
+  nextcloud-db:
+    image: mariadb:11.8
+    container_name: nextcloud-db
+    hostname: nextcloud-db
+    command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
+    restart: unless-stopped
+    expose:
+      - 3306
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/database:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-nextcloud}
+      - MYSQL_USER=${MYSQL_USER:-nextcloud}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nextcloud}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-nextcloud-root-pw}
+      - MYSQL_INITDB_SKIP_TZINFO=1
+      - MARIADB_AUTO_UPGRADE=1
+      - PUID=${MYSQL_PUID:-1000}
+      - PGID=${MYSQL_PGID:-1000}
+      - TZ=${MSQL_TZ:-Europe/Berlin}
+    #networks:
+    #  - proxy
+
+  nextcloud-redis:
+    image: redis:alpine
+    container_name: nextcloud-redis
+    hostname: nextcloud-redis
+    restart: unless-stopped
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$${REDIS_PASSWORD:-nextcloud}"
+    #networks:
+    #  - proxy
+
+  nextcloud-app:
+    image: nextcloud:33-apache
+    container_name: nextcloud-app
+    hostname: nextcloud-app
+    restart: unless-stopped
+    expose:
+      - 80/tcp
+    ports:
+      - 8080:80
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
+    environment:
+      - NEXTCLOUD_ADMIN_USER=${NC_ADMIN_USER:-admin}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NC_ADMIN_USER_PASSWORD:-adminpass}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NC_TRUSTED_DOMAINS:-cloud.example.com}
+      - TRUSTED_PROXIES=${NC_TRUSTEDPROXIES:-172.16.0.0/24}
+      #- OVERWRITEPROTOCOL=${NC_OVERWRITEPROTOCOL:-http}
+      #- OVERWRITECLIURL=${NC_OVERWRITECLIURL:-http://127.0.0.1:8080}
+      #- OVERWRITEHOST=${NC_OVERWRITEHOST:-127.0.0.1:8080}
+      - MYSQL_HOST=${MYSQL_HOST:-nextcloud-db}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-nextcloud}
+      - MYSQL_USER=${MYSQL_USER:-nextcloud}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nextcloud}
+      - REDIS_HOST=${REDIS_HOST:-nextcloud-redis}
+      - REDIS_HOST_PASSWORD=${REDIS_PASSWORD:-nextcloud}
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/data:/var/www/html/data
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/app:/var/www/html
+    #networks:
+    #  - proxy
+    #labels:
+    #  - traefik.enable=true
+    #  - traefik.http.routers.nextcloud.rule=(Host(`cloud.example.com`)) # pls change
+    #  - traefik.http.services.nextcloud.loadbalancer.server.port=80
+    #  - traefik.http.routers.nextcloud.middlewares=limit-nextcloud,nextcloud-dav
+    #  - traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav
+    #  - traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/
+    #  - traefik.http.middlewares.limit-nextcloud.buffering.maxRequestBodyBytes=50000000 # only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-nextcloud.buffering.maxResponseBodyBytes=50000000 # only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-nextcloud.buffering.memRequestBodyBytes=50000000 # only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-nextcloud.buffering.memResponseBodyBytes=50000000 # only necessary for enabled file uploads
+    #  - traefik.docker.network=proxy
+
+#networks:
+#  proxy:
+#    external: true

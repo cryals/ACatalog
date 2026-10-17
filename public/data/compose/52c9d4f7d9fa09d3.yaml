@@ -1,0 +1,72 @@
+services:
+  # Main EdgePort server
+  edgeport01:
+    image: fonoster/routr-edgeport
+    ports:
+      - 5060:5060
+      - 5060:5060/udp
+      - 5061:5061
+      - 5062:5062
+      - 5063:5063
+    volumes:
+      - ./config/edgeport.yaml:/etc/routr/edgeport.yaml
+
+  # Secondary EdgePort server
+  edgeport02:
+    image: fonoster/routr-edgeport
+    ports:
+      - 6060:6060
+      - 6060:6060/udp
+      - 6061:6061
+      - 6062:6062
+      - 6063:6063
+    volumes:
+      - ./config/edgeport.alt.yaml:/etc/routr/edgeport.yaml
+
+  # Takes care of routing traffic from the EdgePort servers
+  dispatcher:
+    image: fonoster/routr-dispatcher
+    expose:
+      - 51901
+    volumes:
+      - ./config/dispatcher.yaml:/etc/routr/dispatcher.yaml
+
+  # Store the location to all SIP endpoints in the network
+  location:
+    image: fonoster/routr-location
+    expose:
+      - 51902
+    volumes:
+      - ./config/location.yaml:/etc/routr/location.yaml
+
+  # Connect processor
+  connect:
+    image: fonoster/routr-connect
+    build: ./mods/connect
+    environment:
+      LOCATION_ADDR: location:51902
+      API_ADDR: apiserver:51907
+    expose:
+      - 51904
+
+  # Simple APIServer
+  apiserver:
+    image: fonoster/routr-simpledata
+    expose:
+      - 51907
+    volumes:
+      - ./config/resources:/etc/routr/resources
+
+  # Takes gRPC requests and sends them to an EdgePort
+  requester:
+    image: fonoster/routr-requester
+    expose:
+      - 51909
+
+  # Sends registration request on behalf of trunks
+  registry:
+    image: fonoster/routr-registry
+    expose:
+      - 51910
+    volumes:
+      - ./config/registry.yaml:/etc/routr/registry.yaml

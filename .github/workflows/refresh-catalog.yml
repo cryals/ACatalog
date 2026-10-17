@@ -1,0 +1,40 @@
+name: Refresh catalog
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run data:sources
+      - run: npm run data:inventory
+      - run: npm run data:build
+      - run: npm run data:github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run data:icons
+      - run: npm run data:build
+      - run: npm run data:version
+      - run: npm run test:run
+      - run: npm run build
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "data: refresh catalog"
+          branch: automation/refresh-catalog
+          delete-branch: true
+          title: "data: weekly catalog refresh"
+          body: "Automated source inventory, GitHub metadata, icon, and catalog refresh. Review the generated quality report before merging."

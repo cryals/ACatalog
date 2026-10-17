@@ -1,0 +1,22 @@
+services:
+  app:
+    image: ghcr.io/luzifer/ots:v1.23.0
+    restart: always
+    environment:
+      # Optional, see "Customization" in README
+      #CUSTOMIZE: '/etc/ots/customize.yaml'
+      # See README for details
+      REDIS_URL: redis://valkey:6379/0
+      # 168h = 1w
+      SECRET_EXPIRY: "604800"
+      # "mem" or "redis" (See README)
+      STORAGE_TYPE: redis
+    depends_on:
+      - valkey
+    ports:
+      - 3000:3000
+  valkey:
+    image: docker.io/valkey/valkey:9.1.2-alpine
+    restart: always
+    volumes:
+      - ./data:/data

@@ -1,0 +1,43 @@
+# Rustrak with SQLite: one container serves the dashboard and the API on 8080.
+#
+#   export SESSION_SECRET_KEY=$(openssl rand -hex 32)
+#   export CREATE_SUPERUSER=admin@example.com:changeme123
+#   docker compose up -d
+#
+# For PostgreSQL, use docker-compose.postgres.yml. For a dashboard on another
+# host from the server: https://rustrak.github.io/rustrak/configuration/production#dashboard-on-its-own-host
+services:
+  server:
+    image: rustrak/rustrak-server:latest
+    # Behind a reverse proxy on the same Docker network, delete this `ports`
+    # block: the proxy reaches the container on 8080 and nothing needs a host
+    # port. Full setup: https://rustrak.github.io/rustrak/configuration/production#reverse-proxy
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    environment:
+      - SESSION_SECRET_KEY=${SESSION_SECRET_KEY:?generate one with openssl rand -hex 32}
+      - CREATE_SUPERUSER=${CREATE_SUPERUSER:-}
+      # The address people and SDKs reach, e.g. https://rustrak.example.com.
+      # Without it the DSN carries the bind address, which nothing can reach.
+      - PUBLIC_URL=${PUBLIC_URL:-}
+      # Anonymous telemetry is on by default. Uncomment to turn it off.
+      # - RUSTRAK_TELEMETRY=off
+      # /metrics is unauthenticated. Restrict access before setting this to on.
+      - RUSTRAK_METRICS=${RUSTRAK_METRICS:-off}
+      - OIDC_ISSUER_URL=${OIDC_ISSUER_URL:-}
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:-}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-}
+      - OIDC_REDIRECT_URL=${OIDC_REDIRECT_URL:-}
+      - OIDC_PROVIDER_NAME=${OIDC_PROVIDER_NAME:-SSO}
+      - OIDC_SCOPES=${OIDC_SCOPES:-openid email profile}
+      - OIDC_AUTO_PROVISION=${OIDC_AUTO_PROVISION:-}
+      - OIDC_LINK_EXISTING_ACCOUNTS=${OIDC_LINK_EXISTING_ACCOUNTS:-}
+      - OIDC_REQUIRE_EMAIL_VERIFIED=${OIDC_REQUIRE_EMAIL_VERIFIED:-}
+      - OIDC_ALLOWED_DOMAINS=${OIDC_ALLOWED_DOMAINS:-}
+    # The database and uploaded source maps both live here.
+    volumes:
+      - rustrak_data:/data
+    restart: unless-stopped
+
+volumes:
+  rustrak_data:

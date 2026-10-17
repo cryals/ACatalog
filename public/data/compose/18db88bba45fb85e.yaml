@@ -1,0 +1,221 @@
+name: SnapOtter
+
+# CPU deployment — no GPU required.
+# Usage: docker compose up -d
+# GPU:   docker compose -f docker-compose-gpu.yml up -d
+
+services:
+  SnapOtter:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        SNAPOTTER_ANALYTICS: "on"
+    image: snapotter/snapotter:latest
+    container_name: SnapOtter
+    ports:
+      # For internet-facing deployments, bind to localhost only:
+      # - "127.0.0.1:1349:1349"
+      - "1349:1349"
+    volumes:
+      - SnapOtter-data:/data           # AI models, user files
+      - SnapOtter-workspace:/tmp/workspace  # Temp processing (auto-cleaned)
+    environment:
+      - BASE_PATH=${BASE_PATH:-}
+      - AUTH_ENABLED=true
+      - DEFAULT_USERNAME=admin
+      # Set a strong password. Default is 'admin' -- CHANGE THIS for any non-local deployment.
+      # - DEFAULT_PASSWORD=your-strong-password-here
+      - DEFAULT_PASSWORD=admin
+      - SKIP_MUST_CHANGE_PASSWORD=${SKIP_MUST_CHANGE_PASSWORD:-false}
+      - MAX_UPLOAD_SIZE_MB=${MAX_UPLOAD_SIZE_MB:-0}
+      - MAX_BATCH_SIZE=${MAX_BATCH_SIZE:-0}
+      - MAX_MEGAPIXELS=${MAX_MEGAPIXELS:-0}
+      - CONCURRENT_JOBS=${CONCURRENT_JOBS:-0}
+      - MAX_WORKER_THREADS=${MAX_WORKER_THREADS:-0}
+      - PROCESSING_TIMEOUT_S=${PROCESSING_TIMEOUT_S:-0}
+      - MAX_PIPELINE_STEPS=${MAX_PIPELINE_STEPS:-20}
+      - RATE_LIMIT_PER_MIN=${RATE_LIMIT_PER_MIN:-1000}
+      - MAX_USERS=${MAX_USERS:-0}
+      - SESSION_DURATION_HOURS=${SESSION_DURATION_HOURS:-168}
+      # Engine binary overrides and hardware encoding, read from your shell or
+      # Compose `.env` (see .env.example). Empty keeps the image's own binaries
+      # and software encoding. SNAPOTTER_HW_ACCEL needs an ffmpeg built with
+      # that family; point FFMPEG_PATH (and FFPROBE_PATH) at a mounted build.
+      - FFMPEG_PATH=${FFMPEG_PATH:-}
+      - FFPROBE_PATH=${FFPROBE_PATH:-}
+      - QPDF_PATH=${QPDF_PATH:-}
+      - SOFFICE_PATH=${SOFFICE_PATH:-}
+      - PDFCPU_PATH=${PDFCPU_PATH:-}
+      - SNAPOTTER_HW_ACCEL=${SNAPOTTER_HW_ACCEL:-}
+      # Believe X-Forwarded-For only from a peer on a private network. Set to
+      # `true` only if a proxy you control sits in front on a public address.
+      - TRUST_PROXY=${TRUST_PROXY:-loopback,linklocal,uniquelocal}
+      # Runtime connection: least-privilege role, DML only. Created and granted
+      # automatically at boot using DATABASE_MIGRATION_URL below, so upgrading an
+      # existing install needs no manual SQL. Set a strong POSTGRES_APP_PASSWORD
+      # alongside POSTGRES_PASSWORD for any non-local deployment.
+      - DATABASE_URL=postgres://${POSTGRES_APP_USER:-snapotter_app}:${POSTGRES_APP_PASSWORD:-snapotter_app}@postgres:5432/${POSTGRES_DB:-snapotter}
+      # Privileged connection: used only during boot, for migrations and grants.
+      # Unset it to run single-role, for example against managed Postgres where
+      # the app may not create roles.
+      - DATABASE_MIGRATION_URL=postgres://${POSTGRES_USER:-snapotter}:${POSTGRES_PASSWORD:-snapotter}@postgres:5432/${POSTGRES_DB:-snapotter}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-snapotter}@redis:6379
+      # 1.x upgrade: uncomment to import the old SQLite database on first boot;
+      # re-comment after the migration succeeds.
+      # - SQLITE_MIGRATE_PATH=/data/snapotter.db
+      # OIDC Authentication (optional)
+      # - EXTERNAL_URL=https://photos.example.com
+      # - OIDC_ENABLED=false
+      # - OIDC_ISSUER_URL=
+      # - OIDC_CLIENT_ID=
+      # - OIDC_CLIENT_SECRET=
+      # - OIDC_SCOPES=openid profile email
+      # - OIDC_AUTO_CREATE_USERS=true
+      # - OIDC_DEFAULT_ROLE=user
+      # - OIDC_AUTO_LINK_USERS=false
+      # - OIDC_PROVIDER_NAME=
+      # - OIDC_USERNAME_CLAIM=preferred_username
+      # - OIDC_CLOCK_TOLERANCE=30
+      # - COOKIE_SECRET=
+      #
+      # Docker secrets (_FILE convention): mount secrets as files instead of
+      # passing them as plain-text env vars. Supported for sensitive vars only.
+      # - DEFAULT_PASSWORD_FILE=/run/secrets/snapotter_password
+      # - S3_ACCESS_KEY_ID_FILE=/run/secrets/s3_access_key
+      # - S3_SECRET_ACCESS_KEY_FILE=/run/secrets/s3_secret_key
+      # - OIDC_CLIENT_SECRET_FILE=/run/secrets/oidc_secret
+      # - COOKIE_SECRET_FILE=/run/secrets/cookie_secret
+      # - SNAPOTTER_LICENSE_KEY_FILE=/run/secrets/license_key
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    # --- Security hardening ---
+    # erase-object's HQ quality mode (SD1.5 inpainting) needs mem_limit >= 8g
+    # when running on CPU; at 6g the API refuses HQ with a clear error. Fast
+    # mode and every other tool fit in 6g.
+    mem_limit: 6g
+    memswap_limit: 6g
+    cpus: 4
+    pids_limit: 512
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+      - DAC_OVERRIDE
+      - FOWNER
+      # KILL lets tini (PID 1, root) forward SIGTERM to the gosu-dropped
+      # snapotter process on shutdown. Without it, root minus CAP_KILL cannot
+      # signal a different-UID process, so docker stop is ungraceful
+      # ("[FATAL tini] forwarding signal: Operation not permitted" -> SIGKILL).
+      - KILL
+    # The entrypoint can still drop from root to the snapotter user while this
+    # prevents setuid binaries from granting privileges to untrusted processes.
+    security_opt:
+      - no-new-privileges:true
+    # NOTE: read_only: true is not set because PUID/PGID remapping requires
+    # writing to /etc/passwd and /etc/group. Consider using Docker --user flag
+    # instead of PUID/PGID for read-only rootfs support.
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "--max-time", "5", "http://localhost:1349/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+    shm_size: '2gb'
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  postgres:
+    image: postgres:17-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+    container_name: SnapOtter-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-snapotter}
+      # Set a strong password. CHANGE THIS for any non-local deployment.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-snapotter}
+      POSTGRES_DB: ${POSTGRES_DB:-snapotter}
+    volumes:
+      - SnapOtter-pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    # --- Security hardening ---
+    mem_limit: 1g
+    memswap_limit: 1g
+    cpus: 2
+    pids_limit: 256
+    # The official image starts as root and su-execs down to the postgres user,
+    # so setuid/setgid + chown caps are required. A read-only rootfs is omitted
+    # because the entrypoint must initialize and adjust its data directory.
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-snapotter} -d ${POSTGRES_DB:-snapotter}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  redis:
+    image: redis:8-alpine@sha256:9d317178eceac8454a2284a9e6df2466b93c745529947f0cd42a0fa9609d7005
+    container_name: SnapOtter-redis
+    command: >-
+      redis-server
+      --maxmemory-policy noeviction
+      --maxmemory 512mb
+      --appendonly yes
+      --requirepass ${REDIS_PASSWORD:-snapotter}
+    volumes:
+      - SnapOtter-redisdata:/data
+    restart: unless-stopped
+    # --- Security hardening ---
+    mem_limit: 1g
+    memswap_limit: 1g
+    cpus: 2
+    pids_limit: 256
+    # The official image starts as root and gosu-drops to the redis user, so
+    # setuid/setgid + chown caps are required. A read-only rootfs is omitted
+    # because the entrypoint must initialize and adjust its data directory.
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-snapotter}", "--no-auth-warning", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+# Uncomment to use Docker secrets (requires Docker Swarm or compose v2.23+):
+# secrets:
+#   snapotter_password:
+#     file: ./secrets/snapotter_password.txt
+#   oidc_secret:
+#     file: ./secrets/oidc_secret.txt
+
+volumes:
+  SnapOtter-data:
+  SnapOtter-workspace:
+  SnapOtter-pgdata:
+  SnapOtter-redisdata:

@@ -1,0 +1,62 @@
+---
+# Shaarli - Docker Compose example configuration
+#
+# See:
+# - https://shaarli.readthedocs.io/en/master/Docker/#docker-compose
+#
+# Environment variables:
+# - SHAARLI_VIRTUAL_HOST      Fully Qualified Domain Name for the Shaarli instance
+# - SHAARLI_LETSENCRYPT_EMAIL Contact email for certificate renewal
+# - SHAARLI_DOCKER_TAG        Shaarli docker tag to use
+#                             See: https://github.com/shaarli/Shaarli/pkgs/container/shaarli/versions?filters%5Bversion_type%5D=tagged
+version: '3'
+
+networks:
+  http-proxy:
+
+volumes:
+  traefik-acme:
+  shaarli-cache:
+  shaarli-data:
+
+services:
+  shaarli:
+    image: ghcr.io/shaarli/shaarli:${SHAARLI_DOCKER_TAG}
+    build: ./
+    networks:
+      - http-proxy
+    volumes:
+      - shaarli-cache:/var/www/shaarli/cache
+      - shaarli-data:/var/www/shaarli/data
+    labels:
+      traefik.domain: "${SHAARLI_VIRTUAL_HOST}"
+      traefik.backend: shaarli
+      traefik.frontend.rule: "Host:${SHAARLI_VIRTUAL_HOST}"
+
+  traefik:
+    image: traefik:1.7-alpine
+    command:
+      - "--defaultentrypoints=http,https"
+      - "--entrypoints=Name:http Address::80 Redirect.EntryPoint:https"
+      - "--entrypoints=Name:https Address::443 TLS"
+      - "--retry"
+      - "--docker"
+      - "--docker.domain=${SHAARLI_VIRTUAL_HOST}"
+      - "--docker.exposedbydefault=true"
+      - "--docker.watch=true"
+      - "--acme"
+      - "--acme.domains=${SHAARLI_VIRTUAL_HOST}"
+      - "--acme.email=${SHAARLI_LETSENCRYPT_EMAIL}"
+      - "--acme.entrypoint=https"
+      - "--acme.onhostrule=true"
+      - "--acme.storage=/acme/acme.json"
+      - "--acme.httpchallenge"
+      - "--acme.httpchallenge.entrypoint=http"
+    networks:
+      - http-proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-acme:/acme

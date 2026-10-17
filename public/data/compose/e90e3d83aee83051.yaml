@@ -1,0 +1,25 @@
+name: shifter
+
+volumes:
+  db:
+  media:
+
+services:
+  ## Uncomment this if you want to use postgres
+  # db:
+  #   image: postgres
+  #   restart: always
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
+  #   env_file:
+  #     - .env
+  shifter:
+    image: ghcr.io/tobysuch/shifter:latest # Recommend you pin this to a specific version
+    restart: always
+    volumes:
+      - media:/home/app/web/media
+      - db:/home/app/web/db # Comment this out if you are using postgres
+    ports:
+      - 8000:8000
+    env_file:
+      - .env

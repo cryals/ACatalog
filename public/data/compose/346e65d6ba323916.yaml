@@ -1,0 +1,11 @@
+# docker-compose up -d
+version: '3'
+services:
+    myip:
+        container_name: myip
+        image: jason5ng32/myip:latest # my-app: x.x.x
+        stdin_open: true # docker run -i interactive mode
+        tty: true        # docker run -t terminal mode
+        restart: always # restart policy / on-failure:5 restart 5 times / always restart forever / unless-stopped unless stopped / no never restart
+        ports:
+            - "18966:18966"

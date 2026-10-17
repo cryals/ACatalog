@@ -1,0 +1,54 @@
+services:
+  db:
+    restart: on-failure:3
+    build:
+      context: "."
+      dockerfile: docker/Dockerfile.db
+    volumes:
+      - ./docker/db-entrypoint.sh:/docker/entrypoint.sh
+      - ./docker/mysql:/var/lib/mysql
+    env_file:
+      - ${ENV_FILE_LOCATION}
+    cap_add:
+      - SYS_NICE
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+
+  uwsgi:
+    restart: on-failure:3
+    build:
+      context: "."
+      dockerfile: ${CLIENT_DOCKERFILE}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - COMMUNITY_NAME=${COMMUNITY_NAME}
+      - RAILS_ENV=${RAILS_ENV}
+      - MAILER_PROTOCOL=${MAILER_PROTOCOL}
+      - CONFIRMABLE_ALLOWED_ACCESS_DAYS=${CONFIRMABLE_ALLOWED_ACCESS_DAYS}
+      - LOCAL_DEV_PORT=${LOCAL_DEV_PORT}
+    env_file:
+      - ${ENV_FILE_LOCATION}
+    ports:
+      - "${LOCAL_DEV_PORT}:3000"
+    volumes:
+      - .:/code
+      - ./static:/var/www/static
+      - ./images:/var/www/images
+    links:
+      - redis
+      - db
+
+  redis:
+    restart: on-failure:3
+    image: redis:latest
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]

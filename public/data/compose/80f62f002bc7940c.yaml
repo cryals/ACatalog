@@ -1,0 +1,373 @@
+version: "3.9"
+x-clickhouse-credentials: &clickhouse-credentials
+  CLICKHOUSE_USER: dittofeed
+  CLICKHOUSE_PASSWORD: password
+x-backend-app-env: &backend-app-env
+  <<: *clickhouse-credentials
+  NODE_ENV: development
+  DATABASE_URL: "postgresql://postgres:password@postgres:5432/dittofeed?connect_timeout=60"
+  KAFKA_BROKERS: "kafka:29092"
+  KAFKA_USERNAME: "admin"
+  KAFKA_PASSWORD: "password"
+  KAFKA_ENABLE_ADMIN_SASL: "false"
+  CLICKHOUSE_HOST: "http://clickhouse-server:8123"
+  TEMPORAL_ADDRESS: "temporal:7233"
+  API_HOST: "0.0.0.0"
+  LOG_CONFIG: true
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./packages/dashboard/Dockerfile
+    profiles: ["apps", "apps-api", "apps-worker"]
+    volumes:
+      - ./mnt:/dittofeed-mnt
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - temporal
+      - api
+      - clickhouse-server
+    environment:
+      <<: *backend-app-env
+    networks:
+      - dittofeed-network-dev
+  api:
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile
+    profiles: ["apps", "apps-dashboard", "apps-worker"]
+    volumes:
+      - ./mnt:/dittofeed-mnt
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - clickhouse-server
+      - temporal
+    environment:
+      <<: *backend-app-env
+      BOOTSTRAP_EVENTS: true
+    networks:
+      - dittofeed-network-dev
+  worker:
+    build:
+      context: .
+      dockerfile: ./packages/worker/Dockerfile
+    profiles: ["apps", "apps-dashboard", "apps-api"]
+    volumes:
+      - ./mnt:/dittofeed-mnt
+    depends_on:
+      - postgres
+      - temporal
+      - clickhouse-server
+    environment:
+      <<: *backend-app-env
+    networks:
+      - dittofeed-network-dev
+  lite:
+    build:
+      context: .
+      dockerfile: ./packages/lite/Dockerfile
+    profiles: ["apps-lite"]
+    volumes:
+      - ./mnt:/dittofeed-mnt
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - temporal
+      - clickhouse-server
+    environment:
+      <<: *backend-app-env
+      DASHBOARD_URL: "http://localhost:3000"
+      DASHBOARD_API_BASE: "http://localhost:3000"
+    networks:
+      - dittofeed-network-dev
+  admin-cli:
+    build:
+      context: .
+      dockerfile: ./packages/admin-cli/Dockerfile
+    entrypoint: []
+    profiles: ["apps", "admin-cli"]
+    command: tail -f /dev/null
+    tty: true
+    depends_on:
+      - postgres
+      - temporal
+      - clickhouse-server
+    environment:
+      <<: *backend-app-env
+    volumes:
+      - ./packages/admin-cli/src:/service/packages/admin-cli/src
+      - ./packages/api/src:/service/packages/api/src
+      - ./packages/backend-lib/src:/service/packages/backend-lib/src
+      - ./packages/dashboard/src:/service/packages/dashboard/src
+      - ./packages/emailo/src:/service/packages/emailo/src
+      - ./packages/isomorphic-lib/src:/service/packages/isomorphic-lib/src
+      - ./packages/lite/src:/service/packages/lite/src
+      - ./packages/worker/src:/service/packages/worker/src
+    networks:
+      - dittofeed-network-dev
+  temporal:
+    container_name: temporal
+    depends_on:
+      - postgres
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PWD=password
+      - POSTGRES_SEEDS=postgres
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/dev.yaml
+    image: temporalio/auto-setup:1.18.5
+    labels:
+      kompose.volume.type: configMap
+    networks:
+      - dittofeed-network-dev
+    ports:
+      - 7233:7233
+    volumes:
+      - ./packages/backend-lib/temporal-dynamicconfig:/etc/temporal/config/dynamicconfig
+  temporal-ui:
+    profiles: ["temporal-ui"]
+    container_name: temporal-ui
+    restart: always
+    logging:
+      driver: "local"
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+    image: temporalio/ui:${TEMPORAL_UI_VERSION:-2.22.1}
+    networks:
+      - dittofeed-network-dev
+    ports:
+      - 8080:8080
+  postgres:
+    image: "postgres:15"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dittofeed
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - dittofeed-network-dev
+  kafka:
+    image: redpandadata/redpanda:v23.1.1
+    profiles: ["kafka"]
+    ports:
+      - 9092:9092
+      - 18081:18081
+      - 18082:18082
+      - 19644:9644
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        set -ex
+        /usr/local/bin/supervisord -d
+        
+        # Create Redpanda configuration with SASL
+        cat > /etc/redpanda/redpanda.yaml <<EOF
+        redpanda:
+          data_directory: /var/lib/redpanda/data
+          node_id: 0
+          seed_servers: []
+          rpc_server:
+            address: 0.0.0.0
+            port: 33145
+          advertised_rpc_api:
+            address: kafka
+            port: 33145
+          kafka_api:
+            - address: 0.0.0.0
+              port: 29092
+              name: internal
+            - address: 0.0.0.0
+              port: 9092
+              name: external
+              authentication_method: sasl
+          advertised_kafka_api:
+            - address: kafka
+              port: 29092
+              name: internal
+            - address: localhost
+              port: 9092
+              name: external
+          admin:
+            - address: 0.0.0.0
+              port: 9644
+          superusers:
+            - admin
+        
+        pandaproxy:
+          pandaproxy_api:
+            - address: 0.0.0.0
+              port: 8082
+              name: internal
+            - address: 0.0.0.0
+              port: 18082
+              name: external
+          advertised_pandaproxy_api:
+            - address: kafka
+              port: 8082
+              name: internal
+            - address: localhost
+              port: 18082
+              name: external
+        
+        schema_registry:
+          schema_registry_api:
+            - address: 0.0.0.0
+              port: 8081
+              name: internal
+            - address: 0.0.0.0
+              port: 18081
+              name: external
+        
+        rpk:
+          kafka_api:
+            brokers:
+              - kafka:29092
+              - localhost:9092
+          admin_api:
+            addresses:
+              - kafka:9644
+              - localhost:19644
+        EOF
+        
+        # Start Redpanda
+        exec /usr/bin/rpk redpanda start \
+          --advertise-kafka-addr internal://kafka:29092,external://localhost:9092 \
+          --advertise-pandaproxy-addr internal://kafka:8082,external://localhost:18082 \
+          --advertise-rpc-addr kafka:33145 \
+          --smp 1 \
+          --memory 1G \
+          --mode dev-container \
+          --default-log-level=debug
+    volumes:
+      - kafka:/var/lib/redpanda/data
+    networks:
+      - dittofeed-network-dev
+  
+  kafka-setup:
+    image: redpandadata/redpanda:v23.1.1
+    profiles: ["kafka"]
+    depends_on:
+      - kafka
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        set -ex
+        # Wait for Redpanda to be ready
+        timeout 60 bash -c 'until rpk cluster info --brokers kafka:29092; do sleep 1; done'
+        
+        # Create admin user
+        rpk acl user create admin --password password --mechanism SCRAM-SHA-256 --brokers kafka:29092 --api-urls http://kafka:9644
+        
+        # Set superusers (this enables authorization)
+        rpk cluster config set superusers '["admin"]' --brokers kafka:29092 --api-urls http://kafka:9644
+    networks:
+      - dittofeed-network-dev
+  clickhouse-server:
+    image: clickhouse/clickhouse-server:24.12.6.70-alpine
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9009:9009"
+    environment:
+      <<: *clickhouse-credentials
+    volumes:
+      - ./packages/backend-lib/clickhouse_config.dev.xml:/etc/clickhouse-server/config.xml
+      - clickhouse_lib:/var/lib/clickhouse
+      - clickhouse_log:/var/log/clickhouse-server
+    networks:
+      - dittofeed-network-dev
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    profiles: ["otel"]
+    command: ["--config", "/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+    networks:
+      - dittofeed-network-dev
+  zipkin:
+    image: openzipkin/zipkin
+    profiles: ["otel"]
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - dittofeed-network-dev
+  grafana:
+    image: grafana/grafana
+    profiles: ["otel"]
+    ports:
+      - "9091:3000"
+    volumes:
+      - ./grafana-datasource-prometheus.yaml:/etc/grafana/provisioning/datasources/grafana-datasource-prometheus.yaml
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - dittofeed-network-dev
+  prometheus:
+    image: prom/prometheus
+    profiles: ["otel"]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+      - prometheus-storage:/prometheus
+    networks:
+      - dittofeed-network-dev
+  mail-server:
+    profiles: ["smtp"]
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025" # SMTP server
+      - "8025:8025" # Web interface
+    networks:
+      - dittofeed-network-dev
+  # Note that minio is only used for local development. In production, use any S3-compatible storage.
+  blob-storage:
+    image: minio/minio
+    ports:
+      - "9010:9000"
+      - "9011:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - blob-storage:/data
+    command: server --console-address ":9001" /data
+    networks:
+      - dittofeed-network-dev
+
+volumes:
+  postgres:
+  kafka:
+  clickhouse_lib:
+  clickhouse_log:
+  grafana-storage:
+  prometheus-storage:
+  blob-storage:
+
+networks:
+  dittofeed-network-dev:
+    driver: bridge
+    name: dittofeed-network-dev

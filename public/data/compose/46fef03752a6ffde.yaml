@@ -1,0 +1,22 @@
+services:
+  db:
+    image: "mysql:8.0"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: solidinvoice
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  app:
+    image: "solidinvoice/solidinvoice:latest"
+    depends_on:
+      - db
+    ports:
+      - "8765:8765"
+    restart: always
+    volumes:
+      - app_data:/etc/solidinvoice
+
+volumes:
+  db_data: {}
+  app_data: {}

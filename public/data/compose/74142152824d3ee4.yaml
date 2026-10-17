@@ -1,0 +1,25 @@
+services:
+  downtify:
+    container_name: downtify
+    image: 'downtify:${TAG-latest}'
+    restart: unless-stopped
+    build: .
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./docker/downloads:/downloads
+      - ./docker/data:/data
+      # Existing music folders (container path goes in Settings):
+      # - ./mp3:/music/collection
+      # slskd's download folder, when using the slskd audio source:
+      # - ./docker/slskd:/slskd
+      # - settings/server./docker/cookies.txt:/cookies.txt
+    # environment:
+      # - DOWNTIFY_PORT=30321
+      # https://downtify.henriquesebastiao.com/getting-started/environment-variables/#getting-a-cookiestxt
+      # - DOWNTIFY_COOKIES_FILE=/cookies.txt
+      # - TZ=America/Sao_Paulo
+      # - DOWNTIFY_MONITOR_SYNC_TIME=03:00
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
