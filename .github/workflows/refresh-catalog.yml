@@ -20,6 +20,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Start from the pinned clones, then update them in data:sources.
+      # `raw/` is intentionally excluded from Git.
+      - run: npm run data:bootstrap
       - run: npm run data:sources
       - run: npm run data:inventory
       - run: npm run data:build

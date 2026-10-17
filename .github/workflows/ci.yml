@@ -20,6 +20,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm audit --audit-level=high
+      # `raw/` is intentionally not committed. Recreate the pinned sources
+      # from data/sources.lock.json before running the import pipeline.
+      - run: npm run data:bootstrap
       - run: npm run data:inventory
       - run: npm run data:build
       - run: npm run lint
