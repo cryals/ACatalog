@@ -3,8 +3,16 @@
 </p>
 
 <p align="center">
-  <b>Каталог self-hosted приложений.</b><br>
-  Найти сервис → проверить источник → развернуть у себя.
+  <a href="README.md"><img src="data/flag/english.webp" alt="English README" width="24" height="16"></a>
+  &nbsp;
+  <a href="README_RU.md"><img src="data/flag/russia.webp" alt="Russian README" width="24" height="16"></a>
+  &nbsp;
+  <a href="README_UK.md"><img src="data/flag/ukraine.webp" alt="Ukrainian README" width="24" height="16"></a>
+</p>
+
+<p align="center">
+  <b>A catalog of self-hosted applications.</b><br>
+  Find a service → verify the source → run it yourself.
 </p>
 
 <p align="center">
@@ -16,19 +24,19 @@
 1 857 APPS   /   134 CATEGORIES   /   746 VERIFIED COMPOSE FILES
 ```
 
-ACatalog помогает выбрать open-source альтернативу SaaS для дома, NAS, homelab или VPS. У каждой записи есть официальные ссылки, метаданные, путь к источнику и проверенный Docker Compose — когда он действительно найден у проекта.
+ACatalog helps you choose an open-source SaaS alternative for a home server, NAS, homelab, or VPS. Every record includes official links, metadata, source provenance, and a verified Docker Compose file whenever the project provides one.
 
-## Возможности
+## Features
 
-- Поиск по названию, описанию, категориям, тегам и алиасам.
-- Категории, фильтры, избранное и сравнение сервисов.
-- Подробная страница с GitHub, сайтом, лицензией, stars и происхождением данных.
-- Исходный Compose-файл: просмотр, копирование, скачивание и ссылка на оригинал.
-- Тёмный монохромный интерфейс, клавиатурная навигация и мобильная версия.
+- Search across names, descriptions, categories, tags, and aliases.
+- Categories, filters, favourites, and side-by-side comparison.
+- A details page with GitHub, website, license, stars, and data provenance.
+- Source Compose files: view, copy, download, and open the original source.
+- Dark monochrome UI, keyboard navigation, and a responsive layout.
 
-## Быстрый старт
+## Quick start
 
-Нужен Node.js 22+.
+Requires Node.js 22+.
 
 ```bash
 git clone https://github.com/cryals/ACatalog.git
@@ -43,20 +51,20 @@ npm run dev
 docker compose up --build -d
 ```
 
-Сайт будет доступен на [localhost:8080](http://localhost:8080). Контейнер работает через Nginx, в read-only режиме, с CSP, security headers и healthcheck `/healthz`.
+The site will be available at [localhost:8080](http://localhost:8080). The container runs through Nginx with a read-only filesystem, CSP, security headers, and a `/healthz` healthcheck.
 
-## Данные
+## Data
 
 ```text
-raw/                 исходные Git-клоны; не коммитятся и не редактируются
-data/catalog/        нормализованный каталог и quality report
-data/icons/          WebP-иконки и сведения об их источнике
-public/data/         данные и Compose-файлы, которые читает браузер
+raw/                 source Git clones; not committed or manually edited
+data/catalog/        normalized catalog and quality report
+data/icons/          WebP icons and their source metadata
+public/data/         catalog data and Compose files served to the browser
 ```
 
-Каждая запись сохраняет репозиторий-источник, commit SHA/ref, путь к README или Compose, дату импорта и статус проверки. ACatalog не придумывает ссылки, лицензии или конфигурации: если официальный Compose не подтверждён, интерфейс ведёт к документации проекта.
+Each record stores its source repository, commit SHA/ref, README or Compose path, import date, and verification status. ACatalog does not invent links, licenses, or configurations: if an official Compose file is not verified, the interface links to the project's documentation instead.
 
-После свежего clone внешние источники можно восстановить по lock-файлу:
+After a fresh clone, restore external sources from the lock file:
 
 ```bash
 npm run data:bootstrap
@@ -64,7 +72,7 @@ npm run data:inventory
 npm run data:build
 ```
 
-## Проверки
+## Checks
 
 ```bash
 npm run lint
@@ -74,12 +82,12 @@ npm run build
 npm run test:e2e
 ```
 
-CI запускает те же проверки для каждого push и pull request. Еженедельное обновление каталога создаёт отдельный pull request — `main` автоматически не меняется.
+CI runs the same checks for every push and pull request. The weekly catalog refresh creates a separate pull request; `main` is never changed automatically.
 
-## Стек
+## Stack
 
 Vue 3 · TypeScript · Vite · shadcn-vue · Tailwind CSS · Lucide · Vitest · Playwright · Sharp · Docker · Nginx
 
-## Лицензия
+## License
 
 [GNU Affero General Public License v3.0](LICENSE) — AGPL-3.0-only.
