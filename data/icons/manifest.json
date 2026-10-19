@@ -13011,5 +13011,40 @@
     "sourceType": "github-avatar",
     "fetchedAt": "2026-10-14T20:31:19.772Z",
     "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
+  },
+  "drawdb": {
+    "file": "data/icons/drawdb.webp",
+    "sourceUrl": "https://www.drawdb.app/favicon.ico",
+    "sourceType": "favicon",
+    "fetchedAt": "2026-10-19T09:05:03.255Z",
+    "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
+  },
+  "bottle-rocket": {
+    "file": "data/icons/bottle-rocket.webp",
+    "sourceUrl": "https://bottle-rocket.app/img/bottle-rocket-logo.svg",
+    "sourceType": "favicon",
+    "fetchedAt": "2026-10-19T09:05:03.811Z",
+    "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
+  },
+  "bloglite": {
+    "file": "data/icons/bloglite.webp",
+    "sourceUrl": "https://github.githubassets.com/favicons/favicon.png",
+    "sourceType": "favicon",
+    "fetchedAt": "2026-10-19T09:05:04.006Z",
+    "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
+  },
+  "grimmory": {
+    "file": "data/icons/grimmory.webp",
+    "sourceUrl": "https://github.com/grimmory-tools.png?size=512",
+    "sourceType": "github-avatar",
+    "fetchedAt": "2026-10-19T09:05:04.066Z",
+    "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
+  },
+  "trek": {
+    "file": "data/icons/trek.webp",
+    "sourceUrl": "https://github.githubassets.com/favicons/favicon.png",
+    "sourceType": "favicon",
+    "fetchedAt": "2026-10-19T09:05:04.204Z",
+    "licenseNote": "Upstream project icon; verify trademark and redistribution terms."
   }
 }
